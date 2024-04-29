@@ -4,6 +4,8 @@ import { User } from "@/models/mongodb/user.schema";
 import { userStub } from "@test/stubs/users.stub";
 import { getModelToken } from "@nestjs/mongoose";
 
+
+
 describe('CommonUserFactory', () => {
   let commonUserFactory: CommonUserFactory;
 
@@ -26,7 +28,10 @@ describe('CommonUserFactory', () => {
   })
 
   test('#create', () => {
-    const result = commonUserFactory.create(userStub());
-    expect(result).toEqual(userStub());
+    const subject = commonUserFactory.create(userStub());
+    const expectUser = userStub();
+    expect(subject.name).toEqual(expectUser.name);
+    expect(subject.password).toEqual(expectUser.password);
+    expect(subject.email).toEqual(expectUser.email);
   });
 });

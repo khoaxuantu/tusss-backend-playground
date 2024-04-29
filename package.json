@@ -72,9 +72,16 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "**/*.controller.ts",
+      "**/*.service.ts",
+      "src/lib/**/*.ts"
     ],
-    "coverageDirectory": "../coverage",
+    "coveragePathIgnorePatterns": [
+      ".module.ts"
+    ],
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage",
+    "coverageReporters": ["json", "lcov", "text", "html"],
     "testEnvironment": "node"
   }
 }
