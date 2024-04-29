@@ -3,7 +3,8 @@ import { UserController } from '../user.controller';
 import { UserService } from '../user.service';
 import { ConfigModule } from '@nestjs/config';
 import { CommonConfiguration } from '@/config/configuration';
-import { UserFactoryModule } from '@/lib/factory/user/user.module';
+import { userStub } from '@test/stubs/users.stub';
+import { CommonUserFactory } from '@/lib/factory/user/common_user';
 
 describe('UserController', () => {
   let controller: UserController;
@@ -11,10 +12,17 @@ describe('UserController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
-      providers: [UserService],
+      providers: [
+        UserService,
+        {
+          provide: CommonUserFactory,
+          useValue: {
+            create: userStub(),
+          }
+        }
+      ],
       imports: [
         ConfigModule.forRoot({ load: [CommonConfiguration] }),
-        UserFactoryModule,
       ],
     }).compile();
 

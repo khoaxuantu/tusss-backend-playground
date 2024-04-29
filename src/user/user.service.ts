@@ -8,6 +8,6 @@ export class UserService {
 
   async saveOne(user: User) {
     const newUser = this.userFactory.create(user);
-    return newUser.save();
+    return await newUser.save();
   }
 }
