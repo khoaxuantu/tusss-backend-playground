@@ -3,15 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
 import { ConfigModule } from '@nestjs/config';
-import configuration from './config/configuration';
-import { NODE_ENV } from './config/environment';
+import { CommonConfiguration } from './config/configuration';
 import { UserModule } from './user/user.module';
 
-const Configuration = () => configuration(`common/${NODE_ENV}.yaml`);
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ load: [Configuration] }),
+    ConfigModule.forRoot({ load: [CommonConfiguration] }),
     CatsModule,
     UserModule,
   ],
