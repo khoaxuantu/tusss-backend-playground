@@ -1,9 +1,10 @@
 import { Controller, Get, Param, Post } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
-  constructor(private config: ConfigService) {}
+  constructor(private config: ConfigService, private userService: UserService) {}
 
   @Get()
   index() {

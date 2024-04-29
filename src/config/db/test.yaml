@@ -3,9 +3,10 @@ postgres:
   port: 5432
   username: postgres
   password: postgres
-  database: nest_playground
+  database: nest_playground_test
 
 mongodb:
+  uri: mongodb://localhost:27017/nest_playground_test
   host: localhost
   port: 27017
-  database: nest_playground
+  database: nest_playground_test

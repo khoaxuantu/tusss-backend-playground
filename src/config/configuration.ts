@@ -8,3 +8,4 @@ const configuration = (configFile: string) => {
 }
 
 export const CommonConfiguration = () => configuration(`common/${NODE_ENV}.yaml`);
+export const DatabaseConfiguration = () => configuration(`db/${NODE_ENV}.yaml`);
