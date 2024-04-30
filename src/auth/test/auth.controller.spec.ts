@@ -30,10 +30,10 @@ describe('AuthController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('/create', () => {
-    let userDto: UserDtoStub;
-    let subject = (userDto: UserDtoStub) => {
-      return controller.signUp(userDto);
+  describe('/signup', () => {
+    let userDto: () => UserDtoStub;
+    let subject = async (userDto: UserDtoStub) => {
+      return await controller.signUp(userDto);
     };
 
     it('should be defined', () => {
@@ -41,11 +41,10 @@ describe('AuthController', () => {
     });
 
     describe('if valid input', () => {
-      userDto = new UserDtoStub();
+      userDto = () => new UserDtoStub();
 
-      it('should create a new user', () => {
-
-        expect(subject(userDto)).toMatch(/success/);
+      it('should create a new user', async () => {
+        expect(await subject(userDto())).toMatch(/success/);
       });
     });
 
@@ -55,9 +54,11 @@ describe('AuthController', () => {
           .filter((entry) => !isNaN(Number(entry[1])))
           .forEach((entry) => {
             describe(entry[0], () => {
-              it('create method should not be called', () => {
-                userDto.password = InvalidPasswordStub.create(entry[1] as InvalidPasswordCase);
-                subject(userDto);
+              it('create method should not be called', async () => {
+                userDto().password = InvalidPasswordStub.create(
+                  entry[1] as InvalidPasswordCase,
+                );
+                await subject(userDto());
                 expect(service.saveOne).not.toHaveBeenCalled();
               });
             });
@@ -65,20 +66,20 @@ describe('AuthController', () => {
       });
 
       describe('with name', () => {
-        it('create_method should not be called', () => {
-          userDto.name = undefined;
-          subject(userDto);
+        it('create method should not be called', () => {
+          userDto().name = undefined;
+          subject(userDto());
           expect(service.saveOne).not.toHaveBeenCalled();
-        })
-      })
+        });
+      });
 
       describe('with mail', () => {
-        it('create_method should not be called', () => {
-          userDto.email = undefined;
-          subject(userDto);
+        it('create method should not be called', async () => {
+          userDto().email = undefined;
+          await subject(userDto());
           expect(service.saveOne).not.toHaveBeenCalled();
-        })
-      })
+        });
+      });
     });
   });
 });

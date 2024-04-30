@@ -24,22 +24,4 @@ describe('UserController (e2e)', () => {
     const expectRes = "This is the User's entry route"
     return request(app.getHttpServer()).get('/user').expect(200).expect(expectRes);
   })
-
-  describe ('/user/create (POST)', () => {
-    let res: request.Response;
-
-    const post = async (input: any) => {
-      return await request(app.getHttpServer()).post('/user/create').send(input);
-    }
-
-    it('should create successfully with valid data', async () => {
-      res = await post({});
-      expect(res.status).toEqual(201);
-    })
-
-    it('should return 400 with invalid data', async () => {
-      res = await post({});
-      expect(res.status).toEqual(400);
-    })
-  })
 })

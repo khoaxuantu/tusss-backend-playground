@@ -1,6 +1,6 @@
-import { CreateUserDto } from '@/user/dto/create_user.dto';
 import { UserService } from '@/user/user.service';
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
+import { CreateUserDto } from './dto/create_user.dto';
 
 @Controller()
 export class AuthController {

@@ -1,10 +1,12 @@
+import { PASSWORD_MAXLENGTH, PASSWORD_MINLENGTH } from "@/lib/constant/constants";
+
 export default class PasswordBuilder {
   SPECIAL_CHAR = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
-  MIN_LENGTH = 8;
-  MAX_LENGTH = 32;
+  MIN_LENGTH = PASSWORD_MINLENGTH;
+  MAX_LENGTH = PASSWORD_MAXLENGTH;
 
-  private needMaxLength: boolean = true;
-  private needMinLength: boolean = true;
+  private needHigherMaxLength: boolean = false;
+  private needLowerMinLength: boolean = false;
   private needUpperCase: boolean = true;
   private needLowerCase: boolean = true;
   private needNumeric: boolean = true;
@@ -22,20 +24,24 @@ export default class PasswordBuilder {
     if (this.needNumeric) this.str += this.getRandomArbitrary(0, 9);
     if (this.needSpecialChar)
       this.str += this.SPECIAL_CHAR[this.getRandomArbitrary(0, this.SPECIAL_CHAR.length - 1)];
-    if (this.needMinLength) {
-      this.str += 'a'.repeat(this.MIN_LENGTH - this.str.length);
+    if (this.needLowerMinLength) {
+      this.buildToMinLength();
+      this.str = this.str.slice(0, -1);
       return;
     }
-    if (this.needMaxLength) this.str += 'a'.repeat(this.MAX_LENGTH - this.str.length);
+    this.buildToMaxLength();
+    if (this.needHigherMaxLength) {
+      this.str += this.selectSampleChar();
+    }
   }
 
-  withoutMaxLength() {
-    this.needMaxLength = false;
+  withHigherMaxLength() {
+    this.needLowerMinLength = true;
     return this;
   }
 
-  withoutMinLength() {
-    this.needMinLength = false;
+  withLowerMinLength() {
+    this.needHigherMaxLength = true;
     return this;
   }
 
@@ -66,5 +72,17 @@ export default class PasswordBuilder {
 
   private getRandomArbitrary(min: number, max: number) {
     return Math.floor(Math.random() * (max - min) + min);
+  }
+
+  private buildToMinLength() {
+    this.str += this.selectSampleChar().repeat(this.MIN_LENGTH - this.str.length);
+  }
+
+  private buildToMaxLength() {
+    this.str += this.selectSampleChar().repeat(this.MAX_LENGTH - this.str.length);
+  }
+
+  private selectSampleChar() {
+    return this.needLowerCase ? 'a' : 'A';
   }
 }

@@ -13,9 +13,9 @@ export class InvalidPasswordStub {
   static create(pwType: InvalidPasswordCase) {
     switch (pwType) {
       case InvalidPasswordCase.MAX_LENGTH:
-        return new PasswordBuilder().withoutMinLength().product;
+        return new PasswordBuilder().withLowerMinLength().product;
       case InvalidPasswordCase.MIN_LENGTH:
-        return new PasswordBuilder().withoutMaxLength().product;
+        return new PasswordBuilder().withHigherMaxLength().product;
       case InvalidPasswordCase.NO_UPPER_CASE:
         return new PasswordBuilder().withoutUpperCase().product;
       case InvalidPasswordCase.NO_LOWER_CASE:
