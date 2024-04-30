@@ -1,7 +1,7 @@
-import { PASSWORD_MAXLENGTH, PASSWORD_MINLENGTH } from "@/lib/constant/constants";
+import { PASSWORD_MAXLENGTH, PASSWORD_MINLENGTH } from '@/lib/constant/constants';
 
 export default class PasswordBuilder {
-  SPECIAL_CHAR = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+  static SPECIAL_CHAR = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
   MIN_LENGTH = PASSWORD_MINLENGTH;
   MAX_LENGTH = PASSWORD_MAXLENGTH;
 
@@ -23,7 +23,10 @@ export default class PasswordBuilder {
     if (this.needLowerCase) this.str += String.fromCharCode(this.getRandomArbitrary(97, 122));
     if (this.needNumeric) this.str += this.getRandomArbitrary(0, 9);
     if (this.needSpecialChar)
-      this.str += this.SPECIAL_CHAR[this.getRandomArbitrary(0, this.SPECIAL_CHAR.length - 1)];
+      this.str +=
+        PasswordBuilder.SPECIAL_CHAR[
+          this.getRandomArbitrary(0, PasswordBuilder.SPECIAL_CHAR.length - 1)
+        ];
     if (this.needLowerMinLength) {
       this.buildToMinLength();
       this.str = this.str.slice(0, -1);
@@ -36,12 +39,12 @@ export default class PasswordBuilder {
   }
 
   withHigherMaxLength() {
-    this.needLowerMinLength = true;
+    this.needHigherMaxLength = true;
     return this;
   }
 
   withLowerMinLength() {
-    this.needHigherMaxLength = true;
+    this.needLowerMinLength = true;
     return this;
   }
 

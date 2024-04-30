@@ -11,7 +11,7 @@ export class UserDtoStub extends CreateUserDto {
     props: CreateUserDto = {
       name: 'Tusss',
       email: 'tusss@tusss.com',
-      password: new PasswordBuilder().product,
+      password: 'Uv7`aa%aa9aaaaaaaafdaaasabac&aaa',
     },
   ): UserDtoStub {
     return Object.assign(this, props);
@@ -19,6 +19,11 @@ export class UserDtoStub extends CreateUserDto {
 
   withAge(age: number = 23): UserDtoStub {
     this.age = age;
+    return this;
+  }
+
+  withRandomPassword() {
+    this.password = new PasswordBuilder().product;
     return this;
   }
 }

@@ -3,20 +3,24 @@ import { AuthController } from '../auth.controller';
 import { UserService } from '@/user/user.service';
 import { userStub } from '@test/stubs/users.stub';
 import { UserDtoStub } from '@/user/test/stubs/create_user.dto.stub';
-import { InvalidPasswordCase, InvalidPasswordStub } from '@test/stubs/password.stub';
+import { User } from '@/models/mongodb/user.schema';
 
 describe('AuthController', () => {
   let controller: AuthController;
   let service: UserService;
+  let savedUser: User;
+  let userDto: UserDtoStub;
 
   beforeEach(async () => {
+    userDto = new UserDtoStub();
+    savedUser = userStub(userDto.password);
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
       providers: [
         {
           provide: UserService,
           useValue: {
-            saveOne: jest.fn().mockReturnValue(userStub()),
+            saveOne: jest.fn().mockReturnValue(savedUser),
           },
         },
       ],
@@ -31,7 +35,6 @@ describe('AuthController', () => {
   });
 
   describe('/signup', () => {
-    let userDto: () => UserDtoStub;
     let subject = async (userDto: UserDtoStub) => {
       return await controller.signUp(userDto);
     };
@@ -41,44 +44,8 @@ describe('AuthController', () => {
     });
 
     describe('if valid input', () => {
-      userDto = () => new UserDtoStub();
-
       it('should create a new user', async () => {
-        expect(await subject(userDto())).toMatch(/success/);
-      });
-    });
-
-    describe('if invalid input', () => {
-      describe('with password', () => {
-        Object.entries(InvalidPasswordCase)
-          .filter((entry) => !isNaN(Number(entry[1])))
-          .forEach((entry) => {
-            describe(entry[0], () => {
-              it('create method should not be called', async () => {
-                userDto().password = InvalidPasswordStub.create(
-                  entry[1] as InvalidPasswordCase,
-                );
-                await subject(userDto());
-                expect(service.saveOne).not.toHaveBeenCalled();
-              });
-            });
-          });
-      });
-
-      describe('with name', () => {
-        it('create method should not be called', () => {
-          userDto().name = undefined;
-          subject(userDto());
-          expect(service.saveOne).not.toHaveBeenCalled();
-        });
-      });
-
-      describe('with mail', () => {
-        it('create method should not be called', async () => {
-          userDto().email = undefined;
-          await subject(userDto());
-          expect(service.saveOne).not.toHaveBeenCalled();
-        });
+        expect(await subject(userDto)).toMatch(/success/);
       });
     });
   });

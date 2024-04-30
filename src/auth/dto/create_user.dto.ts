@@ -1,10 +1,8 @@
 import { PASSWORD_MAXLENGTH, PASSWORD_MINLENGTH } from '@/lib/constant/constants';
 import {
   IsEmail,
-  IsLowercase,
   IsNotEmpty,
   IsStrongPassword,
-  IsUppercase,
   MaxLength,
   MinLength,
 } from 'class-validator';
