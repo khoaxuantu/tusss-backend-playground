@@ -80,7 +80,7 @@
       ".module.ts"
     ],
     "collectCoverage": true,
-    "coverageDirectory": "./coverage",
+    "coverageDirectory": "./test/coverage",
     "coverageReporters": ["json", "lcov", "text", "html"],
     "testEnvironment": "node"
   }

@@ -9,6 +9,8 @@ export class CommonUserFactory implements UserFactory {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   create<User>(user: User) {
-    return new this.userModel(user);
+    const newUser = new this.userModel(user);
+    newUser.joined_date = new Date();
+    return newUser;
   };
 }

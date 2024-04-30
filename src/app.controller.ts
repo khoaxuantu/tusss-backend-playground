@@ -8,8 +8,6 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    console.log("Get config in app controller", this.config.get('tusss'));
-
     return this.appService.getHello();
   }
 }

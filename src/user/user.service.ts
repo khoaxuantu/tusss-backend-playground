@@ -1,12 +1,12 @@
 import { CommonUserFactory } from '@/lib/factory/user/common_user';
-import { User } from '@/models/mongodb/user.schema';
 import { Injectable } from '@nestjs/common';
+import { CreateUserDto } from './dto/create_user.dto';
 
 @Injectable()
 export class UserService {
   constructor(private userFactory: CommonUserFactory) {}
 
-  async saveOne(user: User) {
+  async saveOne(user: CreateUserDto) {
     const newUser = this.userFactory.create(user);
     return await newUser.save();
   }

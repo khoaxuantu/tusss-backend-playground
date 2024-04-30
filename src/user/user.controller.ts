@@ -1,6 +1,7 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from './user.service';
+import { CreateUserDto } from './dto/create_user.dto';
 
 @Controller('user')
 export class UserController {
@@ -14,8 +15,9 @@ export class UserController {
   }
 
   @Post('create')
-  createOne() {
-    return 'Create one user';
+  createOne(@Body() user: CreateUserDto) {
+    this.userService.saveOne(user);
+    return 'Create successfully!';
   }
 
   @Get(':id')
