@@ -7,6 +7,7 @@ import { CommonConfiguration } from './config/configuration';
 import { UserModule } from './user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { connectMongo } from './config/initialize/connect_mongo';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { connectMongo } from './config/initialize/connect_mongo';
     MongooseModule.forRootAsync(connectMongo()),
     CatsModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

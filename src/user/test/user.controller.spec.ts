@@ -34,62 +34,6 @@ describe('UserController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('/create', () => {
-    let userDto: UserDtoStub;
-    let subject = (userDto: UserDtoStub) => {
-      return controller.createOne(userDto);
-    };
-
-    it('should be defined', () => {
-      expect(controller.createOne).toBeDefined();
-    });
-
-    describe('if valid input', () => {
-      userDto = new UserDtoStub();
-
-      it('should create a new user', () => {
-
-        expect(subject(userDto)).toMatch(/success/);
-      });
-    });
-
-    describe('if invalid input', () => {
-      // beforeEach(() => {
-      //   jest.spyOn(service, 'saveOne');
-      // });
-
-      describe('with password', () => {
-        Object.entries(InvalidPasswordCase)
-          .filter((entry) => !isNaN(Number(entry[1])))
-          .forEach((entry) => {
-            describe(entry[0], () => {
-              it('create method should not be called', () => {
-                userDto.password = InvalidPasswordStub.create(entry[1] as InvalidPasswordCase);
-                subject(userDto);
-                expect(service.saveOne).not.toHaveBeenCalled();
-              });
-            });
-          });
-      });
-
-      describe('with name', () => {
-        it('create_method should not be called', () => {
-          userDto.name = undefined;
-          subject(userDto);
-          expect(service.saveOne).not.toHaveBeenCalled();
-        })
-      })
-
-      describe('with mail', () => {
-        it('create_method should not be called', () => {
-          userDto.email = undefined;
-          subject(userDto);
-          expect(service.saveOne).not.toHaveBeenCalled();
-        })
-      })
-    });
-  });
-
   describe('/:id', () => {
     it('should be defined', () => {
       expect(controller.getOne).toBeDefined();

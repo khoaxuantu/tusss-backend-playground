@@ -11,6 +11,7 @@ import { UserFactoryModule } from '@/lib/factory/user/user.module';
     UserFactoryModule,
   ],
   controllers: [UserController],
-  providers: [UserService]
+  providers: [UserService],
+  exports: [UserService],
 })
 export class UserModule {}
