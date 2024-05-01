@@ -4,8 +4,6 @@ import { User } from "@/models/mongodb/user.schema";
 import { userStub } from "@test/stubs/users.stub";
 import { getModelToken } from "@nestjs/mongoose";
 
-
-
 describe('CommonUserFactory', () => {
   let commonUserFactory: CommonUserFactory;
 

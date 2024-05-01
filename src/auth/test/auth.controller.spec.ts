@@ -1,9 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from '../auth.controller';
 import { UserService } from '@/user/user.service';
-import { userStub } from '@test/stubs/users.stub';
+import { userDocumentStub, userStub } from '@test/stubs/users.stub';
 import { UserDtoStub } from '@/user/test/stubs/create_user.dto.stub';
 import { User } from '@/models/mongodb/user.schema';
+import { SignInDto } from '../dto/sign_in.dto';
+import PasswordBuilder from '@/lib/builder/password/password.builder';
+import { UnauthorizedException } from '@nestjs/common';
+import { AuthService } from '../auth.service';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -14,13 +18,16 @@ describe('AuthController', () => {
   beforeEach(async () => {
     userDto = new UserDtoStub();
     savedUser = userStub(userDto.password);
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
       providers: [
+        AuthService,
         {
           provide: UserService,
           useValue: {
-            saveOne: jest.fn().mockReturnValue(savedUser),
+            saveOne: jest.fn().mockResolvedValue(savedUser),
+            getOneByEmail: jest.fn().mockResolvedValue(userDocumentStub()),
           },
         },
       ],
@@ -36,7 +43,7 @@ describe('AuthController', () => {
 
   describe('/signup', () => {
     let subject = async (userDto: UserDtoStub) => {
-      return await controller.signUp(userDto);
+      return controller.signUp(userDto);
     };
 
     it('should be defined', () => {
@@ -49,4 +56,25 @@ describe('AuthController', () => {
       });
     });
   });
+
+  describe('/signin', () => {
+    let signIn = (signInDto: SignInDto) => {
+      return controller.signIn(signInDto);
+    }
+    let signInDto = (pwd?: string): SignInDto => {
+      return { email: userStub().email, password: pwd ?? userStub().password };
+    }
+
+    it('should be defined', () => {
+      expect(controller.signIn).toBeDefined();
+    });
+
+    describe('when wrong password', () => {
+      let wrongPassword = new PasswordBuilder().product;
+
+      it('should return failed authentication', async () => {
+        expect(signIn(signInDto(wrongPassword))).rejects.toThrow(UnauthorizedException);
+      })
+    })
+  })
 });
