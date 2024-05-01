@@ -6,7 +6,7 @@ import PasswordBuilder from '@/lib/builder/password/password.builder';
 import { UnauthorizedException } from '@nestjs/common';
 import { UserService } from '@/user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { accessTokenStub } from '@test/stubs/auth/jwt.stub';
+import { accessTokenStub } from './stub/jwt.stub';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -53,6 +53,7 @@ describe('AuthService', () => {
     describe('when valid input', () => {
       it('should log user in', async () => {
         const result = await signIn(signInDto());
+        console.log("🚀 ~ it ~ result:", result)
         expect(result.access_token).toEqual(accessTokenStub);
       });
     });

@@ -5,7 +5,7 @@ import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
-import { InvalidPasswordCase, InvalidPasswordStub } from './stubs/auth/password.stub';
+import { InvalidPasswordCase, InvalidPasswordStub } from '@/auth/test/stub/password.stub';
 import { Model } from 'mongoose';
 import { User } from '@/models/mongodb/user.schema';
 import { SignInDto } from '@/auth/dto/sign_in.dto';
