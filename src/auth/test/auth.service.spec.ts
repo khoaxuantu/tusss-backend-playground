@@ -26,8 +26,8 @@ describe('AuthService', () => {
           provide: JwtService,
           useValue: {
             signAsync: jest.fn().mockResolvedValue(accessTokenStub),
-          }
-        }
+          },
+        },
       ],
     }).compile();
 
@@ -53,7 +53,7 @@ describe('AuthService', () => {
     describe('when valid input', () => {
       it('should log user in', async () => {
         const result = await signIn(signInDto());
-        console.log("🚀 ~ it ~ result:", result)
+        console.log('🚀 ~ it ~ result:', result);
         expect(result.access_token).toEqual(accessTokenStub);
       });
     });

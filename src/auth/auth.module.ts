@@ -12,7 +12,7 @@ import { JWT } from '@/lib/constant/constants';
       global: true,
       secret: JWT.secret,
       signOptions: { expiresIn: '60s' },
-    })
+    }),
   ],
   controllers: [AuthController],
   providers: [AuthService],

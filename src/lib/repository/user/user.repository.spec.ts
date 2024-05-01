@@ -34,27 +34,27 @@ describe('UserRepository', () => {
 
   describe('findOne()', () => {
     let itBehavesLike = (statement: string, opts: FindUserOpt) => {
-      let projectNoId = { _id: 0 }
+      let projectNoId = { _id: 0 };
 
       it(statement, async () => {
         expect(await repository.findOne(opts)).toEqual(userDocumentStub());
       });
 
-      describe("(no _id)", () => {
+      describe('(no _id)', () => {
         beforeEach(() => {
           UserQueryMock.data = userDocumentNoIdStub();
-        })
+        });
 
         afterEach(() => {
           UserQueryMock.resetData();
-        })
+        });
 
         it(statement, async () => {
           const result = await repository.findOne(opts, projectNoId);
           expect(result._id).toBeUndefined();
           expect(result).toEqual(userDocumentNoIdStub());
-        })
-      })
+        });
+      });
     };
 
     describe('find by name', () => {

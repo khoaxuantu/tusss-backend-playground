@@ -28,5 +28,5 @@ export const userDocumentNoIdStub: () => User & { _id: Types.ObjectId } = () => 
   return {
     _id: undefined,
     ...userStub(),
-  }
-}
+  };
+};
