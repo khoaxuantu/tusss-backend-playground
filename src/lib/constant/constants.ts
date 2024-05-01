@@ -1,2 +1,5 @@
 export const PASSWORD_MINLENGTH = 8;
 export const PASSWORD_MAXLENGTH = 32;
+export const JWT = {
+  secret: process.env.NODE_ENV == 'development' ? process.env.JWT_SECRET : 'LMAO',
+};

@@ -5,6 +5,8 @@ import { userDocumentStub, userStub, userToClientStub } from '@test/stubs/users.
 import PasswordBuilder from '@/lib/builder/password/password.builder';
 import { UnauthorizedException } from '@nestjs/common';
 import { UserService } from '@/user/user.service';
+import { JwtService } from '@nestjs/jwt';
+import { accessTokenStub } from '@test/stubs/auth/jwt.stub';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -20,6 +22,12 @@ describe('AuthService', () => {
             sendUserInfoToClient: jest.fn().mockResolvedValue(userToClientStub()),
           },
         },
+        {
+          provide: JwtService,
+          useValue: {
+            signAsync: jest.fn().mockResolvedValue(accessTokenStub),
+          }
+        }
       ],
     }).compile();
 
@@ -45,8 +53,7 @@ describe('AuthService', () => {
     describe('when valid input', () => {
       it('should log user in', async () => {
         const result = await signIn(signInDto());
-        expect(result.password).toBeUndefined();
-        expect(result).toEqual(userToClientStub());
+        expect(result.access_token).toEqual(accessTokenStub);
       });
     });
 

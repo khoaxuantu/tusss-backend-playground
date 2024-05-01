@@ -8,6 +8,7 @@ import { SignInDto } from '../dto/sign_in.dto';
 import PasswordBuilder from '@/lib/builder/password/password.builder';
 import { UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '../auth.service';
+import { JwtService } from '@nestjs/jwt';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -23,6 +24,7 @@ describe('AuthController', () => {
       controllers: [AuthController],
       providers: [
         AuthService,
+        JwtService,
         {
           provide: UserService,
           useValue: {

@@ -11,7 +11,7 @@ export class UserRepository {
   async findOne(
     query: FindUserOpt,
     projection: ProjectionType<User> = { _id: 0, __v: 0 },
-  ): Promise<UserDocument | User> {
+  ): Promise<UserDocument> {
     return this.userModel.findOne(query, projection).exec();
   }
 

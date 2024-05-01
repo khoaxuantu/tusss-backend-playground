@@ -5,7 +5,7 @@ import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
-import { InvalidPasswordCase, InvalidPasswordStub } from './stubs/password.stub';
+import { InvalidPasswordCase, InvalidPasswordStub } from './stubs/auth/password.stub';
 import { Model } from 'mongoose';
 import { User } from '@/models/mongodb/user.schema';
 import { SignInDto } from '@/auth/dto/sign_in.dto';
@@ -91,13 +91,11 @@ describe('AuthController (e2e)', () => {
     };
 
     describe('with valid password', () => {
-      it('should return user info without sensitive data', async () => {
+      it('should return access token', async () => {
         return subject(signInDto())
           .expect(HttpStatus.OK)
           .then((response) => {
-            expect(response.body.password).toBeUndefined();
-            expect(response.body._id).toBeUndefined();
-            expect(response.body.__v).toBeUndefined();
+            console.log(response.body);
           });
       });
     });

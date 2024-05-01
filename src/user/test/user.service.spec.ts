@@ -3,7 +3,7 @@ import { UserService } from '../user.service';
 import { CommonUserFactory } from '@/lib/factory/user/common_user';
 import { userDocumentStub, userStub, userToClientStub } from '@test/stubs/users.stub';
 import { getModelToken } from '@nestjs/mongoose';
-import { User } from '@/models/mongodb/user.schema';
+import { User, UserDocument } from '@/models/mongodb/user.schema';
 import { UserRepository } from '@/lib/repository/user/user.repository';
 import { FindUserOpt } from '@/lib/repository/user/interface/find_user.interface';
 
@@ -67,7 +67,9 @@ describe('UserService', () => {
         email: userStub().email,
       };
 
-      const mock = jest.spyOn(repository, 'findOne').mockResolvedValue(userToClientStub());
+      const mock = jest
+        .spyOn(repository, 'findOne')
+        .mockResolvedValue(userToClientStub() as UserDocument);
 
       expect(await service.sendUserInfoToClient(opt)).toEqual(userToClientStub());
 

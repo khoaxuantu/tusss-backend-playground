@@ -23,3 +23,10 @@ export const userDocumentStub: () => User & { _id: Types.ObjectId } = () => {
     ...userStub(),
   };
 };
+
+export const userDocumentNoIdStub: () => User & { _id: Types.ObjectId } = () => {
+  return {
+    _id: undefined,
+    ...userStub(),
+  }
+}

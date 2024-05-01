@@ -1,14 +1,17 @@
 import { UserRepository } from './user.repository';
 import { Test } from '@nestjs/testing';
 import { User } from '@/models/mongodb/user.schema';
-import { userDocumentStub } from '@test/stubs/users.stub';
+import { userDocumentNoIdStub, userDocumentStub } from '@test/stubs/users.stub';
 import { getModelToken } from '@nestjs/mongoose';
 import { FindUserOpt } from './interface/find_user.interface';
+import { Model } from 'mongoose';
+import { UserQueryMock } from '@test/mock/model/mongodb/user.mock';
 
 const CORRECT_DOCUMENT = 'should return correct document';
 
 describe('UserRepository', () => {
   let repository: UserRepository;
+  let model: Model<User>;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -16,16 +19,13 @@ describe('UserRepository', () => {
         UserRepository,
         {
           provide: getModelToken(User.name),
-          useValue: {
-            findOne: jest.fn().mockReturnThis(),
-            findById: jest.fn().mockReturnThis(),
-            exec: jest.fn().mockReturnValue(userDocumentStub()),
-          },
+          useClass: UserQueryMock,
         },
       ],
     }).compile();
 
     repository = moduleRef.get<UserRepository>(UserRepository);
+    model = moduleRef.get<Model<User>>(getModelToken(User.name));
   });
 
   it('should be defined', () => {
@@ -34,9 +34,27 @@ describe('UserRepository', () => {
 
   describe('findOne()', () => {
     let itBehavesLike = (statement: string, opts: FindUserOpt) => {
+      let projectNoId = { _id: 0 }
+
       it(statement, async () => {
         expect(await repository.findOne(opts)).toEqual(userDocumentStub());
       });
+
+      describe("(no _id)", () => {
+        beforeEach(() => {
+          UserQueryMock.data = userDocumentNoIdStub();
+        })
+
+        afterEach(() => {
+          UserQueryMock.resetData();
+        })
+
+        it(statement, async () => {
+          const result = await repository.findOne(opts, projectNoId);
+          expect(result._id).toBeUndefined();
+          expect(result).toEqual(userDocumentNoIdStub());
+        })
+      })
     };
 
     describe('find by name', () => {

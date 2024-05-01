@@ -4,8 +4,6 @@ import { UserService } from '../user.service';
 import { ConfigModule } from '@nestjs/config';
 import { CommonConfiguration } from '@/config/configuration';
 import { userStub } from '@test/stubs/users.stub';
-import { UserDtoStub } from './stubs/create_user.dto.stub';
-import { InvalidPasswordCase, InvalidPasswordStub } from '@test/stubs/password.stub';
 
 describe('UserController', () => {
   let controller: UserController;

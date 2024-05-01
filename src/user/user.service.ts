@@ -17,12 +17,12 @@ export class UserService {
     return await newUser.save();
   }
 
-  async getOneByUsername(name: string): Promise<User> {
+  async getOneByUsername(name: string): Promise<UserDocument> {
     return this.userRepository.findOne({ name });
   }
 
-  async getOneByEmail(email: string): Promise<User> {
-    return this.userRepository.findOne({ email });
+  async getOneByEmail(email: string): Promise<UserDocument> {
+    return this.userRepository.findOne({ email }, { __v: 0 });
   }
 
   async sendUserInfoToClient(user: UserDocument | FindUserOpt) {
