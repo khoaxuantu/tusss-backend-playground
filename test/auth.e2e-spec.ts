@@ -2,13 +2,16 @@ import { AuthModule } from "@/auth/auth.module";
 import { connectMongo } from "@/config/initialize/connect_mongo";
 import { UserDtoStub } from "@/user/test/stubs/create_user.dto.stub";
 import { INestApplication, ValidationPipe } from "@nestjs/common";
-import { MongooseModule } from "@nestjs/mongoose";
+import { MongooseModule, getModelToken } from "@nestjs/mongoose";
 import { Test } from "@nestjs/testing";
 import * as request from "supertest";
 import { InvalidPasswordCase, InvalidPasswordStub } from "./stubs/password.stub";
+import { Model } from "mongoose";
+import { User } from "@/models/mongodb/user.schema";
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
+  let userModel: Model<User>;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -21,10 +24,12 @@ describe('AuthController (e2e)', () => {
     app = moduleRef.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
     await app.init();
+
+    userModel = app.get<Model<User>>(getModelToken(User.name));
   })
 
   afterAll(async () => {
-    app.close();
+    await app.close();
   })
 
   describe('/signup', () => {
@@ -32,6 +37,10 @@ describe('AuthController (e2e)', () => {
     let subject = (userDto: UserDtoStub) => {
       return request(app.getHttpServer()).post('/signup').send(userDto);
     };
+
+    afterAll(async () => {
+      await userModel.deleteMany({});
+    })
 
     describe('if valid input', () => {
       it('should create a new user', () => {
@@ -52,7 +61,7 @@ describe('AuthController (e2e)', () => {
           .filter((entry) => !isNaN(Number(entry[1])))
           .forEach((entry) => {
             describe(entry[0], () => {
-              it('create method should not be called', () => {
+              it('should return validation error', () => {
                 dto.password = InvalidPasswordStub.create(
                   entry[1] as InvalidPasswordCase,
                 );
@@ -63,14 +72,14 @@ describe('AuthController (e2e)', () => {
       });
 
       describe('with name', () => {
-        it('create method should not be called', () => {
+        it('should return validation error', () => {
           dto.name = undefined;
           return subject(dto).expect(400);
         });
       });
 
       describe('with mail', () => {
-        it('create method should not be called', () => {
+        it('should return validation error', () => {
           dto.email = undefined;
           return subject(dto).expect(400);
         });

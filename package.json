@@ -81,7 +81,6 @@
     "coveragePathIgnorePatterns": [
       ".module.ts"
     ],
-    "collectCoverage": true,
     "coverageDirectory": "./test/coverage",
     "coverageReporters": ["json", "lcov", "text", "html"],
     "testEnvironment": "node"
