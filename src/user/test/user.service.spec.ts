@@ -22,15 +22,15 @@ describe('UserService', () => {
             return {
               constructor: jest.fn().mockReturnThis(),
               save: jest.fn().mockResolvedValue(userStub()),
-            }
-          })
+            };
+          }),
         },
         {
           provide: UserRepository,
           useValue: {
             findOne: jest.fn().mockResolvedValue(userDocumentStub()),
-          }
-        }
+          },
+        },
       ],
     }).compile();
 
@@ -46,32 +46,32 @@ describe('UserService', () => {
     const subject = await service.saveOne(userStub());
     const expectUser = userStub();
     expect(subject).toEqual(expectUser);
-  })
+  });
 
   test('getOneByUsername()', async () => {
     expect(await service.getOneByUsername(userDocumentStub().name)).toEqual(userDocumentStub());
-  })
+  });
 
   test('getOneByEmail()', async () => {
     expect(await service.getOneByEmail(userDocumentStub().email)).toEqual(userDocumentStub());
-  })
+  });
 
   describe('sendUserInfoToClient()', () => {
     test('input as User', async () => {
       expect(await service.sendUserInfoToClient(userStub())).toEqual(userToClientStub());
-    })
+    });
 
     test('input as FindUserOpt', async () => {
       let opt: FindUserOpt = {
         name: userStub().name,
         email: userStub().email,
-      }
+      };
 
-      const mock =jest.spyOn(repository, 'findOne').mockResolvedValue(userToClientStub());
+      const mock = jest.spyOn(repository, 'findOne').mockResolvedValue(userToClientStub());
 
       expect(await service.sendUserInfoToClient(opt)).toEqual(userToClientStub());
 
       mock.mockRestore();
-    })
-  })
+    });
+  });
 });

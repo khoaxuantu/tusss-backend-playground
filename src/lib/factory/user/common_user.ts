@@ -1,8 +1,8 @@
-import { User } from "@/models/mongodb/user.schema";
-import { UserFactory } from "./interface/user";
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { User } from '@/models/mongodb/user.schema';
+import { UserFactory } from './interface/user';
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class CommonUserFactory implements UserFactory {
@@ -12,5 +12,5 @@ export class CommonUserFactory implements UserFactory {
     const newUser = new this.userModel(user);
     newUser.joined_date = new Date();
     return newUser;
-  };
+  }
 }

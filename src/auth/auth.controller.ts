@@ -6,15 +6,14 @@ import { AuthService } from './auth.service';
 
 @Controller()
 export class AuthController {
-  constructor(private userService: UserService, private authService: AuthService) {}
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+  ) {}
 
   @Post('signup')
   async signUp(@Body() user: CreateUserDto) {
-    console.log(user);
-
-    const res = await this.userService.saveOne(user);
-    console.log(res);
-
+    await this.userService.saveOne(user);
     return 'Create successfully!';
   }
 

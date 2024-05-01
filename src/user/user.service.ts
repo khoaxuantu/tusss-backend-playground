@@ -27,8 +27,7 @@ export class UserService {
 
   async sendUserInfoToClient(user: UserDocument | FindUserOpt) {
     if (this.isUserDocument(user)) {
-      delete user._id;
-      delete user.password;
+      user.password = undefined;
       return user;
     }
 
@@ -36,6 +35,6 @@ export class UserService {
   }
 
   private isUserDocument(user: UserDocument | FindUserOpt): user is UserDocument {
-    return user["joined_date"] !== undefined;
+    return user['joined_date'] !== undefined;
   }
 }

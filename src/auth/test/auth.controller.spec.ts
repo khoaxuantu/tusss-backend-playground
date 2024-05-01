@@ -60,10 +60,10 @@ describe('AuthController', () => {
   describe('/signin', () => {
     let signIn = (signInDto: SignInDto) => {
       return controller.signIn(signInDto);
-    }
+    };
     let signInDto = (pwd?: string): SignInDto => {
       return { email: userStub().email, password: pwd ?? userStub().password };
-    }
+    };
 
     it('should be defined', () => {
       expect(controller.signIn).toBeDefined();
@@ -74,7 +74,7 @@ describe('AuthController', () => {
 
       it('should return failed authentication', async () => {
         expect(signIn(signInDto(wrongPassword))).rejects.toThrow(UnauthorizedException);
-      })
-    })
-  })
+      });
+    });
+  });
 });

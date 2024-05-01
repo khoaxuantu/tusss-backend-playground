@@ -11,7 +11,7 @@ describe('AppController', () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
       providers: [AppService],
-      imports: [ConfigModule.forRoot({ load: [CommonConfiguration] })]
+      imports: [ConfigModule.forRoot({ load: [CommonConfiguration] })],
     }).compile();
 
     appController = app.get<AppController>(AppController);

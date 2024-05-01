@@ -33,10 +33,10 @@ describe('AuthService', () => {
   describe('signIn()', () => {
     let signIn = (signInDto: SignInDto) => {
       return service.signIn(signInDto);
-    }
+    };
     let signInDto = (pwd?: string): SignInDto => {
       return { email: userStub().email, password: pwd ?? userStub().password };
-    }
+    };
 
     it('should be defined', () => {
       expect(service.signIn).toBeDefined();
@@ -48,14 +48,14 @@ describe('AuthService', () => {
         expect(result.password).toBeUndefined();
         expect(result).toEqual(userToClientStub());
       });
-    })
+    });
 
     describe('when wrong password', () => {
       let wrongPassword = new PasswordBuilder().product;
 
       it('should return failed authentication', async () => {
         expect(signIn(signInDto(wrongPassword))).rejects.toThrow(UnauthorizedException);
-      })
-    })
-  })
+      });
+    });
+  });
 });

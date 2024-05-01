@@ -14,7 +14,7 @@ export class CatsService {
   }
 
   getCat(id: number): Cat {
-    if (id > this.cats.length - 1) throw new Error("No cat");
+    if (id > this.cats.length - 1) throw new Error('No cat');
     return this.cats[id];
   }
 }

@@ -46,10 +46,7 @@ export class CatsController {
 
   @Get(':id')
   findOne(
-    @Param(
-      'id',
-      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
-    )
+    @Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }))
     id: number,
   ): string {
     const cat = this.catService.getCat(id);

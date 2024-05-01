@@ -4,11 +4,14 @@ import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
-  constructor(private config: ConfigService, private userService: UserService) {}
+  constructor(
+    private config: ConfigService,
+    private userService: UserService,
+  ) {}
 
   @Get()
   index() {
-    console.log("Get config in app controller", this.config.get('tusss'));
+    console.log('Get config in app controller', this.config.get('tusss'));
 
     return "This is the User's entry route";
   }

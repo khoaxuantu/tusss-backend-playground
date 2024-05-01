@@ -1,4 +1,4 @@
-import PasswordBuilder from "@/lib/builder/password/password.builder";
+import PasswordBuilder from '@/lib/builder/password/password.builder';
 
 export enum InvalidPasswordCase {
   MAX_LENGTH,

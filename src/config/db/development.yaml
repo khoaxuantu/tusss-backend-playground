@@ -6,7 +6,7 @@ postgres:
   database: nest_playground
 
 mongodb:
-  uri: mongodb://localhost:27017/nest_playground
+  uri: mongodb://localhost:27017
   host: localhost
   port: 27017
   database: nest_playground

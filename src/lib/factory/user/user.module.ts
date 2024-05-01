@@ -4,9 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CommonUserFactory } from './common_user';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: User.name , schema: UserSchema }]),
-  ],
+  imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
   providers: [CommonUserFactory],
   exports: [CommonUserFactory],
 })

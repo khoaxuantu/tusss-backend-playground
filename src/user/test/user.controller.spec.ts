@@ -38,5 +38,5 @@ describe('UserController', () => {
     it('should be defined', () => {
       expect(controller.getOne).toBeDefined();
     });
-  })
+  });
 });
