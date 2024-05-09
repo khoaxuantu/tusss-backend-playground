@@ -1,17 +1,13 @@
 import { UserService } from '@/user/user.service';
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/create_user.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBody } from '@nestjs/swagger';
 import { SignInDto } from './dto/sign_in.dto';
-import { AuthService } from './auth.service';
-import { Public } from './auth.helper';
 
 @Controller()
-@Public()
 export class AuthController {
-  constructor(
-    private userService: UserService,
-    private authService: AuthService,
-  ) {}
+  constructor(private userService: UserService) {}
 
   @Post('signup')
   async signUp(@Body() user: CreateUserDto) {
@@ -21,7 +17,14 @@ export class AuthController {
 
   @Post('signin')
   @HttpCode(HttpStatus.OK)
-  async signIn(@Body() { email, password }: SignInDto) {
-    return this.authService.signIn({ email, password });
+  @ApiBody({
+    type: SignInDto,
+    examples: {
+      login_dto: { value: JSON.stringify({ email: 'tusss@tusss.com', password: '1@!33sdjifHH' }) },
+    },
+  })
+  @UseGuards(AuthGuard('local'))
+  async signIn(@Request() req) {
+    return req.user;
   }
 }
