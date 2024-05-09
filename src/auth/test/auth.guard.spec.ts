@@ -5,9 +5,11 @@ import { PartialFuncReturn, createMock } from '@golevelup/ts-jest';
 import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { accessTokenStub } from './stub/jwt.stub';
 import { userDocumentStub } from '@test/stubs/users.stub';
+import { Reflector } from '@nestjs/core';
 
 describe('AuthGuard', () => {
   let guard: AuthGuard;
+  let reflector: Reflector;
   let partialExecCtx = (token: string): PartialFuncReturn<ExecutionContext> => {
     return {
       switchToHttp: () => ({
@@ -34,28 +36,42 @@ describe('AuthGuard', () => {
             }),
           },
         },
+        Reflector,
       ],
     }).compile();
 
     guard = moduleRef.get<AuthGuard>(AuthGuard);
+    reflector = moduleRef.get<Reflector>(Reflector);
   });
 
   it('should be defined', () => {
     expect(AuthGuard).toBeDefined();
   });
 
-  test('invalid token', () => {
-    const mockExecCtx = mockExecutionContext('Invalid token');
-    expect(guard.canActivate(mockExecCtx)).rejects.toThrow(UnauthorizedException);
-  });
+  describe('private API', () => {
+    beforeEach(() => {
+      jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(false);
+    })
 
-  test('Bearer but no token', () => {
-    const mockExecCtx = mockExecutionContext('Bearer ');
-    expect(guard.canActivate(mockExecCtx)).rejects.toThrow(UnauthorizedException);
-  });
+    test('invalid token', () => {
+      const mockExecCtx = mockExecutionContext('Invalid token');
+      expect(guard.canActivate(mockExecCtx)).rejects.toThrow(UnauthorizedException);
+    });
 
-  test('valid token', async () => {
-    const mockExecCtx = mockExecutionContext(`Bearer ${accessTokenStub}`);
-    expect(await guard.canActivate(mockExecCtx)).toEqual(true);
-  });
+    test('Bearer but no token', () => {
+      const mockExecCtx = mockExecutionContext('Bearer ');
+      expect(guard.canActivate(mockExecCtx)).rejects.toThrow(UnauthorizedException);
+    });
+
+    test('valid token', async () => {
+      const mockExecCtx = mockExecutionContext(`Bearer ${accessTokenStub}`);
+      expect(await guard.canActivate(mockExecCtx)).toEqual(true);
+    });
+  })
+
+  test('public API', async () => {
+    jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(true);
+    const mockExecCtx = mockExecutionContext(undefined);
+    expect (await guard.canActivate(mockExecCtx)).toEqual(true);
+  })
 });

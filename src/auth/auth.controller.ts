@@ -3,8 +3,10 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { CreateUserDto } from './dto/create_user.dto';
 import { SignInDto } from './dto/sign_in.dto';
 import { AuthService } from './auth.service';
+import { Public } from './auth.helper';
 
 @Controller()
+@Public()
 export class AuthController {
   constructor(
     private userService: UserService,
