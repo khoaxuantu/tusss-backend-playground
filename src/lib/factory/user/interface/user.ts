@@ -1,4 +1,4 @@
-import { User, UserDocument } from '@/models/mongodb/user.schema';
+import { User, UserDocument } from '@/user/schema/user.schema';
 
 type AllUser = User;
 type AllUserDocument = UserDocument;

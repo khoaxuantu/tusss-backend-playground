@@ -2,7 +2,7 @@ import { UserService } from '@/user/user.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { SignInDto } from './dto/sign_in.dto';
 import { JwtService } from '@nestjs/jwt';
-import { UserDocument } from '@/models/mongodb/user.schema';
+import { UserDocument } from '@/user/schema/user.schema';
 import { IJwtPayload } from './interface/jwt_payload.interface';
 
 @Injectable()

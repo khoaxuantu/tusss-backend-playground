@@ -1,4 +1,4 @@
-import { User } from '@/models/mongodb/user.schema';
+import { User } from '@/user/schema/user.schema';
 import { userDocumentStub } from '@test/stubs/users.stub';
 
 export class UserQueryMock {

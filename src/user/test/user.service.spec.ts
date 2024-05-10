@@ -3,7 +3,7 @@ import { UserService } from '../user.service';
 import { CommonUserFactory } from '@/lib/factory/user/common_user';
 import { userDocumentStub, userStub, userToClientStub } from '@test/stubs/users.stub';
 import { getModelToken } from '@nestjs/mongoose';
-import { User, UserDocument } from '@/models/mongodb/user.schema';
+import { User, UserDocument } from '@/user/schema/user.schema';
 import { UserRepository } from '@/lib/repository/user/user.repository';
 import { FindUserOpt } from '@/lib/repository/user/interface/find_user.interface';
 

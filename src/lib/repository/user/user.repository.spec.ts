@@ -1,6 +1,6 @@
 import { UserRepository } from './user.repository';
 import { Test } from '@nestjs/testing';
-import { User } from '@/models/mongodb/user.schema';
+import { User } from '@/user/schema/user.schema';
 import { userDocumentNoIdStub, userDocumentStub } from '@test/stubs/users.stub';
 import { getModelToken } from '@nestjs/mongoose';
 import { FindUserOpt } from './interface/find_user.interface';

@@ -1,4 +1,4 @@
-import { User } from '@/models/mongodb/user.schema';
+import { User } from '@/user/schema/user.schema';
 import { Types } from 'mongoose';
 
 export const userStub = (pwd?: string): User => {

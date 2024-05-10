@@ -7,7 +7,7 @@ import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 import { InvalidPasswordCase, InvalidPasswordStub } from '@/auth/test/stub/password.stub';
 import { Model } from 'mongoose';
-import { User } from '@/models/mongodb/user.schema';
+import { User } from '@/user/schema/user.schema';
 import { SignInDto } from '@/auth/dto/sign_in.dto';
 import PasswordBuilder from '@/lib/builder/password/password.builder';
 

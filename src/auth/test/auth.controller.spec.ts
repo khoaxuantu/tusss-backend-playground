@@ -3,7 +3,7 @@ import { AuthController } from '../auth.controller';
 import { UserService } from '@/user/user.service';
 import { userDocumentStub, userStub } from '@test/stubs/users.stub';
 import { UserDtoStub } from '@/user/test/stubs/create_user.dto.stub';
-import { User } from '@/models/mongodb/user.schema';
+import { User } from '@/user/schema/user.schema';
 import { SignInDto } from '../dto/sign_in.dto';
 import PasswordBuilder from '@/lib/builder/password/password.builder';
 import { UnauthorizedException } from '@nestjs/common';

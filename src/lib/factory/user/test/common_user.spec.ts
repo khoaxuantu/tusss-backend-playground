@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { CommonUserFactory } from '../common_user';
-import { User } from '@/models/mongodb/user.schema';
+import { User } from '@/user/schema/user.schema';
 import { userStub } from '@test/stubs/users.stub';
 import { getModelToken } from '@nestjs/mongoose';
 
