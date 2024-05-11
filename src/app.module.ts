@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CatsModule } from './cats/cats.module';
 import { ConfigModule } from '@nestjs/config';
 import { CommonConfiguration } from './config/configuration';
 import { UserModule } from './user/user.module';
@@ -15,7 +14,6 @@ import { APP_GUARD } from '@nestjs/core';
   imports: [
     ConfigModule.forRoot({ load: [CommonConfiguration] }),
     MongooseModule.forRootAsync(connectMongo()),
-    CatsModule,
     UserModule,
     AuthModule,
   ],
