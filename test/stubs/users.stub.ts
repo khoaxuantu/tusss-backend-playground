@@ -1,4 +1,4 @@
-import { User } from '@/user/schema/user.schema';
+import { User, UserDocument } from '@/user/schema/user.schema';
 import { Types } from 'mongoose';
 
 export const userStub = (pwd?: string): User => {
@@ -12,21 +12,19 @@ export const userStub = (pwd?: string): User => {
 };
 
 export const userToClientStub = () => {
-  const user = userStub();
-  delete user.password;
+  const { password, ...user } = userStub();
   return user;
 };
 
-export const userDocumentStub: () => User & { _id: Types.ObjectId } = () => {
+export const userDocumentStub: () => UserDocument = () => {
   return {
     _id: new Types.ObjectId('662f2045d274587dc7a99ad8'),
     ...userStub(),
-  };
+  } as UserDocument;
 };
 
-export const userDocumentNoIdStub: () => User & { _id: Types.ObjectId } = () => {
+export const userDocumentNoIdStub: () => UserDocument = () => {
   return {
-    _id: undefined,
     ...userStub(),
-  };
+  } as UserDocument;
 };

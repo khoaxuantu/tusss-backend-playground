@@ -51,6 +51,7 @@ export class AuthController {
   @ApiBearerAuth()
   @ApiTags('Authentication')
   getProfile(@Request() req) {
+    console.log("🚀 ~ AuthController ~ getProfile ~ req.user:", req.user)
     return req.user;
   }
 }

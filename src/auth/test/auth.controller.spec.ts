@@ -4,11 +4,9 @@ import { UserService } from '@/user/user.service';
 import { userDocumentStub, userStub } from '@test/stubs/users.stub';
 import { UserDtoStub } from '@/user/test/stubs/create_user.dto.stub';
 import { User } from '@/user/schema/user.schema';
-import { SignInDto } from '../dto/sign_in.dto';
-import PasswordBuilder from '@/lib/builder/password/password.builder';
-import { UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '../auth.service';
 import { JwtService } from '@nestjs/jwt';
+import { accessTokenStub } from './stub/jwt.stub';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -23,7 +21,6 @@ describe('AuthController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
       providers: [
-        AuthService,
         JwtService,
         {
           provide: UserService,
@@ -31,6 +28,12 @@ describe('AuthController', () => {
             saveOne: jest.fn().mockResolvedValue(savedUser),
             getOneByEmail: jest.fn().mockResolvedValue(userDocumentStub()),
           },
+        },
+        {
+          provide: AuthService,
+          useValue: {
+            signIn: jest.fn().mockResolvedValue({ access_token: accessTokenStub }),
+          }
         },
       ],
     }).compile();
@@ -60,23 +63,24 @@ describe('AuthController', () => {
   });
 
   describe('/signin', () => {
-    let signIn = (signInDto: SignInDto) => {
-      return controller.signIn(signInDto);
-    };
-    let signInDto = (pwd?: string): SignInDto => {
-      return { email: userStub().email, password: pwd ?? userStub().password };
-    };
-
     it('should be defined', () => {
       expect(controller.signIn).toBeDefined();
     });
 
-    describe('when wrong password', () => {
-      let wrongPassword = new PasswordBuilder().product;
-
-      it('should return failed authentication', async () => {
-        expect(signIn(signInDto(wrongPassword))).rejects.toThrow(UnauthorizedException);
-      });
-    });
+    test('get access token', async () => {
+      const res = await controller.signIn({ user: userDocumentStub() });
+      expect(res.access_token).toEqual(accessTokenStub);
+    })
   });
+
+  describe('/profile', () => {
+    it('should be defined', () => {
+      expect(controller.getProfile).toBeDefined();
+    })
+
+    test('return profile', async () => {
+      const res = await controller.getProfile({ user: userDocumentStub() });
+      expect(res).toEqual(userDocumentStub());
+    })
+  })
 });

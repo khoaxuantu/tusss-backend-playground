@@ -19,7 +19,6 @@ describe('AuthService', () => {
           provide: UserService,
           useValue: {
             getOneByEmail: jest.fn().mockResolvedValue(userDocumentStub()),
-            sendUserInfoToClient: jest.fn().mockResolvedValue(userToClientStub()),
           },
         },
         {
@@ -38,23 +37,24 @@ describe('AuthService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('signIn()', () => {
-    let signIn = (signInDto: SignInDto) => {
-      return service.signIn(signInDto);
+  describe('validate()', () => {
+    let validate = async (signInDto: SignInDto) => {
+      return service.validate(signInDto);
     };
     let signInDto = (pwd?: string): SignInDto => {
       return { email: userStub().email, password: pwd ?? userStub().password };
     };
 
     it('should be defined', () => {
-      expect(service.signIn).toBeDefined();
+      expect(service.validate).toBeDefined();
     });
 
     describe('when valid input', () => {
       it('should log user in', async () => {
-        const result = await signIn(signInDto());
+        const result = await validate(signInDto());
         console.log('🚀 ~ it ~ result:', result);
-        expect(result.access_token).toEqual(accessTokenStub);
+        const { password, ...expectRes} = userDocumentStub();
+        expect(result).toEqual(expectRes);
       });
     });
 
@@ -62,8 +62,19 @@ describe('AuthService', () => {
       let wrongPassword = new PasswordBuilder().product;
 
       it('should return failed authentication', async () => {
-        expect(signIn(signInDto(wrongPassword))).rejects.toThrow(UnauthorizedException);
+        expect(validate(signInDto(wrongPassword))).rejects.toThrow(UnauthorizedException);
       });
     });
   });
+
+  describe('signIn()', () => {
+    it('should be defined', () => {
+      expect(service.signIn).toBeDefined();
+    })
+
+    test('return access token', async () => {
+      const res = await service.signIn(userDocumentStub());
+      expect(res.access_token).toEqual(accessTokenStub);
+    })
+  })
 });

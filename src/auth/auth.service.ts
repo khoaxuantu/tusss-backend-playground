@@ -12,10 +12,11 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validate(props: SignInDto) {
+  async validate(props: SignInDto): Promise<Omit<UserDocument, 'password'>> {
     const user = await this.userService.getOneByEmail(props.email);
     if (user?.password != props.password) throw new UnauthorizedException();
-    return user;
+    const { password: _, ...retUser } = user;
+    return retUser as UserDocument;
   }
 
   async signIn(user: UserDocument) {
