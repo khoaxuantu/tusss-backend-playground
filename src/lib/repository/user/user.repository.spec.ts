@@ -4,14 +4,15 @@ import { User } from '@/user/schema/user.schema';
 import { userDocumentNoIdStub, userDocumentStub } from '@test/stubs/users.stub';
 import { getModelToken } from '@nestjs/mongoose';
 import { FindUserOpt } from './interface/find_user.interface';
-import { Model } from 'mongoose';
-import { UserQueryMock } from '@test/mock/model/mongodb/user.mock';
+import { UserModelMock } from '@test/mock/model/mongodb/user.mock';
+import { UpdateUserDtoStub } from '@/user/test/stubs/update_user.dto.stub';
+import { Types } from 'mongoose';
+import { UpdateUserDto } from '@/user/dto/update_user.dto';
 
 const CORRECT_DOCUMENT = 'should return correct document';
 
 describe('UserRepository', () => {
   let repository: UserRepository;
-  let model: Model<User>;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -19,13 +20,12 @@ describe('UserRepository', () => {
         UserRepository,
         {
           provide: getModelToken(User.name),
-          useClass: UserQueryMock,
+          useClass: UserModelMock,
         },
       ],
     }).compile();
 
     repository = moduleRef.get<UserRepository>(UserRepository);
-    model = moduleRef.get<Model<User>>(getModelToken(User.name));
   });
 
   it('should be defined', () => {
@@ -42,11 +42,11 @@ describe('UserRepository', () => {
 
       describe('(no _id)', () => {
         beforeEach(() => {
-          UserQueryMock.data = userDocumentNoIdStub();
+          UserModelMock.data = userDocumentNoIdStub();
         });
 
         afterEach(() => {
-          UserQueryMock.resetData();
+          UserModelMock.resetData();
         });
 
         it(statement, async () => {
@@ -73,5 +73,13 @@ describe('UserRepository', () => {
   test('findById()', async () => {
     let id = userDocumentStub()._id;
     expect(await repository.findById(id)).toEqual(userDocumentStub());
+  });
+
+  test('findOneAndUpdate()', async () => {
+    const { _id, ...dto } = new UpdateUserDtoStub();
+    const res = await repository.findOneAndUpdate({ _id: new Types.ObjectId(_id) }, dto);
+
+    expect({ name: res.name, email: res.email }).toEqual(dto);
+    expect(res.password).toBeUndefined();
   });
 });

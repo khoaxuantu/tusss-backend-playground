@@ -52,7 +52,6 @@ describe('AuthService', () => {
     describe('when valid input', () => {
       it('should log user in', async () => {
         const result = await validate(signInDto());
-        console.log('🚀 ~ it ~ result:', result);
         const { password, ...expectRes} = userDocumentStub();
         expect(result).toEqual(expectRes);
       });

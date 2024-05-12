@@ -4,6 +4,8 @@ import { FindUserOpt } from '@/lib/repository/user/interface/find_user.interface
 import { UserRepository } from '@/lib/repository/user/user.repository';
 import { User, UserDocument } from '@/user/schema/user.schema';
 import { Injectable } from '@nestjs/common';
+import { UpdateUserDto } from './dto/update_user.dto';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class UserService {
@@ -12,9 +14,8 @@ export class UserService {
     private userRepository: UserRepository,
   ) {}
 
-  async saveOne(user: CreateUserDto) {
-    const newUser = this.userFactory.create(user);
-    return await newUser.save();
+  saveOne(user: CreateUserDto) {
+    this.userFactory.create(user);
   }
 
   async getOneByUsername(name: string): Promise<UserDocument> {
@@ -34,7 +35,12 @@ export class UserService {
     return this.userRepository.findOne(user, { _id: 0, _v: 0, password: 0 });
   }
 
+  async updateOne(user: UpdateUserDto) {
+    const { _id, ...updateUser } = user;
+    await this.userRepository.findOneAndUpdate({ _id: new Types.ObjectId(_id) }, updateUser);
+  }
+
   private isUserDocument(user: UserDocument | FindUserOpt): user is UserDocument {
-    return user['joined_date'] !== undefined;
+    return (user as User).updated_at !== undefined;
   }
 }

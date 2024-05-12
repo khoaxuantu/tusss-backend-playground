@@ -3,6 +3,7 @@ import { CommonUserFactory } from '../common_user';
 import { User } from '@/user/schema/user.schema';
 import { userStub } from '@test/stubs/users.stub';
 import { getModelToken } from '@nestjs/mongoose';
+import { UserModelMock } from '@test/mock/model/mongodb/user.mock';
 
 describe('CommonUserFactory', () => {
   let commonUserFactory: CommonUserFactory;
@@ -13,7 +14,7 @@ describe('CommonUserFactory', () => {
         CommonUserFactory,
         {
           provide: getModelToken(User.name),
-          useValue: jest.fn().mockImplementation(() => userStub()),
+          useValue: jest.fn().mockImplementation(() => new UserModelMock()),
         },
       ],
     }).compile();
@@ -25,8 +26,8 @@ describe('CommonUserFactory', () => {
     expect(commonUserFactory).toBeDefined();
   });
 
-  test('#create', () => {
-    const subject = commonUserFactory.create(userStub());
+  test('#create', async () => {
+    const subject = await commonUserFactory.create(userStub());
     const expectUser = userStub();
     expect(subject.name).toEqual(expectUser.name);
     expect(subject.password).toEqual(expectUser.password);

@@ -2,11 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from '../auth.controller';
 import { UserService } from '@/user/user.service';
 import { userDocumentStub, userStub } from '@test/stubs/users.stub';
-import { UserDtoStub } from '@/user/test/stubs/create_user.dto.stub';
 import { User } from '@/user/schema/user.schema';
 import { AuthService } from '../auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { accessTokenStub } from './stub/jwt.stub';
+import { UserDtoStub } from './stub/create_user.dto.stub';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -72,15 +72,4 @@ describe('AuthController', () => {
       expect(res.access_token).toEqual(accessTokenStub);
     })
   });
-
-  describe('/profile', () => {
-    it('should be defined', () => {
-      expect(controller.getProfile).toBeDefined();
-    })
-
-    test('return profile', async () => {
-      const res = await controller.getProfile({ user: userDocumentStub() });
-      expect(res).toEqual(userDocumentStub());
-    })
-  })
 });

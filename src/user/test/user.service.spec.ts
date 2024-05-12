@@ -6,29 +6,30 @@ import { getModelToken } from '@nestjs/mongoose';
 import { User, UserDocument } from '@/user/schema/user.schema';
 import { UserRepository } from '@/lib/repository/user/user.repository';
 import { FindUserOpt } from '@/lib/repository/user/interface/find_user.interface';
+import { UpdateUserDtoStub } from './stubs/update_user.dto.stub';
 
 describe('UserService', () => {
   let service: UserService;
   let repository: UserRepository;
+  let factory: CommonUserFactory;
+  const { name, email } = userStub();
+  const dataToClient = userToClientStub();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UserService,
-        CommonUserFactory,
         {
-          provide: getModelToken(User.name),
-          useValue: jest.fn().mockImplementation(() => {
-            return {
-              constructor: jest.fn().mockReturnThis(),
-              save: jest.fn().mockResolvedValue(userStub()),
-            };
-          }),
+          provide: CommonUserFactory,
+          useValue: {
+            create: jest.fn().mockResolvedValue(userDocumentStub()),
+          },
         },
         {
           provide: UserRepository,
           useValue: {
-            findOne: jest.fn().mockResolvedValue(userDocumentStub()),
+            findOne: jest.fn().mockResolvedValue(dataToClient),
+            findOneAndUpdate: jest.fn(),
           },
         },
       ],
@@ -36,6 +37,7 @@ describe('UserService', () => {
 
     service = module.get<UserService>(UserService);
     repository = module.get<UserRepository>(UserRepository);
+    factory = module.get<CommonUserFactory>(CommonUserFactory);
   });
 
   it('should be defined', () => {
@@ -43,37 +45,43 @@ describe('UserService', () => {
   });
 
   test('saveOne()', async () => {
-    const subject = await service.saveOne(userStub());
-    const expectUser = userStub();
-    expect(subject).toEqual(expectUser);
+    let spyMethod = jest.spyOn(factory, 'create');
+    service.saveOne(userStub());
+    expect(spyMethod).toHaveBeenCalledTimes(1);
   });
 
   test('getOneByUsername()', async () => {
-    expect(await service.getOneByUsername(userDocumentStub().name)).toEqual(userDocumentStub());
+    expect(await service.getOneByUsername(name)).toEqual(dataToClient);
   });
 
   test('getOneByEmail()', async () => {
-    expect(await service.getOneByEmail(userDocumentStub().email)).toEqual(userDocumentStub());
+    expect(await service.getOneByEmail(email)).toEqual(dataToClient);
   });
 
   describe('sendUserInfoToClient()', () => {
     test('input as User', async () => {
-      expect(await service.sendUserInfoToClient(userStub())).toEqual(userToClientStub());
+      expect(await service.sendUserInfoToClient(userStub())).toEqual(dataToClient);
     });
 
     test('input as FindUserOpt', async () => {
-      let opt: FindUserOpt = {
-        name: userStub().name,
-        email: userStub().email,
-      };
-
-      const mock = jest
-        .spyOn(repository, 'findOne')
-        .mockResolvedValue(userToClientStub() as UserDocument);
-
-      expect(await service.sendUserInfoToClient(opt)).toEqual(userToClientStub());
-
-      mock.mockRestore();
+      let opt: FindUserOpt = { name, email };
+      jest.spyOn(repository, 'findOne').mockResolvedValue(dataToClient as UserDocument);
+      expect(await service.sendUserInfoToClient(opt)).toEqual(dataToClient);
     });
+  });
+
+  describe('updateOne()', () => {
+    test('update', async () => {
+      const dto = new UpdateUserDtoStub();
+      const ret: UserDocument = dataToClient;
+      ret.name = dto.name;
+      ret.email = dto.email;
+
+      const mock = jest.spyOn(repository, 'findOneAndUpdate').mockResolvedValue(ret);
+
+      await service.updateOne(dto);
+
+      expect(mock).toHaveBeenCalledTimes(1);
+    })
   });
 });

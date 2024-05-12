@@ -17,11 +17,6 @@ export const userStub = (pwd?: string): User => {
   };
 };
 
-export const userToClientStub = () => {
-  const user: User = { ...userStub(), password: undefined };
-  return user;
-};
-
 export const userDocumentStub: () => UserDocument = () => {
   return {
     _id: new Types.ObjectId('662f2045d274587dc7a99ad8'),
@@ -33,4 +28,9 @@ export const userDocumentNoIdStub: () => UserDocument = () => {
   return {
     ...userStub(),
   } as UserDocument;
+};
+
+export const userToClientStub = () => {
+  const user = { ...userDocumentNoIdStub(), password: undefined };
+  return user as UserDocument;
 };
