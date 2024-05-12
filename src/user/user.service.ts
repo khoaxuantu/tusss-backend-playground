@@ -3,7 +3,7 @@ import { CommonUserFactory } from '@/lib/factory/user/common_user';
 import { FindUserOpt } from '@/lib/repository/user/interface/find_user.interface';
 import { UserRepository } from '@/lib/repository/user/user.repository';
 import { User, UserDocument } from '@/user/schema/user.schema';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update_user.dto';
 import { Types } from 'mongoose';
 
@@ -18,25 +18,26 @@ export class UserService {
     this.userFactory.create(user);
   }
 
-  async getOneByUsername(name: string): Promise<UserDocument> {
+  getOneByUsername(name: string): Promise<UserDocument> {
     return this.userRepository.findOne({ name });
   }
 
-  async getOneByEmail(email: string): Promise<UserDocument> {
+  getOneByEmail(email: string): Promise<UserDocument> {
     return this.userRepository.findOne({ email }, { __v: 0 });
   }
 
-  async sendUserInfoToClient(user: UserDocument | FindUserOpt) {
+  sendUserInfoToClient(user: UserDocument | FindUserOpt): UserDocument | Promise<UserDocument> {
     if (this.isUserDocument(user)) {
       const { password, ...retUser } = user;
-      return retUser;
+      return retUser as UserDocument;
     }
 
     return this.userRepository.findOne(user, { _id: 0, _v: 0, password: 0 });
   }
 
-  async updateOne(user: UpdateUserDto) {
+  async updateOne(user: UpdateUserDto): Promise<void> {
     const { _id, ...updateUser } = user;
+    if (!_id) throw new BadRequestException();
     await this.userRepository.findOneAndUpdate({ _id: new Types.ObjectId(_id) }, updateUser);
   }
 

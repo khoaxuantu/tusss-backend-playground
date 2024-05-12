@@ -21,7 +21,7 @@ export class UserRepository {
   }
 
   findOneAndUpdate(filter: FindUserOpt, update: UpdateUserDto): Promise<UserDocument> {
-    return this.userModel.findOneAndUpdate(filter, { $set: update }, {
+    return this.userModel.findOneAndUpdate(filter, update, {
       projection: { __v: 0, password: 0 },
       returnDocument: "after",
     }).exec();

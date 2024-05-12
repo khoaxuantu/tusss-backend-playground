@@ -2,6 +2,7 @@ import { CreateUserDto } from "@/auth/dto/create_user.dto";
 import { UserDtoStub } from "@/auth/test/stub/create_user.dto.stub";
 import { UpdateUserDto } from "@/user/dto/update_user.dto";
 import { userDocumentStub } from "@test/stubs/users.stub";
+import { Types } from "mongoose";
 
 export class UpdateUserDtoStub extends UserDtoStub {
   _id: string;
@@ -14,5 +15,10 @@ export class UpdateUserDtoStub extends UserDtoStub {
     const { _id, ...updateProps } = props as UpdateUserDto;
     this._id = _id;
     super.create(updateProps as CreateUserDto);
+  }
+
+  withObjectId(id: string) {
+    this._id = id;
+    return this;
   }
 }

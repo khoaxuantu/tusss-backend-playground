@@ -1,6 +1,6 @@
 import { Role } from '@/auth/constant/role.constant';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IsEmail, IsPhoneNumber, IsStrongPassword } from 'class-validator';
+import { IsEmail, IsPhoneNumber, IsPositive, IsStrongPassword, Max } from 'class-validator';
 import { HydratedDocument } from 'mongoose';
 
 export type UserDocument = HydratedDocument<User>;
@@ -16,12 +16,12 @@ export class User {
   @Prop({ index: true })
   lastname?: string;
 
-  @IsEmail()
   @Prop({ required: true, unique: true, index: true })
+  @IsEmail()
   email: string;
 
-  @IsPhoneNumber()
   @Prop()
+  @IsPhoneNumber()
   phone_number?: string;
 
   @Prop()
@@ -30,17 +30,18 @@ export class User {
   @Prop({ index: true })
   city?: string;
 
-  @IsStrongPassword()
   @Prop({ required: true })
   password: string;
 
   @Prop({ index: true })
+  @Max(200)
+  @IsPositive()
   age?: number;
 
   @Prop({ index: true })
   nationality?: string;
 
-  @Prop({ required: true, index: true })
+  @Prop({ index: true })
   updated_at: Date;
 
   @Prop()

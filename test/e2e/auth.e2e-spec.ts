@@ -42,7 +42,9 @@ describe('AuthController (e2e)', () => {
     describe('if valid input', () => {
       it('should create a new user', async () => {
         let dto = userDto();
-        return subject(dto).expect(201);
+        return subject(dto)
+          .expect(HttpStatus.CREATED)
+          .then((res) => console.log(res.text));
       });
     });
 
@@ -60,7 +62,7 @@ describe('AuthController (e2e)', () => {
             describe(entry[0], () => {
               it('should return validation error', () => {
                 dto.password = InvalidPasswordStub.create(entry[1] as InvalidPasswordCase);
-                return subject(dto).expect(400);
+                return subject(dto).expect(HttpStatus.BAD_REQUEST);
               });
             });
           });
@@ -69,14 +71,14 @@ describe('AuthController (e2e)', () => {
       describe('with name', () => {
         it('should return validation error', () => {
           dto.name = undefined;
-          return subject(dto).expect(400);
+          return subject(dto).expect(HttpStatus.BAD_REQUEST);
         });
       });
 
       describe('with mail', () => {
         it('should return validation error', () => {
           dto.email = undefined;
-          return subject(dto).expect(400);
+          return subject(dto).expect(HttpStatus.BAD_REQUEST);
         });
       });
     });

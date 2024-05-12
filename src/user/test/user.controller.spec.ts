@@ -60,8 +60,8 @@ describe('UserController', () => {
 
     test('update', async () => {
       const dto = updateUserDto();
-      const res: any = await controller.updateProfile(dto);
-      expect(res.result).toEqual('Success');
+      const res = await controller.updateProfile(dto);
+      expect(res.status).toEqual('success');
     })
   })
 });

@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Request } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Request } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from './user.service';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UpdateUserDto } from './dto/update_user.dto';
+import { SuccessApiResponseMessage } from '@/lib/dto/response.dto';
 
 @Controller('user')
 @ApiTags('User')
@@ -30,13 +31,16 @@ export class UserController {
     return req.user;
   }
 
-  @Get('profile/update')
+  @Patch('profile/update')
   @ApiBearerAuth()
-  async updateProfile(@Body() user: UpdateUserDto) {
+  @ApiBody({ type: UpdateUserDto })
+  @ApiOkResponse({ type: SuccessApiResponseMessage<string> })
+  async updateProfile(@Body() user: UpdateUserDto): Promise<SuccessApiResponseMessage<string>> {
+    console.log("🚀 ~ UserController ~ updateProfile ~ user:", user)
     await this.userService.updateOne(user);
 
     return {
-      result: 'Success',
+      status: 'success',
       message: 'Profile updated successfully!',
     };
   }

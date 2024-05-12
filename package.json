@@ -17,7 +17,7 @@
     "test:watch": "jest --watch",
     "test:cov": "node --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:e2e": "node --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage --config ./test/jest-e2e.json",
     "console": "nest start --entryFile repl"
   },
   "dependencies": {
@@ -94,7 +94,12 @@
       "models/"
     ],
     "coverageDirectory": "./test/coverage",
-    "coverageReporters": ["json", "lcov", "text", "html"],
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "html"
+    ],
     "testEnvironment": "node"
   }
 }
