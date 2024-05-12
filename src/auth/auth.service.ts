@@ -15,8 +15,8 @@ export class AuthService {
   async validate(props: SignInDto): Promise<Omit<UserDocument, 'password'>> {
     const user = await this.userService.getOneByEmail(props.email);
     if (user?.password != props.password) throw new UnauthorizedException();
-    const { password: _, ...retUser } = user;
-    return retUser as UserDocument;
+    user.password = undefined;
+    return user;
   }
 
   async signIn(user: UserDocument) {

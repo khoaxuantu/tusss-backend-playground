@@ -10,7 +10,7 @@ export class CommonUserFactory implements UserFactory {
 
   create<User>(user: User) {
     const newUser = new this.userModel(user);
-    newUser.joined_date = new Date();
+    newUser.updated_at = new Date();
     return newUser;
   }
 }

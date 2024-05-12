@@ -27,8 +27,8 @@ export class UserService {
 
   async sendUserInfoToClient(user: UserDocument | FindUserOpt) {
     if (this.isUserDocument(user)) {
-      user.password = undefined;
-      return user;
+      const { password, ...retUser } = user;
+      return retUser;
     }
 
     return this.userRepository.findOne(user, { _id: 0, _v: 0, password: 0 });
