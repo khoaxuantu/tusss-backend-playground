@@ -8,7 +8,7 @@ import { UserModelMock } from '@test/mock/model/mongodb/user.mock';
 describe('CommonUserFactory', () => {
   let commonUserFactory: CommonUserFactory;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         CommonUserFactory,

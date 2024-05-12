@@ -7,14 +7,13 @@ import { FindUserOpt } from './interface/find_user.interface';
 import { UserModelMock } from '@test/mock/model/mongodb/user.mock';
 import { UpdateUserDtoStub } from '@/user/test/stubs/update_user.dto.stub';
 import { Types } from 'mongoose';
-import { UpdateUserDto } from '@/user/dto/update_user.dto';
 
 const CORRECT_DOCUMENT = 'should return correct document';
 
 describe('UserRepository', () => {
   let repository: UserRepository;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         UserRepository,

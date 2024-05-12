@@ -14,7 +14,7 @@ describe('AuthController', () => {
   let savedUser: User;
   let userDto: UserDtoStub;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     userDto = new UserDtoStub();
     savedUser = userStub(userDto.password);
 

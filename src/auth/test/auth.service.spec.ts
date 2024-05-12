@@ -11,7 +11,7 @@ import { accessTokenStub } from './stub/jwt.stub';
 describe('AuthService', () => {
   let service: AuthService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
