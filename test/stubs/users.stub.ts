@@ -1,3 +1,4 @@
+import { Role } from '@/auth/constant/role.constant';
 import { User, UserDocument } from '@/user/schema/user.schema';
 import { Types } from 'mongoose';
 
@@ -11,7 +12,8 @@ export const userStub = (pwd?: string): User => {
     nationality: 'Vietnam',
     city: 'Hanoi',
     address: 'No. 123 Something street, Unknown district',
-    phone_number: '0123456789'
+    phone_number: '0123456789',
+    roles: [Role.User],
   };
 };
 

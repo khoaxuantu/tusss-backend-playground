@@ -1,3 +1,4 @@
+import { Role } from '@/auth/constant/role.constant';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsEmail, IsPhoneNumber, IsStrongPassword } from 'class-validator';
 import { HydratedDocument } from 'mongoose';
@@ -41,9 +42,18 @@ export class User {
 
   @Prop({ required: true, index: true })
   updated_at: Date;
+
+  @Prop()
+  roles: Role[];
+
+  isAdmin?() {
+    return this.roles.includes(Role.Admin);
+  };
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.loadClass(User);
 
 UserSchema.pre<UserDocument>('save', function (this, next) {
   this.updated_at = new Date();

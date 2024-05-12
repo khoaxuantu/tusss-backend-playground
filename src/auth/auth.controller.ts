@@ -14,7 +14,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { SignInDto } from './dto/sign_in.dto';
 import { AuthService } from './auth.service';
-import { Public } from './auth.constant';
+import { Public } from './decorator/auth.decorator';
 
 @Controller()
 export class AuthController {
