@@ -12,11 +12,11 @@ export class UserDtoStub extends CreateUserDto {
   }
 
   create(
-    props: CreateUserDto = {
+    props: any = {
       name: UserDtoStub.info.name,
       email: UserDtoStub.info.email,
       password: UserDtoStub.info.password,
-    },
+    } as CreateUserDto,
   ) {
     Object.assign(this, props);
   }
@@ -34,6 +34,16 @@ export class UserDtoStub extends CreateUserDto {
   withFullName({ firstname, lastname } = UserDtoStub.info) {
     this.firstname = firstname;
     this.lastname = lastname;
+    return this;
+  }
+
+  withEmail(email: string) {
+    this.email = email;
+    return this;
+  }
+
+  withPhoneNumber(phoneNumber: string) {
+    this.phone_number = phoneNumber;
     return this;
   }
 

@@ -14,8 +14,12 @@ export class UserService {
     private userRepository: UserRepository,
   ) {}
 
-  saveOne(user: CreateUserDto) {
-    this.userFactory.create(user);
+  async saveOne(user: CreateUserDto) {
+    try {
+      await this.userFactory.create(user);
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 
   getOneByUsername(name: string): Promise<UserDocument> {
@@ -42,6 +46,6 @@ export class UserService {
   }
 
   private isUserDocument(user: UserDocument | FindUserOpt): user is UserDocument {
-    return (user as User).updated_at !== undefined;
+    return (user as User).updatedAt !== undefined;
   }
 }

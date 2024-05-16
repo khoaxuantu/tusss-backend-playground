@@ -4,10 +4,10 @@ import { CommonUserFactory } from '@/lib/factory/user/common_user';
 import { User } from '@/user/schema/user.schema';
 import { UpdateUserDtoStub } from '@/user/test/stubs/update_user.dto.stub';
 import { UserModule } from '@/user/user.module';
-import { HttpStatus, INestApplication } from '@nestjs/common';
+import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
-import { Model } from 'mongoose';
+import { Model, ObjectId, Types } from 'mongoose';
 import * as request from 'supertest';
 
 describe('UserController (e2e)', () => {
@@ -23,6 +23,8 @@ describe('UserController (e2e)', () => {
     app = moduleRef.createNestApplication();
     userFactory = moduleRef.get<CommonUserFactory>(CommonUserFactory);
     userModel = moduleRef.get<Model<User>>(getModelToken(User.name));
+
+    app.useGlobalPipes(new ValidationPipe());
 
     await app.init();
   });
@@ -41,25 +43,44 @@ describe('UserController (e2e)', () => {
     let subject = () => {
       return request(app.getHttpServer()).patch('/user/profile/update');
     };
-    let dto: UserDtoStub;
     let updateDto: UpdateUserDtoStub;
+    let id: Types.ObjectId;
 
     beforeAll(async () => {
-      dto = new UserDtoStub().withAll();
+      const dto = new UserDtoStub().withAll();
       const res = await userFactory.create(dto);
-      updateDto = new UpdateUserDtoStub().withObjectId(res._id.toString());
+      id = res._id;
     });
 
+    beforeEach(() => {
+      updateDto = new UpdateUserDtoStub().withObjectId(id.toString());
+    })
+
     describe('when invalid body', () => {
-      test('due to _id', () => {
+      test('due to _id', async () => {
         const { _id, ...tmp } = updateDto;
         return subject()
           .send(tmp)
           .expect(HttpStatus.BAD_REQUEST)
           .then((res) => console.log(res.body));
       });
-      test.todo('due to email');
-      test.todo('due to phone number');
+
+      test('due to email', async () => {
+        const tmp = updateDto.withEmail("lmao");
+        return subject()
+          .send(tmp)
+          .expect(HttpStatus.BAD_REQUEST)
+          .then((res) => console.log(res.body));
+      });
+
+      test('due to phone number', async () => {
+        const tmp = updateDto.withPhoneNumber("99922220000abc");
+        return subject()
+          .send(tmp)
+          .expect(HttpStatus.BAD_REQUEST)
+          .then((res) => console.log(res.body));
+      });
+
       describe('due to age', () => {});
     });
 
