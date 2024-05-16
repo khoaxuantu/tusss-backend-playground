@@ -54,34 +54,41 @@ describe('UserController (e2e)', () => {
 
     beforeEach(() => {
       updateDto = new UpdateUserDtoStub().withObjectId(id.toString());
-    })
+    });
 
     describe('when invalid body', () => {
-      test('due to _id', async () => {
-        const { _id, ...tmp } = updateDto;
-        return subject()
+      let doTest = (tmp: any) =>
+        subject()
           .send(tmp)
           .expect(HttpStatus.BAD_REQUEST)
           .then((res) => console.log(res.body));
+
+      test('due to _id', async () => {
+        const { _id, ...tmp } = updateDto;
+        return doTest(tmp);
       });
 
       test('due to email', async () => {
-        const tmp = updateDto.withEmail("lmao");
-        return subject()
-          .send(tmp)
-          .expect(HttpStatus.BAD_REQUEST)
-          .then((res) => console.log(res.body));
+        const tmp = updateDto.withEmail('lmao');
+        return doTest(tmp);
       });
 
       test('due to phone number', async () => {
-        const tmp = updateDto.withPhoneNumber("99922220000abc");
-        return subject()
-          .send(tmp)
-          .expect(HttpStatus.BAD_REQUEST)
-          .then((res) => console.log(res.body));
+        const tmp = updateDto.withPhoneNumber('99922220000abc');
+        return doTest(tmp);
       });
 
-      describe('due to age', () => {});
+      describe('due to age', () => {
+        test('negative input', async () => {
+          const tmp = updateDto.withAge(-1);
+          return doTest(tmp);
+        });
+
+        test('too large input', async () => {
+          const tmp = updateDto.withAge(1000);
+          return doTest(tmp);
+        })
+      });
     });
 
     describe('when valid body', () => {
