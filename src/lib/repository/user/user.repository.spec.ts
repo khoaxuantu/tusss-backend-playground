@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 import { User } from '@/user/schema/user.schema';
 import { userDocumentNoIdStub, userDocumentStub } from '@test/stubs/users.stub';
 import { getModelToken } from '@nestjs/mongoose';
-import { FindUserOpt } from './interface/find_user.interface';
+import { FindUserOpt } from './interfaces/find_user.interface';
 import { UserModelMock } from '@test/mock/model/mongodb/user.mock';
 import { UpdateUserDtoStub } from '@/user/test/stubs/update_user.dto.stub';
 import { Types } from 'mongoose';

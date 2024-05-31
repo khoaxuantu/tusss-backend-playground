@@ -20,7 +20,7 @@ export class UserController {
     return "This is the User's entry route";
   }
 
-  @Get(':id')
+  @Get('find/:id')
   getOne(@Param('id') userId: string) {
     return `Get one user`;
   }

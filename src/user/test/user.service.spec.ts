@@ -2,10 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from '../user.service';
 import { CommonUserFactory } from '@/lib/factory/user/common_user';
 import { userDocumentStub, userStub, userToClientStub } from '@test/stubs/users.stub';
-import { getModelToken } from '@nestjs/mongoose';
-import { User, UserDocument } from '@/user/schema/user.schema';
+import { UserDocument } from '@/user/schema/user.schema';
 import { UserRepository } from '@/lib/repository/user/user.repository';
-import { FindUserOpt } from '@/lib/repository/user/interface/find_user.interface';
+import { FindUserOpt } from '@/lib/repository/user/interfaces/find_user.interface';
 import { UpdateUserDtoStub } from './stubs/update_user.dto.stub';
 
 describe('UserService', () => {

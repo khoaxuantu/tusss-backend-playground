@@ -1,6 +1,6 @@
 import { CreateUserDto } from '@/auth/dto/create_user.dto';
 import { CommonUserFactory } from '@/lib/factory/user/common_user';
-import { FindUserOpt } from '@/lib/repository/user/interface/find_user.interface';
+import { FindUserOpt } from '@/lib/repository/user/interfaces/find_user.interface';
 import { UserRepository } from '@/lib/repository/user/user.repository';
 import { User, UserDocument } from '@/user/schema/user.schema';
 import { BadRequestException, Injectable } from '@nestjs/common';
