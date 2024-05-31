@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
@@ -17,7 +20,7 @@ async function bootstrap() {
 
   setUpSwagger(app);
 
-  await app.listen(3000);
+  await app.listen(5000);
 }
 
 function setPreConfig() {

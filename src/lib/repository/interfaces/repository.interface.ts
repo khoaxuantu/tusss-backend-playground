@@ -15,7 +15,7 @@ interface FilterProps<T> {
   skip?: number;
 }
 
-export abstract class AbstractRepository<T extends HydratedDocument<any>> {
+export abstract class AbstractModelRepository<T extends any> {
   constructor(protected model: Model<any>) {}
 
   findOneAndUpdate(
