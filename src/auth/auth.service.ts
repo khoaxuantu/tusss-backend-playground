@@ -20,7 +20,11 @@ export class AuthService {
   }
 
   async signIn(user: UserDocument) {
-    const payload: IJwtPayload = { sub: user._id.toString(), username: user.name };
+    const payload: IJwtPayload = {
+      sub: user._id.toString(),
+      username: user.name,
+      roles: user.roles,
+    };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
