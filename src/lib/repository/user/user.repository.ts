@@ -9,8 +9,4 @@ export class UserRepository extends AbstractModelRepository<UserDocument> {
   constructor(@InjectModel(User.name) userModel: Model<User>) {
     super(userModel);
   }
-
-  findById(id: string | Types.ObjectId, projection = {}): Promise<UserDocument> {
-    return this.model.findById(id, projection).exec();
-  }
 }

@@ -1,6 +1,5 @@
 import {
   FilterQuery,
-  HydratedDocument,
   Model,
   PipelineStage,
   ProjectionType,
@@ -8,8 +7,10 @@ import {
   UpdateQuery,
 } from 'mongoose';
 
-interface FilterProps<T> {
-  sort?: Record<string, 1 | -1>;
+export type SortProps = Record<string, 1 | -1>;
+
+export interface FilterProps<T> {
+  sort?: SortProps;
   limit?: number;
   match: FilterQuery<T>;
   skip?: number;
@@ -45,5 +46,13 @@ export abstract class AbstractModelRepository<T extends any> {
     if (props.limit) aggregatePipeline.push({ $limit: props.limit });
 
     return this.model.aggregate(aggregatePipeline).exec();
+  }
+
+  findById(
+    id: string,
+    projection: ProjectionType<T> = { __v: 0, password: 0},
+    options: QueryOptions<T> = {}
+  ): Promise<T> {
+    return this.model.findById(id, projection, options).exec();
   }
 }

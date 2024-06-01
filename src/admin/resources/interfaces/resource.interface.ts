@@ -1,10 +1,14 @@
-import { Role } from "@/auth/constant/role.constant";
-import { Roles } from "@/auth/decorator/role.decorator";
-import { AbstractModelFactory } from "@/lib/factory/interfaces/factory.interface";
-import { AbstractModelRepository } from "@/lib/repository/interfaces/repository.interface";
-import { Delete, Get, Patch, Post } from "@nestjs/common";
-import { ApiBearerAuth } from "@nestjs/swagger";
+import { Role } from '@/auth/constant/role.constant';
+import { Roles } from '@/auth/decorator/role.decorator';
+import { AbstractModelFactory } from '@/lib/factory/interfaces/factory.interface';
+import { AbstractModelRepository } from '@/lib/repository/interfaces/repository.interface';
+import { Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { ResourceReadDto } from '../dto/read.dto';
+import { GetListDtoAdapter, GetManyDtoAdapter } from '../adapters/dto.adapters';
 
+@Roles(Role.Admin)
+@ApiBearerAuth()
 export abstract class AbstractResourceController {
   constructor(
     protected repository: AbstractModelRepository<any>,
@@ -12,32 +16,39 @@ export abstract class AbstractResourceController {
   ) {}
 
   @Get()
-  @Roles(Role.Admin)
-  @ApiBearerAuth()
-  async getList() {}
+  @ApiQuery({ name: 'filter', required: false })
+  @ApiQuery({ name: 'id', required: false, isArray: true })
+  @ApiQuery({ type: ResourceReadDto })
+  async list(@Query() query: Record<string, any>) {
+    switch (query.read_type) {
+      case 'list':
+        const { paginateParams, filterParams } = GetListDtoAdapter.parse(query);
+        console.log(
+          '🚀 ~ AbstractResourceController ~ list ~ filterParams:',
+          JSON.stringify(filterParams),
+        );
+        console.log('🚀 ~ AbstractResourceController ~ list ~ paginateParams:', paginateParams);
+        break;
 
-  @Get()
-  @Roles(Role.Admin)
-  @ApiBearerAuth()
-  async getMany() {}
+      case 'many':
+        const ids = GetManyDtoAdapter.parse(query);
+        console.log('🚀 ~ AbstractResourceController ~ list ~ ids:', ids);
+        break;
+
+      default:
+        break;
+    }
+  }
 
   @Post()
-  @Roles(Role.Admin)
-  @ApiBearerAuth()
   async create() {}
 
   @Patch()
-  @Roles(Role.Admin)
-  @ApiBearerAuth()
   async update() {}
 
-  @Get()
-  @Roles(Role.Admin)
-  @ApiBearerAuth()
-  async getOne() {}
+  @Get(':id')
+  async getOne(@Param('id') id: string) {}
 
   @Delete()
-  @Roles(Role.Admin)
-  @ApiBearerAuth()
   async deleteOne() {}
 }

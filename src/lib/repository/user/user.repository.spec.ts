@@ -70,7 +70,7 @@ describe('UserRepository', () => {
   });
 
   test('findById()', async () => {
-    let id = userDocumentStub()._id;
+    let id = userDocumentStub()._id.toString();
     expect(await repository.findById(id)).toEqual(userDocumentStub());
   });
 
