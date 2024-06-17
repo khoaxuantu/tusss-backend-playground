@@ -1,4 +1,4 @@
-import { FilterProps, SortProps } from '@/lib/repository/interfaces/repository.interface';
+import { FilterProps } from '@/lib/repository/interfaces/repository.interface';
 import { ResourcePaginateDto, ResourceReadDto } from '../dto/read.dto';
 import { AdminResourceDtoAdapter } from '../interfaces/adapter.interface';
 import { FilterQuery } from 'mongoose';
@@ -24,11 +24,11 @@ export class GetListDtoAdapter extends AdminResourceDtoAdapter {
     const result: ParsePaginateProps = {
       sort: {},
       skip: props._start ? props._start - 1 : 0,
-      limit: props._start && props._end ? props._end - props._start : 10,
+      limit: props._start >= 0 && props._end > props._start ? props._end - props._start + 1 : 10,
     };
 
     sortArr.forEach((prop, index) => {
-      result.sort[prop] = orderArr[index] == 'asc' ? 1 : -1;
+      result.sort[prop] = orderArr[index] == 'desc' ? -1 : 1;
     });
 
     return result;
@@ -55,8 +55,7 @@ export class GetListDtoAdapter extends AdminResourceDtoAdapter {
   private static parseFilter(filter: Record<string, any> & { or?: string }): FilterQuery<any> {
     const filterQuery: FilterQuery<any> = {};
 
-    if (filter['or']) {
-      console.log("🚀 ~ GetListDtoAdapter ~ parseFilter ~ filter['or']:", filter['or'])
+    if (filter['or'] && filter['or'] != '') {
       const orExpressions = filter['or'].split(';');
       filterQuery.$or = orExpressions.map((expression) => {
         const [fieldAndOperator, value] = expression.split('=');
@@ -65,9 +64,9 @@ export class GetListDtoAdapter extends AdminResourceDtoAdapter {
       delete filter['or'];
     }
 
-    filterQuery.$and = Object.entries(filter).map((expresion) => {
-      return this.parseExpression(...expresion);
-    })
+    filterQuery.$and = Object.entries(filter)
+      .filter((expression) => expression[0] != 'or')
+      .map((expresion) => this.parseExpression(...expresion));
 
     return filterQuery;
   }
@@ -80,14 +79,22 @@ export class GetListDtoAdapter extends AdminResourceDtoAdapter {
    *                   { field: { operator: value } }
    *                   ```
    */
-  private static parseExpression(fieldAndOperator: string, value: any) {
-    const arr = fieldAndOperator.split("_");
+  private static parseExpression(fieldAndOperator: string, value: string) {
+    const arr = fieldAndOperator.split('_');
     const operator = arr[arr.length - 1];
-    const field = arr.slice(0, -1).join("_");
+    const field = arr.slice(0, -1).join('_');
     const tmp = {};
     tmp[field] = {};
-    tmp[field]["$" + operator] = value;
+    tmp[field]['$' + operator] = this.parseValue(value);
     return tmp;
+  }
+
+  private static parseValue(value: string) {
+    try {
+      return JSON.parse(value)
+    } catch (error) {
+      return value;
+    }
   }
 }
 
