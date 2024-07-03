@@ -1,10 +1,9 @@
+import { RESOURCE_READ_TYPE } from '../../constant/common';
 import { ResourceReadDto } from '../../dto/read.dto';
 
-type ResourceDtoStub = Partial<ResourceReadDto> & Record<string, any>;
-
-export const resourceListDtoStub = (override?: ResourceDtoStub): ResourceDtoStub => {
+export const resourceListDtoStub = (override?: Record<string, any>): ResourceReadDto => {
   return {
-    read_type: 'list',
+    read_type: RESOURCE_READ_TYPE.LIST,
     _order: '',
     _end: 20,
     _sort: '',
@@ -13,9 +12,9 @@ export const resourceListDtoStub = (override?: ResourceDtoStub): ResourceDtoStub
   };
 };
 
-export const ResourceManyDtoStub = (override?: ResourceDtoStub): ResourceDtoStub => {
+export const ResourceManyDtoStub = (override?: Record<string, any>): ResourceReadDto => {
   return {
-    read_type: 'many',
+    read_type: RESOURCE_READ_TYPE.MANY,
     ...override,
   };
 };

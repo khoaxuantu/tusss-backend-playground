@@ -1,7 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsOptional } from "class-validator";
-
-type ReadType = 'list' | 'one' | 'many';
+import { IsArray, IsEnum, IsOptional, ValidateNested } from "class-validator";
+import { RESOURCE_READ_TYPE } from "../constant/common";
 
 export class ResourcePaginateDto {
   @ApiPropertyOptional()
@@ -21,7 +20,21 @@ export class ResourcePaginateDto {
   _order?: string;
 }
 
-export class ResourceReadDto extends ResourcePaginateDto {
-  @ApiProperty()
-  read_type: ReadType;
+export class ResourceReadDto<T = any> extends ResourcePaginateDto {
+  @ApiProperty({ enum: RESOURCE_READ_TYPE })
+  @IsEnum(RESOURCE_READ_TYPE)
+  read_type: RESOURCE_READ_TYPE;
+
+  @ApiPropertyOptional({ isArray: true })
+  @IsOptional()
+  @IsArray()
+  ids?: string[];
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  $or?: T;
+
+  @ValidateNested()
+  @IsOptional()
+  filter?: T;
 }

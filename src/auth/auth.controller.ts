@@ -37,7 +37,7 @@ export class AuthController {
   @ApiBody({
     type: SignInDto,
     examples: {
-      login_dto: { value: JSON.stringify({ email: 'tusss@tusss.com', password: '1@!33sdjifHH' }) },
+      login_dto: { value: JSON.stringify({ email: 'tusss@tusss.com', password: 'lmaoEz@2000' }) },
     },
   })
   @ApiOkResponse()
