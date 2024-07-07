@@ -1,19 +1,21 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModuleAsyncOptions } from '@nestjs/mongoose';
 import { DatabaseConfiguration } from '../configuration';
+import { TDatabaseConfiguration } from '../configuration.type';
 
 export const connectMongo = (): MongooseModuleAsyncOptions => {
   return {
     useFactory: async (config: ConfigService) => {
-      console.log(config.get<string>('mongodb.uri'));
-      console.log(config.get('mongodb.database'));
+      const mongoConfig: TDatabaseConfiguration["mongodb"] = config.get('mongodb');
+      console.log(mongoConfig.uri);
+      console.log(mongoConfig.database);
 
       return {
-        uri: config.get('mongodb.uri'),
-        dbName: config.get('mongodb.database'),
+        uri: mongoConfig.uri,
+        dbName: mongoConfig.database,
       };
     },
-    imports: [ConfigModule.forRoot({ load: [DatabaseConfiguration] })],
+    imports: [ConfigModule.forFeature(DatabaseConfiguration)],
     inject: [ConfigService],
   };
 };

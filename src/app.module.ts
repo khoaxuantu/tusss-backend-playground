@@ -11,14 +11,16 @@ import { JwtAuthGuard } from './auth/guard/jwt_auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './auth/guard/roles.guard';
 import { AdminModule } from './admin/admin.module';
+import { BlogModule } from './blog/blog.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ load: [CommonConfiguration] }),
+    ConfigModule.forRoot({ load: [CommonConfiguration], cache: true }),
     MongooseModule.forRootAsync(connectMongo()),
     UserModule,
     AuthModule,
     AdminModule,
+    BlogModule,
   ],
   controllers: [AppController],
   providers: [
