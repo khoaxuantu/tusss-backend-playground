@@ -4,6 +4,7 @@ import { ResourceReadDto } from '../dto/read.dto';
 import { RESOURCE_READ_TYPE } from '../constant/common';
 import { GetListDtoAdapter, GetManyDtoAdapter } from '../adapters/dto.adapters';
 import { InvalidParamsException } from '@/lib/exception/invalid-param.exception';
+import { printDeepObject } from '@/lib/helper/print.helper';
 
 type ParsePaginateProps = Omit<FilterProps<any>, 'match'>;
 type ParseFilterProps = Record<string, any>;
@@ -17,8 +18,8 @@ interface ListQueryProps {
 export class ParseListQueryPipe
   implements PipeTransform<ResourceReadDto, ListQueryProps | string[]>
 {
-  transform(value: ResourceReadDto<any>, metadata: ArgumentMetadata): ListQueryProps | string[] {
-    console.log("🚀 ~ transform ~ value:", value)
+  transform(value: ResourceReadDto, metadata: ArgumentMetadata): ListQueryProps | string[] {
+    printDeepObject(value, ParseListQueryPipe.name);
     switch (value.read_type) {
       case RESOURCE_READ_TYPE.LIST:
         return GetListDtoAdapter.parse(value);
