@@ -1,7 +1,7 @@
 import { RESOURCE_READ_TYPE } from '../../constant/common';
-import { ResourceReadDto } from '../../dto/read.dto';
+import { AbstractResourceReadDto } from '../../dto/read.dto';
 
-export const resourceListDtoStub = (override?: Record<string, any>): ResourceReadDto => {
+export const resourceListDtoStub = (override?: Record<string, any>): AbstractResourceReadDto => {
   return {
     read_type: RESOURCE_READ_TYPE.LIST,
     _order: '',
@@ -12,7 +12,7 @@ export const resourceListDtoStub = (override?: Record<string, any>): ResourceRea
   };
 };
 
-export const ResourceManyDtoStub = (override?: Record<string, any>): ResourceReadDto => {
+export const ResourceManyDtoStub = (override?: Record<string, any>): AbstractResourceReadDto => {
   return {
     read_type: RESOURCE_READ_TYPE.MANY,
     ...override,

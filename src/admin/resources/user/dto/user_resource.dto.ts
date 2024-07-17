@@ -1,60 +1,85 @@
 import { ApiPropertyOptional, IntersectionType } from '@nestjs/swagger';
 import { ResourceReadDto } from '../../dto/read.dto';
 import { Types } from 'mongoose';
-import { MongoFilterDto } from '../../dto/mongo.dto';
+import { CreateMongoFilterDtoWith } from '../../dto/mongo.dto';
 import { IsDate, IsEmail, IsEnum, IsOptional, IsPhoneNumber, ValidateNested } from 'class-validator';
 import { Role } from '@/auth/constant/role.constant';
+import { Type } from 'class-transformer';
+
+class MongoFilterAge extends CreateMongoFilterDtoWith(Number) {}
+class MongoFilterString extends CreateMongoFilterDtoWith(String) {}
+class MongoFilterDate extends CreateMongoFilterDtoWith(Date) {}
+class MongoFilterObjectId extends CreateMongoFilterDtoWith(Types.ObjectId) {}
 
 export class UserResourceDto {
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: MongoFilterObjectId })
   @IsOptional()
   @ValidateNested()
-  _id?: MongoFilterDto<Types.ObjectId>;
+  @Type(() => MongoFilterObjectId)
+  _id?: MongoFilterObjectId;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: MongoFilterString })
   @IsOptional()
-  firstname?: MongoFilterDto<string>;
+  @ValidateNested()
+  @Type(() => MongoFilterString)
+  firstname?: MongoFilterString;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: MongoFilterString })
   @IsOptional()
-  lastname?: MongoFilterDto<string>;
+  @ValidateNested()
+  @Type(() => MongoFilterString)
+  lastname?: MongoFilterString;
 
   @ApiPropertyOptional()
   @IsEmail()
   @IsOptional()
-  email?: MongoFilterDto<string>;
+  @ValidateNested()
+  @Type(() => MongoFilterString)
+  email?: MongoFilterString;
 
   @ApiPropertyOptional()
   @IsPhoneNumber()
   @IsOptional()
-  phone_number?: MongoFilterDto<string>;
+  @ValidateNested()
+  @Type(() => MongoFilterString)
+  phone_number?: MongoFilterString;
 
   @ApiPropertyOptional()
   @IsOptional()
-  address?: MongoFilterDto<string>;
+  @ValidateNested()
+  @Type(() => MongoFilterString)
+  address?: MongoFilterString;
 
   @ApiPropertyOptional()
   @IsOptional()
-  city?: MongoFilterDto<string>;
+  @ValidateNested()
+  @Type(() => MongoFilterString)
+  city?: MongoFilterString;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: MongoFilterAge })
   @IsOptional()
-  age?: MongoFilterDto<number>;
+  @ValidateNested()
+  @Type(() => MongoFilterAge)
+  age?: MongoFilterAge;
 
   @ApiPropertyOptional({ enum: Role, isArray: true })
   @IsEnum(Role)
   @IsOptional()
   roles?: Role[];
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: MongoFilterDate })
   @IsDate()
   @IsOptional()
-  updatedAt?: MongoFilterDto<Date>;
+  @ValidateNested()
+  @Type(() => MongoFilterDate)
+  updatedAt?: MongoFilterDate;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: MongoFilterDate })
   @IsDate()
   @IsOptional()
-  createdAt?: MongoFilterDto<Date>;
+  @ValidateNested()
+  @Type(() => MongoFilterDate)
+  createdAt?: MongoFilterDate;
 }
 
-export class ListUserResourceDto extends ResourceReadDto<UserResourceDto> {}
+export class ListUserResourceDto extends ResourceReadDto(UserResourceDto) {}

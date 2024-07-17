@@ -1,12 +1,12 @@
 import { FilterProps } from '@/lib/repository/interfaces/repository.interface';
-import { ResourcePaginateDto, ResourceReadDto } from '../dto/read.dto';
+import { AbstractResourceReadDto, ResourcePaginateDto } from '../dto/read.dto';
 import { AdminResourceDtoAdapter } from '../interfaces/adapter.interface';
 
 type ParsePaginateProps = Omit<FilterProps<any>, 'match'>;
 type ParseFilterProps = Record<string, any>;
 
 export class GetListDtoAdapter extends AdminResourceDtoAdapter {
-  static override parse(query: ResourceReadDto): {
+  static override parse(query: AbstractResourceReadDto): {
     paginateParams: ParsePaginateProps;
     filterParams: ParseFilterProps;
   } {
@@ -35,7 +35,7 @@ export class GetListDtoAdapter extends AdminResourceDtoAdapter {
 }
 
 export class GetManyDtoAdapter extends AdminResourceDtoAdapter {
-  static override parse(query: ResourceReadDto): string[] {
+  static override parse(query: AbstractResourceReadDto): string[] {
     return query.ids;
   }
 }
