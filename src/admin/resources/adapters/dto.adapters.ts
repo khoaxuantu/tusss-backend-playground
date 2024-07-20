@@ -1,15 +1,18 @@
 import { FilterProps } from '@/lib/repository/interfaces/repository.interface';
 import { AbstractResourceReadDto, ResourcePaginateDto } from '../dto/read.dto';
 import { AdminResourceDtoAdapter } from '../interfaces/adapter.interface';
+import { FilterQuery } from 'mongoose';
 
 type ParsePaginateProps = Omit<FilterProps<any>, 'match'>;
-type ParseFilterProps = Record<string, any>;
+type ParseFilterProps = FilterQuery<any>;
+
+export interface GetListDtoAdapterResProps {
+  paginateParams: ParsePaginateProps;
+  filterParams: ParseFilterProps;
+}
 
 export class GetListDtoAdapter extends AdminResourceDtoAdapter {
-  static override parse(query: AbstractResourceReadDto): {
-    paginateParams: ParsePaginateProps;
-    filterParams: ParseFilterProps;
-  } {
+  static override parse(query: AbstractResourceReadDto): GetListDtoAdapterResProps {
     const { read_type, _start, _end, _sort, _order, ...filterParams } = query;
     return {
       paginateParams: this.parsePaginate({ _start, _end, _sort, _order }),

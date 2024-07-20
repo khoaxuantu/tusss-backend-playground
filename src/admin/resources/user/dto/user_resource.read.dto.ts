@@ -1,4 +1,4 @@
-import { ApiPropertyOptional, IntersectionType } from '@nestjs/swagger';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import { ResourceReadDto } from '../../dto/read.dto';
 import { Types } from 'mongoose';
 import { CreateMongoFilterDtoWith } from '../../dto/mongo.dto';

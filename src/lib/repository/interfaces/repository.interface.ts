@@ -35,7 +35,10 @@ export abstract class AbstractModelRepository<T extends any> {
     return this.model.findOne(filter, projection, options).exec();
   }
 
-  deleteOne(filter: FilterQuery<T>, options: QueryOptions<T>): Promise<T> {
+  deleteOne(
+    filter: FilterQuery<T>,
+    options: QueryOptions<T> = { returnDocument: 'after' },
+  ): Promise<T> {
     return this.model.findOneAndDelete(filter, options);
   }
 
@@ -50,8 +53,8 @@ export abstract class AbstractModelRepository<T extends any> {
 
   findById(
     id: string,
-    projection: ProjectionType<T> = { __v: 0, password: 0},
-    options: QueryOptions<T> = {}
+    projection: ProjectionType<T> = { __v: 0, password: 0 },
+    options: QueryOptions<T> = {},
   ): Promise<T> {
     return this.model.findById(id, projection, options).exec();
   }
