@@ -11,7 +11,6 @@ import { JwtAuthGuard } from './auth/guard/jwt_auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './auth/guard/roles.guard';
 import { AdminModule } from './admin/admin.module';
-import { BlogModule } from './blog/blog.module';
 
 @Module({
   imports: [
@@ -20,7 +19,6 @@ import { BlogModule } from './blog/blog.module';
     UserModule,
     AuthModule,
     AdminModule,
-    BlogModule,
   ],
   controllers: [AppController],
   providers: [
