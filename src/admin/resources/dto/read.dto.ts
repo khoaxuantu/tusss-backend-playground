@@ -7,30 +7,36 @@ import { Constructor } from "@/lib/types/common";
 
 export class ResourcePaginateDto {
   @ApiPropertyOptional({
-    description: "The n-th starting record of a resource",
+    description: "The current page of the query",
     example: 1,
+    default: 1,
   })
   @IsOptional()
   @IsPositive()
   @Type(() => Number)
-  _start?: number;
+  page?: number = 1;
 
   @ApiPropertyOptional({
-    description: "The ending record in a range of a resource, must be larger than _start",
+    description: "The limit records per page",
     example: 5,
+    default: 10,
   })
   @IsOptional()
   @IsPositive()
   @Type(() => Number)
-  _end?: number;
+  limit?: number = 10;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ isArray: true })
+  @IsArray()
   @IsOptional()
-  _sort?: string;
+  @Type(() => Array<String>)
+  sort?: string[];
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ isArray: true })
+  @IsArray()
   @IsOptional()
-  _order?: string;
+  @Type(() => Array<String>)
+  order?: string[];
 }
 
 export function ResourceReadDto<T extends Constructor>(resource: T) {

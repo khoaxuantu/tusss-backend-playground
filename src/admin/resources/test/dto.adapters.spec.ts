@@ -1,37 +1,38 @@
 import { GetListDtoAdapter } from '../adapters/dto.adapters';
-import { ResourceReadDto } from '../dto/read.dto';
 import { resourceListDtoStub } from './stub/read.dto.stub';
 
 describe('GetListDtoAdapter', () => {
   describe('When there are sort fields', () => {
     test('sort but no order', () => {
-      const subject = GetListDtoAdapter.parse(
-        resourceListDtoStub({ _sort: 'a' }) as ResourceReadDto,
-      );
+      const subject = GetListDtoAdapter.parse(resourceListDtoStub({ sort: ['a'] }));
       expect(subject.paginateParams.sort.a).toEqual(1);
     });
 
     test('sort and order', () => {
-      const subject = GetListDtoAdapter.parse(resourceListDtoStub({ _sort: 'a', _order: 'desc' }));
+      const subject = GetListDtoAdapter.parse(
+        resourceListDtoStub({ sort: ['a'], order: ['desc'] }),
+      );
       expect(subject.paginateParams.sort.a).toEqual(-1);
     });
   });
 
   describe('When there are pagination fields', () => {
-    describe('When no start or no end', () => {
+    describe('When no page and no limit', () => {
       it('should return default limit (10)', () => {
-        const subject = GetListDtoAdapter.parse(resourceListDtoStub({ _start: undefined }));
+        const subject = GetListDtoAdapter.parse(
+          resourceListDtoStub({ page: undefined, limit: undefined }),
+        );
         expect(subject.paginateParams.limit).toEqual(10);
         expect(subject.paginateParams.skip).toEqual(0);
       });
     });
 
-    describe('When start 0 and end 15', () => {
-      it('should return 16', () => {
-        const start = 0;
-        const end = 15;
-        const expectLimit = 16;
-        const subject = GetListDtoAdapter.parse(resourceListDtoStub({ _start: start, _end: end }));
+    describe('When page 1 and limit 15', () => {
+      it('should return limit 15', () => {
+        const page = 1;
+        const limit = 15;
+        const expectLimit = limit;
+        const subject = GetListDtoAdapter.parse(resourceListDtoStub({ page, limit }));
 
         expect(subject.paginateParams.limit).toEqual(expectLimit);
       });
@@ -50,7 +51,7 @@ describe('GetListDtoAdapter', () => {
       or: {},
     };
     const expectResult = dtoParams;
-   
+
     it('should return correct query params', () => {
       const subject = GetListDtoAdapter.parse(resourceListDtoStub({ filter: dtoParams }));
       expect(subject.filterParams).toEqual(expectResult);

@@ -13,24 +13,22 @@ export interface GetListDtoAdapterResProps {
 
 export class GetListDtoAdapter extends AdminResourceDtoAdapter {
   static override parse(query: AbstractResourceReadDto): GetListDtoAdapterResProps {
-    const { read_type, _start, _end, _sort, _order, ...filterParams } = query;
+    const { read_type, page, limit, sort, order, ...filterParams } = query;
     return {
-      paginateParams: this.parsePaginate({ _start, _end, _sort, _order }),
+      paginateParams: this.parsePaginate({ page, limit, sort, order }),
       filterParams: filterParams["filter"],
     };
   }
 
   private static parsePaginate(props: ResourcePaginateDto): ParsePaginateProps {
-    const sortArr = props._sort?.split(',');
-    const orderArr = props._order?.split(',') as ('asc' | 'desc')[];
     const result: ParsePaginateProps = {
       sort: {},
-      skip: props._start ? props._start - 1 : 0,
-      limit: props._start >= 0 && props._end > props._start ? props._end - props._start + 1 : 10,
+      skip: ((props.page ?? 1) - 1) * (props.limit ?? 10),
+      limit: props.limit ?? 10,
     };
 
-    sortArr?.forEach((prop, index) => {
-      result.sort[prop] = orderArr[index] == 'desc' ? -1 : 1;
+    props.sort.forEach((prop, index) => {
+      result.sort[prop] = props.order[index] == 'desc' ? -1 : 1;
     });
 
     return result;
