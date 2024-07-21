@@ -3,12 +3,12 @@ import { UserController } from './user.controller';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from './user.service';
 import { UserFactoryModule } from '@/lib/factory/user/user.module';
-import { UserRepositoryModule } from '@/lib/repository/user/user.repository.module';
+import { RepositoryModule } from '@/lib/repository/repository.module';
 
 @Module({
   imports: [
     UserFactoryModule,
-    UserRepositoryModule,
+    RepositoryModule,
   ],
   controllers: [UserController],
   providers: [UserService, ConfigService],

@@ -7,9 +7,11 @@ import { JWT } from '@/lib/constant/constants';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategy/local.strategy';
 import { JwtStrategy } from './strategy/jwt.strategy';
+import { AdminModule } from '@/admin/admin.module';
 
 @Module({
   imports: [
+    AdminModule,
     UserModule,
     JwtModule.register({
       secret: JWT.secret,
