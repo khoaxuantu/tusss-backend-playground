@@ -15,7 +15,7 @@ export class AuthService {
     private adminService: AdminService,
   ) {}
 
-  async validate(props: SignInDto): Promise<Omit<UserDocument, 'password'>> {
+  async validate(props: SignInDto): Promise<UserDocument> {
     const user = props.isAdmin
       ? await this.adminService.getOneByEmail(props.email)
       : await this.userService.getOneByEmail(props.email);
