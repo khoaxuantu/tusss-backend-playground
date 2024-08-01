@@ -1,13 +1,13 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from '../auth.service';
-import { SignInDto } from '../dto/sign_in.dto';
-import { userDocumentStub, userStub, userToClientStub } from '@test/stubs/users.stub';
-import PasswordBuilder from '@/lib/builder/password/password.builder';
-import { UnauthorizedException } from '@nestjs/common';
-import { UserService } from '@/user/user.service';
-import { JwtService } from '@nestjs/jwt';
-import { accessTokenStub } from './stub/jwt.stub';
 import { AdminService } from '@/admin/admin.service';
+import PasswordBuilder from '@/lib/builder/password/password.builder';
+import { UserService } from '@/user/user.service';
+import { UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { Test, TestingModule } from '@nestjs/testing';
+import { userDocumentStub, userStub } from '@test/stubs/users.stub';
+import { AuthService } from '../auth.service';
+import { SignInDto } from '../dto/sign_in.in.dto';
+import { accessTokenStub } from './stub/jwt.stub';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -72,7 +72,7 @@ describe('AuthService', () => {
 
       it('should log user in', async () => {
         const result = await validate(signInDto());
-        const { password, ...expectRes} = userDocumentStub();
+        const expectRes = userDocumentStub();
         expect(result).toEqual(expectRes);
       });
     });

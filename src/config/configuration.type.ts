@@ -1,4 +1,5 @@
 export type TCommonConfiguration = {
+  environment: "development" | "staging" | "production",
   host: string;
   tusss: string;
   blog: {

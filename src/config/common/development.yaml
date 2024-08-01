@@ -2,3 +2,4 @@ host: localhost
 tusss: Tusss
 blog:
   wp: lmaoxuankhoatu.wordpress.com
+environment: development

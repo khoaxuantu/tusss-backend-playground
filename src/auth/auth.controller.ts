@@ -8,12 +8,12 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create_user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { SignInDto } from './dto/sign_in.dto';
 import { AuthService } from './auth.service';
 import { Public } from './decorator/auth.decorator';
+import { CreateUserDto } from './dto/create_user.dto';
+import { SignInDto } from './dto/sign_in.in.dto';
 
 @Controller()
 @ApiTags('Authentication')
@@ -41,7 +41,7 @@ export class AuthController {
     },
   })
   @ApiOkResponse()
-  async signIn(@Request() req) {
+  async signIn(@Request() req: any) {
     return this.authService.signIn(req.user);
   }
 }

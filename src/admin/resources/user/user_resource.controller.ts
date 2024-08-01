@@ -9,7 +9,7 @@ import { UserResourceService } from './user_resource.service';
 import { Document, Types } from 'mongoose';
 import { WriteUserResourceDto } from './dto/user_resource.write.dto';
 
-@Controller('admin/user')
+@Controller('admin/users')
 @ApiTags('Admin Resource - User')
 export class AdminUserResourceController extends AbstractResourceController<UserDocument> {
   constructor(service: UserResourceService) {

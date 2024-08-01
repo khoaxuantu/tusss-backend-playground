@@ -73,12 +73,6 @@ export class User {
 
   updatedAt: Date;
   createdAt: Date;
-
-  isAdmin?() {
-    return this.roles.includes(Role.Admin);
-  }
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
-UserSchema.loadClass(User);

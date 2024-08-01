@@ -1,15 +1,15 @@
 import { AuthModule } from '@/auth/auth.module';
+import { SignInDto } from '@/auth/dto/sign_in.in.dto';
+import { UserDtoStub } from '@/auth/test/stub/create_user.dto.stub';
+import { InvalidPasswordCase, InvalidPasswordStub } from '@/auth/test/stub/password.stub';
 import { connectMongo } from '@/config/initialize/connect_mongo';
+import PasswordBuilder from '@/lib/builder/password/password.builder';
+import { User } from '@/user/schema/user.schema';
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
-import * as request from 'supertest';
-import { InvalidPasswordCase, InvalidPasswordStub } from '@/auth/test/stub/password.stub';
 import { Model } from 'mongoose';
-import { User } from '@/user/schema/user.schema';
-import { SignInDto } from '@/auth/dto/sign_in.dto';
-import PasswordBuilder from '@/lib/builder/password/password.builder';
-import { UserDtoStub } from '@/auth/test/stub/create_user.dto.stub';
+import * as request from 'supertest';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
