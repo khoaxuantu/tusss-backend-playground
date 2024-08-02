@@ -8,6 +8,7 @@ import { StartupLogger } from './config/initialize/start_up_logger';
 import mongoose from 'mongoose';
 import { NODE_ENV } from './config/environment';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AllExceptionsFilter } from "./lib/filter/all-exception.filter";
 
 bootstrap();
 
@@ -16,6 +17,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule, { logger: new StartupLogger() });
   // app.useLogger(new Logger());
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
     transformOptions: {
@@ -23,6 +25,7 @@ async function bootstrap() {
     },
     whitelist: true,
   }));
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   setUpSwagger(app);
 
