@@ -7,7 +7,6 @@ import { SigninInDto } from "@lib/services/dto/signin.in.dto";
 import { sign } from "jsonwebtoken";
 
 export async function login(payload: SigninInDto) {
-  console.log("Do login in server side")
   const data = await AuthService.login(payload);
 
   return sign(data, process.env.JWT_SECRET || "", { expiresIn: `${CONFIG.JWT_LIFE_TIME}d` });

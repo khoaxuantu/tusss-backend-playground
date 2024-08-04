@@ -1,8 +1,22 @@
+import { FieldUseTextInput } from "@components/Forms/TextInput/types";
 import { RESOURCE_MESSAGE } from "@lib/constants/resource";
 import { enumToArray } from "@lib/helpers/enum.helper";
 import * as yup from "yup";
 
 export type UserProps = yup.InferType<typeof UserSchema>;
+
+export type UserPropsForTextInput = FieldUseTextInput<
+  UserProps,
+  | "address"
+  | "city"
+  | "firstname"
+  | "lastname"
+  | "email"
+  | "name"
+  | "nationality"
+  | "password"
+  | "phone_number"
+>;
 
 export enum Role {
   User = "user",
@@ -23,8 +37,5 @@ export const UserSchema = yup.object({
   nationality: yup.string(),
   password: yup.string(),
   phone_number: yup.string(),
-  roles: yup
-    .array()
-    .compact()
-    .min(1, RESOURCE_MESSAGE.ERROR.REQUIRED_FIELD("roles")).required(),
+  roles: yup.array().compact().min(1, RESOURCE_MESSAGE.ERROR.REQUIRED_FIELD("roles")).required(),
 });
