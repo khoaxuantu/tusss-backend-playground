@@ -41,7 +41,7 @@ export default function RootLayout({
                       list: "users",
                       create: "users/create",
                       edit: "users/:id/edit",
-                      show: "users/:id/show",
+                      show: "users/:id",
                     },
                   ]}
                   options={{

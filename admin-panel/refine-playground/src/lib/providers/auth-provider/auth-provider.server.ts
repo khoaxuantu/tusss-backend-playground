@@ -1,8 +1,8 @@
 import { CONFIG } from "@lib/constants/config";
-import { SigninOutDto } from "@lib/services/dto/signin.out.dto";
 import type { AuthProvider } from "@refinedev/core";
-import { JwtPayload, verify } from "jsonwebtoken";
+import { verify } from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { AuthJwtProps } from "./types";
 
 export const authProviderServer: Pick<AuthProvider, "check" | "getIdentity" | "getPermissions"> = {
   check: async () => {
@@ -19,7 +19,7 @@ export const authProviderServer: Pick<AuthProvider, "check" | "getIdentity" | "g
         };
       }
     } catch (error) {
-      console.log("[authProviderServer.check]", JSON.stringify(error));
+      console.warn("[authProviderServer.check]", JSON.stringify(error));
     }
 
     return {
@@ -34,11 +34,11 @@ export const authProviderServer: Pick<AuthProvider, "check" | "getIdentity" | "g
 
     try {
       if (auth) {
-        const user = verify(JSON.parse(auth.value), CONFIG.JWT_SECRET) as JwtPayload & SigninOutDto;
+        const user = verify(JSON.parse(auth.value), CONFIG.JWT_SECRET) as AuthJwtProps;
         return user.roles;
       }
     } catch (error) {
-      console.log("[authProviderServer.getPermissions]", JSON.stringify(error));
+      console.warn("[authProviderServer.getPermissions]", JSON.stringify(error));
     }
 
     return null;
@@ -49,11 +49,11 @@ export const authProviderServer: Pick<AuthProvider, "check" | "getIdentity" | "g
 
     try {
       if (auth) {
-        const user = verify(JSON.parse(auth.value), CONFIG.JWT_SECRET) as JwtPayload & SigninOutDto;
+        const user = verify(JSON.parse(auth.value), CONFIG.JWT_SECRET) as AuthJwtProps;
         return user;
       }
     } catch (error) {
-      console.log("[authProviderServer.getPermissions]", JSON.stringify(error));
+      console.warn("[authProviderServer.getPermissions]", JSON.stringify(error));
     }
 
     return null;

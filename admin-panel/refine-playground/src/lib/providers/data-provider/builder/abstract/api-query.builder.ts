@@ -22,8 +22,7 @@ export abstract class ApiQueryBuilder {
   protected abstract read_type: READ_TYPE;
 
   constructor(url: string) {
-    this.url = new URL(url);
-    this.url.pathname += "/admin";
+    this.url = new URL("/admin", url);
     this.setReadType();
   }
 
@@ -37,6 +36,6 @@ export abstract class ApiQueryBuilder {
   }
 
   private setReadType() {
-    this.url.searchParams.set(QUERY_PARAM.READ_TYPE, this.read_type);
+    if (this.read_type) this.url.searchParams.set(QUERY_PARAM.READ_TYPE, this.read_type);
   }
 }

@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
-    // Suppose we actually send a request to the back end here.
     const user = await login({ email, password });
     console.log("🚀 ~ login: ~ res:", user);
 
