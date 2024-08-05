@@ -9,7 +9,6 @@ import {
   NumberInputProps,
   NumberInputStepper,
 } from "@chakra-ui/react";
-import { RESOURCE_MESSAGE } from "@lib/constants/resource";
 import { FieldError, FieldValues, Path, UseFormRegister } from "react-hook-form";
 
 export interface FormControlNumberProps<T extends FieldValues> {
@@ -26,13 +25,7 @@ export function FormControlNumber<T extends FieldValues>(props: FormControlNumbe
     <FormControl mb={3} isInvalid={!!props.error} isRequired={props.required}>
       <FormLabel>{props.label}</FormLabel>
       <NumberInput {...props.numberInputProps}>
-        <NumberInputField
-          {...props.register(props.field, {
-            required: props.required
-              ? RESOURCE_MESSAGE.ERROR.REQUIRED_FIELD(props.field)
-              : undefined,
-          })}
-        />
+        <NumberInputField {...props.register(props.field)} />
         <NumberInputStepper>
           <NumberIncrementStepper />
           <NumberDecrementStepper />

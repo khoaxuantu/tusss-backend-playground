@@ -3,7 +3,10 @@ import { PASSWORD_MAXLENGTH, PASSWORD_MINLENGTH } from '@/lib/constant/constants
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsArray,
   IsEmail,
+  IsEnum,
+  IsNotEmpty,
   IsOptional,
   IsPhoneNumber,
   IsPositive,
@@ -19,19 +22,23 @@ export type UserDocument = HydratedDocument<User>;
 @Schema({ timestamps: true })
 export class User {
   @Prop({ required: true, index: true })
+  @IsNotEmpty()
   @ApiProperty()
   name: string;
 
   @Prop({ index: true })
-  @ApiProperty()
+  @IsOptional()
+  @ApiPropertyOptional()
   firstname?: string;
 
   @Prop({ index: true })
-  @ApiProperty()
+  @IsOptional()
+  @ApiPropertyOptional()
   lastname?: string;
 
   @Prop({ required: true, unique: true, index: true })
   @IsEmail()
+  @IsNotEmpty()
   @ApiProperty()
   email: string;
 
@@ -42,10 +49,12 @@ export class User {
   phone_number?: string;
 
   @Prop()
+  @IsOptional()
   @ApiPropertyOptional()
   address?: string;
 
   @Prop({ index: true })
+  @IsOptional()
   @ApiPropertyOptional()
   city?: string;
 
@@ -53,6 +62,7 @@ export class User {
   @MinLength(PASSWORD_MINLENGTH)
   @MaxLength(PASSWORD_MAXLENGTH)
   @IsStrongPassword()
+  @IsNotEmpty()
   @ApiProperty()
   password: string;
 
@@ -64,11 +74,18 @@ export class User {
   age?: number;
 
   @Prop({ index: true })
+  @IsOptional()
   @ApiPropertyOptional()
   nationality?: string;
 
-  @Prop()
-  @ApiProperty()
+  @Prop({
+    type: [String],
+    enum: Role,
+  })
+  @ApiProperty({ enum: Role, isArray: true })
+  @IsNotEmpty()
+  @IsEnum(Role, { each: true })
+  @IsArray()
   roles: Role[];
 
   updatedAt: Date;

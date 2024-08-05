@@ -9,6 +9,7 @@ export class HeadersAdapter {
     const headers = new Headers();
 
     headers.append("Authorization", `Bearer ${accessToken}`);
+    headers.append("Content-Type", "application/json");
     Object.entries(this.opts ?? {}).forEach((entry) => {
       headers.append(entry[0], entry[1]);
     });

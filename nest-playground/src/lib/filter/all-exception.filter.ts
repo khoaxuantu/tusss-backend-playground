@@ -1,13 +1,14 @@
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
+  Catch,
+  ExceptionFilter,
   HttpException,
   HttpStatus,
   Logger,
 } from '@nestjs/common';
-import { MongoServerError } from 'mongodb';
 import { Response } from 'express';
+import { MongoServerError } from 'mongodb';
+import { MESSAGE } from '../constant/constants';
 import { InvalidParamsException } from '../exception/invalid-param.exception';
 
 @Catch()
@@ -26,7 +27,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
           const keysDup = Object.keys(exception.keyPattern || {});
           exception = new InvalidParamsException({
             params: keysDup,
-            message: keysDup.join(','),
+            message: MESSAGE.ERROR.DUPLICATE_KEYS(keysDup),
             where: MongoServerError.name,
           });
           break;
@@ -45,7 +46,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       exception instanceof HttpException ? exception.getResponse() : 'Something Wrong';
 
     if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
-      this.logger.error(`exception: `, exception);
+      this.logger.error(`exception: ${exception}`);
     } else if (status === HttpStatus.UNAUTHORIZED) {
       this.logger.error(JSON.stringify(resData))
     } else {

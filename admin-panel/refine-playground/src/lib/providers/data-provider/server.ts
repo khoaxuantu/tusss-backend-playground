@@ -92,10 +92,8 @@ export class DataProviderServer {
 
   static create: DataProvider["create"] = async ({ resource, variables, meta }) => {
     const { headers } = meta as MetaQuery;
-    console.log("🚀 ~ DataProviderServer ~ create:DataProvider['create']= ~ headers:", headers)
     const query = new ApiQueryParamBuilder(this.url).withResource(resource as RESOURCE_IDENTIFIER);
     const endpoint = query.endpoint;
-    console.log("🚀 ~ DataProviderServer ~ create:DataProvider['create']= ~ endpoint:", endpoint);
 
     const res = await fetch(endpoint, {
       headers,
@@ -104,7 +102,7 @@ export class DataProviderServer {
     });
 
 
-    if (!res.ok) throw new ApiError(res.status, `${res.statusText}\n${await res.text()}`);
+    if (!res.ok) throw new ApiError(res.status, `${res.statusText}: ${await res.text()}`);
 
     return { data: await res.json() };
   };

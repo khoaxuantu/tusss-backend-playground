@@ -6,10 +6,10 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Stack
+  Stack,
 } from "@chakra-ui/react";
+import { FormControlInput, FormControlInputProps } from "@components/Forms/Input";
 import { FormControlNumber } from "@components/Forms/NumberInput";
-import { TextInput, TextInputProps } from "@components/Forms/TextInput";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { capitalize } from "@lib/helpers/string.helper";
 import { Create } from "@refinedev/chakra-ui";
@@ -29,9 +29,13 @@ export default function UsersCreate() {
   });
 
   const FormControlText = (
-    props: Pick<TextInputProps<UserProps>, "label" | "required"> & { field: UserPropsForTextInput }
+    props: Pick<FormControlInputProps<UserProps>, "label" | "required" | "inputProps"> & {
+      field: UserPropsForTextInput;
+    }
   ) => {
-    return <TextInput<UserProps> register={register} error={errors[props.field]} {...props} />;
+    return (
+      <FormControlInput<UserProps> register={register} error={errors[props.field]} {...props} />
+    );
   };
 
   return (
@@ -39,8 +43,13 @@ export default function UsersCreate() {
       <FormControlText field="name" label="Name" required />
       <FormControlText field="firstname" label="First Name" />
       <FormControlText field="lastname" label="Last Name" />
-      <FormControlText field="email" label="Email" required />
-      <FormControlText field="password" label="Password" required />
+      <FormControlText field="email" label="Email" required inputProps={{ type: "email" }} />
+      <FormControlText
+        field="password"
+        label="Password"
+        required
+        inputProps={{ type: "password" }}
+      />
 
       <FormControl mb={3} isRequired isInvalid={!!errors.roles}>
         <FormLabel>Roles</FormLabel>
