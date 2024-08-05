@@ -43,7 +43,7 @@ export abstract class AbstractModelRepository<T extends any> {
   }
 
   list(props: FilterProps<T>): Promise<T[]> {
-    const aggregatePipeline: PipelineStage[] = [{ $match: props.match }];
+    const aggregatePipeline: PipelineStage[] = props.match ? [{ $match: props.match }] : [];
     if (props.sort) aggregatePipeline.push({ $sort: props.sort });
     if (props.skip) aggregatePipeline.push({ $skip: props.skip });
     if (props.limit) aggregatePipeline.push({ $limit: props.limit });

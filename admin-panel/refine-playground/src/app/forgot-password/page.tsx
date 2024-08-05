@@ -1,4 +1,4 @@
-import { authProviderServer } from "@lib/providers/auth-provider";
+import { AuthProviderServer } from "@lib/providers/auth-provider";
 import { AuthPage } from "@refinedev/chakra-ui";
 import { redirect } from "next/navigation";
 
@@ -13,7 +13,7 @@ export default async function ForgotPassword() {
 }
 
 async function getData() {
-  const { authenticated, redirectTo, error } = await authProviderServer.check();
+  const { authenticated, redirectTo, error } = await AuthProviderServer.check();
 
   return {
     authenticated,

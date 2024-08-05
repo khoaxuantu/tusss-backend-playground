@@ -23,10 +23,10 @@ export abstract class ApiQueryBuilder {
 
   constructor(url: string) {
     this.url = new URL("/admin", url);
-    this.setReadType();
   }
 
   get endpoint() {
+    this.setReadType();
     return this.url.toString();
   }
 

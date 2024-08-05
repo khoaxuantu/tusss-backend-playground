@@ -1,7 +1,7 @@
 "use server";
 
 import { CONFIG } from "@lib/constants/config";
-import { authProviderServer } from "@lib/providers/auth-provider";
+import { AuthProviderServer } from "@lib/providers/auth-provider";
 import { AuthService } from "@lib/services/auth.service";
 import { SigninInDto } from "@lib/services/dto/signin.in.dto";
 import { sign } from "jsonwebtoken";
@@ -13,16 +13,16 @@ export async function login(payload: SigninInDto) {
 }
 
 export async function checkLogin() {
-  const result = await authProviderServer.check();
+  const result = await AuthProviderServer.check();
   return result;
 }
 
 export async function getIdentity() {
-  const user = await authProviderServer.getIdentity!();
+  const user = await AuthProviderServer.getIdentity();
   return user;
 }
 
 export async function getPermissions() {
-  const permissions = await authProviderServer.getPermissions!();
+  const permissions = await AuthProviderServer.getPermissions();
   return permissions;
 }

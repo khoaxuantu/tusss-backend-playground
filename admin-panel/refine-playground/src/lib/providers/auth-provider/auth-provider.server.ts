@@ -4,8 +4,8 @@ import { verify } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { AuthJwtProps } from "./types";
 
-export const authProviderServer: Pick<AuthProvider, "check" | "getIdentity" | "getPermissions"> = {
-  check: async () => {
+export class AuthProviderServer {
+  static async check(): ReturnType<AuthProvider["check"]> {
     const cookieStore = cookies();
     const auth = cookieStore.get("auth");
     console.log("🚀 ~ check: ~ auth:", auth);
@@ -19,7 +19,7 @@ export const authProviderServer: Pick<AuthProvider, "check" | "getIdentity" | "g
         };
       }
     } catch (error) {
-      console.warn("[authProviderServer.check]", JSON.stringify(error));
+      console.warn("[AuthProviderServer.check]", JSON.stringify(error));
     }
 
     return {
@@ -27,8 +27,9 @@ export const authProviderServer: Pick<AuthProvider, "check" | "getIdentity" | "g
       logout: true,
       redirectTo: "/login",
     };
-  },
-  getPermissions: async () => {
+  }
+
+  static async getPermissions() {
     const cookieStore = cookies();
     const auth = cookieStore.get("auth");
 
@@ -38,12 +39,13 @@ export const authProviderServer: Pick<AuthProvider, "check" | "getIdentity" | "g
         return user.roles;
       }
     } catch (error) {
-      console.warn("[authProviderServer.getPermissions]", JSON.stringify(error));
+      console.warn("[AuthProviderServer.getPermissions]", JSON.stringify(error));
     }
 
     return null;
-  },
-  getIdentity: async () => {
+  }
+
+  static async getIdentity() {
     const cookieStore = cookies();
     const auth = cookieStore.get("auth");
 
@@ -53,9 +55,9 @@ export const authProviderServer: Pick<AuthProvider, "check" | "getIdentity" | "g
         return user;
       }
     } catch (error) {
-      console.warn("[authProviderServer.getPermissions]", JSON.stringify(error));
+      console.warn("[AuthProviderServer.getPermissions]", JSON.stringify(error));
     }
 
     return null;
-  },
+  }
 };

@@ -4,15 +4,15 @@ import { HeadersAdapter } from "@lib/providers/data-provider/adapter/headers.ada
 import { DataProviderServer } from "@lib/providers/data-provider/server";
 import { DataProvider } from "@refinedev/core";
 
-export const getList: DataProvider["getList"] = ({
+export const getList: DataProvider["getList"] = async ({
   resource,
   filters,
   pagination,
   sorters,
   meta,
 }) => {
-  if (!meta) meta = { headers: new HeadersAdapter().transform() };
-  else meta.headers = new HeadersAdapter(meta).transform();
+  if (!meta) meta = { headers: await new HeadersAdapter().transform() };
+  else meta.headers = await new HeadersAdapter(meta).transform();
 
   return DataProviderServer.getList({ resource, filters, pagination, sorters, meta });
 };

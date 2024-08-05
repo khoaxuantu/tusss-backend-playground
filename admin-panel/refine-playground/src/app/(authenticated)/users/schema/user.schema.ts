@@ -26,6 +26,7 @@ export enum Role {
 export const Roles = enumToArray<string>(Role);
 
 export const UserSchema = yup.object({
+  _id: yup.string(),
   name: yup.string().required(RESOURCE_MESSAGE.ERROR.REQUIRED_FIELD("name")),
   age: yup.number().positive().max(200).integer().optional(),
   email: yup.string().email().required(RESOURCE_MESSAGE.ERROR.REQUIRED_FIELD("email")),
@@ -49,13 +50,20 @@ export const UserSchema = yup.object({
     if (value == "") return undefined;
     return value;
   }),
-  password: yup.string().transform((value) => {
-    if (value == "") return undefined;
-    return value;
-  }).required(RESOURCE_MESSAGE.ERROR.REQUIRED_FIELD("password")),
+  password: yup
+    .string()
+    .transform((value) => {
+      if (value == "") return undefined;
+      return value;
+    })
+    .required(RESOURCE_MESSAGE.ERROR.REQUIRED_FIELD("password")),
   phone_number: yup.string().transform((value) => {
     if (value == "") return undefined;
     return value;
   }),
   roles: yup.array().compact().min(1, RESOURCE_MESSAGE.ERROR.REQUIRED_FIELD("roles")).required(),
+  createdAt: yup.string(),
+  updatedAt: yup.string(),
 });
+
+export const LIST_PROPS_AS_TEXT: (keyof UserProps)[] = ["email", "name"];

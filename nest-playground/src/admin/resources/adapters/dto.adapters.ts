@@ -27,9 +27,11 @@ export class GetListDtoAdapter extends AdminResourceDtoAdapter {
       limit: props.limit ?? 10,
     };
 
-    props.sort.forEach((prop, index) => {
+    props.sort?.forEach((prop, index) => {
       result.sort[prop] = props.order[index] == 'desc' ? -1 : 1;
     });
+
+    if (!Object.keys(props.sort ?? 0).length) result.sort = { _id: 1 };
 
     return result;
   }
