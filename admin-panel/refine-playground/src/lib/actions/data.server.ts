@@ -18,7 +18,7 @@ export const getList: DataProvider["getList"] = async ({
 };
 
 export const getOne: DataProvider["getOne"] = async ({ resource, id, meta }) => {
-  if (!meta) meta = { headers: new HeadersAdapter().transform() };
+  if (!meta) meta = { headers: await new HeadersAdapter().transform() };
   else meta.headers = await new HeadersAdapter(meta).transform();
 
   return DataProviderServer.getOne({ resource, id, meta });
