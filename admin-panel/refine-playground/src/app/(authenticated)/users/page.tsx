@@ -28,7 +28,7 @@ export default async function UsersPage() {
           </Thead>
           <Tbody>
             {data.map((user) => (
-              <UserRow user={user} />
+              <UserRow key={user._id} user={user} />
             ))}
           </Tbody>
         </Table>

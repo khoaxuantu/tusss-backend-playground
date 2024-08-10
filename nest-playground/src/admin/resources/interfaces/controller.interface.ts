@@ -1,31 +1,39 @@
 import { Role } from '@/auth/constant/role.constant';
 import { Roles } from '@/auth/decorator/role.decorator';
-import { Body, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
-import { AbstractResourceReadDto } from '../dto/read.dto';
-import { RESOURCE_READ_TYPE } from '../constant/common';
-import { GetListDtoAdapter, GetListDtoAdapterResProps, GetManyDtoAdapter } from '../adapters/dto.adapters';
 import { InvalidParamsException } from '@/lib/exception/invalid-param.exception';
-import { AbstractResourceService } from './service.interface';
+import { Body, Delete, Get, Param } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { ObjectId } from "mongodb";
+import { GetListDtoAdapter, GetListDtoAdapterResProps, GetManyDtoAdapter } from '../adapters/dto.adapters';
+import { RESOURCE_READ_TYPE } from '../constant/common';
+import { AbstractResourceReadDto } from '../dto/read.dto';
+import { AbstractResourceService } from './service.interface';
+
+type OutDtoClass = new (data: any) => any;
 
 @Roles(Role.Admin)
 @ApiBearerAuth()
 export abstract class AbstractResourceController<T> {
-  constructor(protected service: AbstractResourceService<T>) {}
+  constructor(
+    protected service: AbstractResourceService<T>,
+    protected outDtoClass: OutDtoClass,
+  ) {}
 
   async list(payload: AbstractResourceReadDto) {
     console.log('🚀 ~ AbstractResourceController<T> ~ list ~ payload:', payload);
     let query: GetListDtoAdapterResProps | string[];
+    let res: T[];
 
     switch (payload.read_type) {
       case RESOURCE_READ_TYPE.LIST:
         query = GetListDtoAdapter.parse(payload) as GetListDtoAdapterResProps;
-        return this.service.listByFilter(query);
+        res = await this.service.listByFilter(query);
+        break;
 
       case RESOURCE_READ_TYPE.MANY:
         query = GetManyDtoAdapter.parse(payload) as string[];
-        return this.service.listByManyIds(query);
+        res = await this.service.listByManyIds(query);
+        break;
 
       default:
         throw new InvalidParamsException({
@@ -33,11 +41,13 @@ export abstract class AbstractResourceController<T> {
           where: AbstractResourceController.name,
         });
     }
+
+    return res.map((record) => new this.outDtoClass(record));
   }
 
   @Get(':id')
   async getOne(@Param('id') id: string) {
-    return this.service.findById(id);
+    return new this.outDtoClass(await this.service.findById(id));
   }
 
   async create(@Body() payload: any) {
@@ -45,11 +55,11 @@ export abstract class AbstractResourceController<T> {
   }
 
   async update(@Param('id') id: string, @Body() payload: any) {
-    return this.service.updateOne(new ObjectId(id), payload);
+    return new this.outDtoClass(await this.service.updateOne(new ObjectId(id), payload));
   }
 
   @Delete(':id')
   async deleteOne(@Param('id') id: string) {
-    return this.service.deleteOne(new ObjectId(id));
+    return new this.outDtoClass(await this.service.deleteOne(new ObjectId(id)));
   }
 }

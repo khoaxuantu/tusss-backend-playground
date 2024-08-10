@@ -23,6 +23,7 @@ export function FormControlInput<T extends FieldValues>({
       <FormLabel>{label}</FormLabel>
       <Input
         id={field}
+        type={field}
         variant="filled"
         {...register(field)}
         {...inputProps}

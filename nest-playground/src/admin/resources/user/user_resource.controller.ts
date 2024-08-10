@@ -1,4 +1,5 @@
 import { ApiFilterQuery } from '@/lib/decorator/api-filter-query.decorator';
+import { UserOutDto } from '@/user/dto/user.out.dto';
 import { UserDocument } from '@/user/schema/user.schema';
 import { Body, Controller, Get, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -11,7 +12,7 @@ import { UserResourceService } from './user_resource.service';
 @ApiTags('Admin Resource - User')
 export class AdminUserResourceController extends AbstractResourceController<UserDocument> {
   constructor(service: UserResourceService) {
-    super(service);
+    super(service, UserOutDto);
   }
 
   @Get()

@@ -1,15 +1,16 @@
 "use client";
 
-import { CONFIG } from "@lib/constants/config";
-import { DataProvider } from "@refinedev/core";
 import { create, deleteOne, getList, getMany, getOne, update } from "@lib/actions/data.server";
+import { CONFIG } from "@lib/constants/config";
+import { sanitizeParams } from "@lib/helpers/params.helper";
+import { DataProvider } from "@refinedev/core";
 
 export const DataProviderClient: DataProvider = {
-  getList: async (params) => getList(params),
-  getOne: async (params) => getOne(params),
-  create: async (params) => create(params),
-  deleteOne: async (params) => deleteOne(params),
+  getList: async (params) => getList(sanitizeParams(params)),
+  getOne: async (params) => getOne(sanitizeParams(params)),
+  create: async (params) => create(sanitizeParams(params)),
+  deleteOne: async (params) => deleteOne(sanitizeParams(params)),
   getApiUrl: () => CONFIG.BACKEND_URL,
-  update: async (params) => update(params),
-  getMany: async (params) => getMany!(params),
+  update: async (params) => update(sanitizeParams(params)),
+  getMany: async (params) => getMany!(sanitizeParams(params)),
 };

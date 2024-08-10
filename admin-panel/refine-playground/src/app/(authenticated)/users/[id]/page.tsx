@@ -5,13 +5,13 @@ import { RESOURCE_IDENTIFIER } from "@lib/constants/resource";
 import { Show, TagField } from "@refinedev/chakra-ui";
 import { UserProps } from "../schema/user.schema";
 
-interface DynamicParams {
+export interface UserDynamicParams {
   params: {
     id: string;
   };
 }
 
-export default async function UserShowPage({ params }: DynamicParams) {
+export default async function UserShowPage({ params }: UserDynamicParams) {
   const res = await getOne<UserProps>({ resource: RESOURCE_IDENTIFIER.USER, id: params.id });
   const user = res.data;
 

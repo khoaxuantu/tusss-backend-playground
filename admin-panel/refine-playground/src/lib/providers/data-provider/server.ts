@@ -92,6 +92,7 @@ export class DataProviderServer {
   };
 
   static update: DataProvider["update"] = async ({ resource, id, variables, meta }) => {
+    console.log("🚀 ~ DataProviderServer ~ update:DataProvider['update']= ~ variables:", variables)
     const { headers } = meta as MetaQuery;
     const query = new ApiQueryParamBuilder(this.url)
       .withResource(resource as RESOURCE_IDENTIFIER)
