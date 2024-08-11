@@ -5,7 +5,7 @@ import { Body, Controller, Get, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AbstractResourceController } from '../interfaces/controller.interface';
 import { ListUserResourceDto, UserResourceDto } from './dto/user_resource.read.dto';
-import { WriteUserResourceDto } from './dto/user_resource.write.dto';
+import { CreateUserResourceDto, UpdateUserResourceDto } from './dto/user_resource.write.dto';
 import { UserResourceService } from './user_resource.service';
 
 @Controller('admin/users')
@@ -23,12 +23,13 @@ export class AdminUserResourceController extends AbstractResourceController<User
   }
 
   @Post()
-  override async create(@Body() payload: WriteUserResourceDto) {
+  override async create(@Body() payload: CreateUserResourceDto) {
     return super.create(payload);
   }
 
   @Patch(':id')
-  override async update(id: string, payload: WriteUserResourceDto) {
+  override async update(id: string, payload: UpdateUserResourceDto) {
+    console.log("🚀 ~ AdminUserResourceController ~ overrideupdate ~ payload:", payload)
     return super.update(id, payload);
   }
 }

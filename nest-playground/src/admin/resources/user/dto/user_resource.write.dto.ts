@@ -1,9 +1,9 @@
 import { Role } from '@/auth/constant/role.constant';
 import { User } from '@/user/schema/user.schema';
-import { ApiProperty, PickType } from '@nestjs/swagger';
-import { IsEnum, IsNotIn, ValidateNested } from 'class-validator';
+import { ApiProperty, PartialType, PickType } from '@nestjs/swagger';
+import { IsNotIn } from 'class-validator';
 
-export class WriteUserResourceDto extends PickType(User, [
+export class CreateUserResourceDto extends PickType(User, [
   'address',
   'age',
   'city',
@@ -20,3 +20,5 @@ export class WriteUserResourceDto extends PickType(User, [
   @IsNotIn([Role.Admin], { each: true })
   roles: Role[];
 }
+
+export class UpdateUserResourceDto extends PartialType(CreateUserResourceDto) {}

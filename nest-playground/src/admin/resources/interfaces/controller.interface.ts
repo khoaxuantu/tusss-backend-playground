@@ -3,8 +3,12 @@ import { Roles } from '@/auth/decorator/role.decorator';
 import { InvalidParamsException } from '@/lib/exception/invalid-param.exception';
 import { Body, Delete, Get, Param } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { ObjectId } from "mongodb";
-import { GetListDtoAdapter, GetListDtoAdapterResProps, GetManyDtoAdapter } from '../adapters/dto.adapters';
+import { ObjectId } from 'mongodb';
+import {
+  GetListDtoAdapter,
+  GetListDtoAdapterResProps,
+  GetManyDtoAdapter,
+} from '../adapters/dto.adapters';
 import { RESOURCE_READ_TYPE } from '../constant/common';
 import { AbstractResourceReadDto } from '../dto/read.dto';
 import { AbstractResourceService } from './service.interface';
@@ -55,6 +59,12 @@ export abstract class AbstractResourceController<T> {
   }
 
   async update(@Param('id') id: string, @Body() payload: any) {
+    if (!payload || !Object.keys(payload).length)
+      throw new InvalidParamsException({
+        params: ['update.payload'],
+        message: 'Nothing to update',
+        where: 'ResourceController.update',
+      });
     return new this.outDtoClass(await this.service.updateOne(new ObjectId(id), payload));
   }
 

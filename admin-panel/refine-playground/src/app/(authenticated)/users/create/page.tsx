@@ -1,13 +1,9 @@
 "use client";
 
 import {
-  Checkbox,
-  CheckboxGroup,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Stack,
+  Checkbox
 } from "@chakra-ui/react";
+import { FormControlCheckBox } from "@components/Forms/Checkbox";
 import { FormControlInput, FormControlInputProps } from "@components/Forms/Input";
 import { FormControlNumber } from "@components/Forms/NumberInput";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -31,7 +27,7 @@ export default function UsersCreate() {
   const FormControlText = (
     props: Pick<FormControlInputProps<UserProps>, "label" | "required" | "inputProps"> & {
       field: UserPropsForTextInput;
-    }
+    },
   ) => {
     return (
       <FormControlInput<UserProps> register={register} error={errors[props.field]} {...props} />
@@ -51,19 +47,13 @@ export default function UsersCreate() {
         inputProps={{ type: "password" }}
       />
 
-      <FormControl mb={3} isRequired isInvalid={!!errors.roles}>
-        <FormLabel>Roles</FormLabel>
-        <CheckboxGroup>
-          <Stack spacing={[1, 5]} direction={["column", "row"]}>
-            {Roles.map((role, index) => (
-              <Checkbox key={role} value={role} {...register(`roles.${index}`)}>
-                {capitalize(role)}
-              </Checkbox>
-            ))}
-          </Stack>
-        </CheckboxGroup>
-        {errors.roles?.root && <FormErrorMessage>{errors.roles.root.message}</FormErrorMessage>}
-      </FormControl>
+      <FormControlCheckBox error={errors.roles}>
+        {Roles.map((role) => (
+          <Checkbox key={role} value={role} {...register(`roles`)}>
+            {capitalize(role)}
+          </Checkbox>
+        ))}
+      </FormControlCheckBox>
 
       <FormControlText field="phone_number" label="Phone Number" />
 
@@ -71,7 +61,7 @@ export default function UsersCreate() {
         field="age"
         label="Age"
         register={register}
-        error={errors.phone_number}
+        error={errors.age}
         numberInputProps={{ defaultValue: 18, min: 1, max: 200 }}
       />
 
