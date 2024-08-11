@@ -1,7 +1,9 @@
 import { CONFIG } from "@lib/constants/config";
 import type { AuthProvider } from "@refinedev/core";
 import { verify } from "jsonwebtoken";
+import { ApiError } from "next/dist/server/api-utils";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { AuthJwtProps } from "./types";
 
 export class AuthProviderServer {
@@ -59,5 +61,21 @@ export class AuthProviderServer {
     }
 
     return null;
+  }
+
+  static async withAuthHandler(callback: () => Promise<any>) {
+    try {
+      return await callback();
+    } catch (error) {
+      if (error instanceof ApiError) {
+        if (this.isUnauthorized(error.statusCode)) redirect("/login");
+      }
+
+      throw error;
+    }
+  }
+
+  static isUnauthorized(statusCode: number): boolean {
+    return statusCode == 401 || statusCode == 403;
   }
 };

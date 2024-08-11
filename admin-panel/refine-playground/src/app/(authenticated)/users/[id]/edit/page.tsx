@@ -26,6 +26,7 @@ export default function UserEditPage() {
   } = useForm<Partial<UserProps>, HttpError, Partial<UserProps>>({
     refineCoreProps: {
       redirect: "show",
+      queryOptions: { retry: 0 },
     },
   });
 

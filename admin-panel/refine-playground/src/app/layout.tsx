@@ -49,6 +49,9 @@ export default function RootLayout({
                     warnWhenUnsavedChanges: true,
                     useNewQueryKeys: true,
                     projectId: "AE7LBq-tW8rrA-xr0QMl",
+                    title: {
+                      text: "Tusss Project",
+                    }
                   }}
                 >
                   {children}

@@ -1,10 +1,13 @@
-import { AuthJwtProps, AuthProviderServer } from "@lib/providers/auth-provider";
+import { AuthProviderServer } from "@lib/providers/auth-provider";
+import { ApiError } from "next/dist/server/api-utils";
 
 export class HeadersAdapter {
   constructor(private opts?: Record<string, any>) {}
 
   async transform(): Promise<Headers> {
-    const identity = await AuthProviderServer.getIdentity!() as AuthJwtProps;
+    const identity = await AuthProviderServer.getIdentity();
+    if (!identity) throw new ApiError(401, "Unauthorized");
+
     const accessToken = identity.access_token;
     const headers = new Headers();
 
