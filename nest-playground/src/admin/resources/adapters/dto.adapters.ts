@@ -1,7 +1,7 @@
 import { FilterProps } from '@/lib/repository/interfaces/repository.interface';
+import { FilterQuery } from 'mongoose';
 import { AbstractResourceReadDto, ResourcePaginateDto } from '../dto/read.dto';
 import { AdminResourceDtoAdapter } from '../interfaces/adapter.interface';
-import { FilterQuery } from 'mongoose';
 
 type ParsePaginateProps = Omit<FilterProps<any>, 'match'>;
 type ParseFilterProps = FilterQuery<any>;
@@ -23,7 +23,7 @@ export class GetListDtoAdapter extends AdminResourceDtoAdapter {
   private static parsePaginate(props: ResourcePaginateDto): ParsePaginateProps {
     const result: ParsePaginateProps = {
       sort: {},
-      skip: ((props.page ?? 1) - 1) * (props.limit ?? 10),
+      page: props.page ?? 1,
       limit: props.limit ?? 10,
     };
 

@@ -21,7 +21,7 @@ export default function UsersCreate() {
     formState: { errors },
   } = useForm<UserProps, HttpError, UserProps>({
     resolver: yupResolver(UserSchema),
-    refineCoreProps: { redirect: false },
+    refineCoreProps: { redirect: "show" },
   });
 
   const FormControlText = (
@@ -48,8 +48,8 @@ export default function UsersCreate() {
       />
 
       <FormControlCheckBox error={errors.roles}>
-        {Roles.map((role) => (
-          <Checkbox key={role} value={role} {...register(`roles`)}>
+        {Roles.map((role, index) => (
+          <Checkbox key={role} value={role} {...register(`roles.${index}`)}>
             {capitalize(role)}
           </Checkbox>
         ))}

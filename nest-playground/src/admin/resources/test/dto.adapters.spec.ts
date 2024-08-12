@@ -23,7 +23,7 @@ describe('GetListDtoAdapter', () => {
           resourceListDtoStub({ page: undefined, limit: undefined }),
         );
         expect(subject.paginateParams.limit).toEqual(10);
-        expect(subject.paginateParams.skip).toEqual(0);
+        expect(subject.paginateParams.page).toEqual(1);
       });
     });
 

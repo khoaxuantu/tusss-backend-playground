@@ -1,14 +1,25 @@
+"use client";
+
 import { HStack, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
-import { getList } from "@lib/actions/data.server";
+import { Pagination } from "@components/Pagination";
 import { RESOURCE_IDENTIFIER } from "@lib/constants/resource";
 import { capitalize } from "@lib/helpers/string.helper";
 import { DateField, EditButton, List, ShowButton, TagField, TextField } from "@refinedev/chakra-ui";
+import { useTable } from "@refinedev/core";
 import { LIST_PROPS_AS_TEXT, UserProps } from "./schema/user.schema";
 
-export default async function UsersPage() {
-  const { data, total } = await getList<UserProps>({
+export default function UsersPage() {
+  const { tableQuery, pageCount, current, setCurrent } = useTable<UserProps>({
     resource: RESOURCE_IDENTIFIER.USER,
+    pagination: {
+      current: 1,
+      pageSize: 10,
+      mode: "server",
+    },
   });
+
+  const data = tableQuery?.data?.data ?? [];
+  const total = tableQuery?.data?.total ?? 0;
 
   return (
     <List>
@@ -33,6 +44,7 @@ export default async function UsersPage() {
           </Tbody>
         </Table>
       </TableContainer>
+      <Pagination current={current} pageCount={pageCount} setCurrent={setCurrent} />
     </List>
   );
 }
@@ -41,7 +53,7 @@ function UserRow({ user }: { user: UserProps }) {
   return (
     <Tr>
       <Td>
-        <TextField value={user._id}/>
+        <TextField value={user._id} />
       </Td>
       {LIST_PROPS_AS_TEXT.map((prop) => {
         return (

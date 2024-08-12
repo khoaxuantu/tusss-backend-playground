@@ -1,10 +1,11 @@
 import {
   FilterQuery,
-  Model,
-  PipelineStage,
+  PaginateModel,
+  PaginateOptions,
+  PaginateResult,
   ProjectionType,
   QueryOptions,
-  UpdateQuery,
+  UpdateQuery
 } from 'mongoose';
 
 export type SortProps = Record<string, 1 | -1>;
@@ -13,11 +14,12 @@ export interface FilterProps<T> {
   sort?: SortProps;
   limit?: number;
   match: FilterQuery<T>;
-  skip?: number;
+  page?: number;
+  paginateOptions?: PaginateOptions;
 }
 
 export abstract class AbstractModelRepository<T extends any> {
-  constructor(protected model: Model<any>) {}
+  constructor(protected model: PaginateModel<any>) {}
 
   findOneAndUpdate(
     filter: FilterQuery<T> = {},
@@ -42,13 +44,13 @@ export abstract class AbstractModelRepository<T extends any> {
     return this.model.findOneAndDelete(filter, options);
   }
 
-  list(props: FilterProps<T>): Promise<T[]> {
-    const aggregatePipeline: PipelineStage[] = props.match ? [{ $match: props.match }] : [];
-    if (props.sort) aggregatePipeline.push({ $sort: props.sort });
-    if (props.skip) aggregatePipeline.push({ $skip: props.skip });
-    if (props.limit) aggregatePipeline.push({ $limit: props.limit });
-
-    return this.model.aggregate(aggregatePipeline).exec();
+  list(props: FilterProps<T>): Promise<PaginateResult<T>> {
+    return this.model.paginate(props.match, {
+      limit: props.limit,
+      page: props.page,
+      sort: props.sort,
+      ...props.paginateOptions,
+    });
   }
 
   findById(

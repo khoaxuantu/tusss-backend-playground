@@ -1,12 +1,12 @@
-import { Injectable } from "@nestjs/common";
-import { AbstractModelRepository } from "../interfaces/repository.interface";
 import { Admin, AdminDocument } from "@/admin/schema/admin.schema";
+import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { PaginateModel } from "mongoose";
+import { AbstractModelRepository } from "../interfaces/repository.interface";
 
 @Injectable()
 export class AdminRepository extends AbstractModelRepository<AdminDocument> {
-  constructor(@InjectModel(Admin.name) model: Model<Admin>) {
+  constructor(@InjectModel(Admin.name) model: PaginateModel<Admin>) {
     super(model);
   }
 }

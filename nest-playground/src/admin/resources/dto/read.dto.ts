@@ -1,13 +1,13 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsArray, IsEnum, IsOptional, IsPositive, ValidateNested } from "class-validator";
-import { RESOURCE_READ_TYPE } from "../constant/common";
-import { Type } from "class-transformer";
-import { mixin } from "@nestjs/common";
-import { Constructor } from "@/lib/types/common";
+import { Constructor } from '@/lib/types/common';
+import { mixin } from '@nestjs/common';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Transform, Type } from 'class-transformer';
+import { IsArray, IsEnum, IsOptional, IsPositive, ValidateNested } from 'class-validator';
+import { RESOURCE_READ_TYPE } from '../constant/common';
 
 export class ResourcePaginateDto {
   @ApiPropertyOptional({
-    description: "The current page of the query",
+    description: 'The current page of the query',
     example: 1,
     default: 1,
   })
@@ -17,7 +17,7 @@ export class ResourcePaginateDto {
   page?: number = 1;
 
   @ApiPropertyOptional({
-    description: "The limit records per page",
+    description: 'The limit records per page',
     example: 5,
     default: 10,
   })
@@ -29,13 +29,25 @@ export class ResourcePaginateDto {
   @ApiPropertyOptional({ isArray: true })
   @IsArray()
   @IsOptional()
-  @Type(() => Array<String>)
+  @Transform(({ value }) =>
+    typeof value == "string" &&
+    value
+      .trim()
+      .split(',')
+      .map((val) => String(val)),
+  )
   sort?: string[];
 
   @ApiPropertyOptional({ isArray: true })
   @IsArray()
   @IsOptional()
-  @Type(() => Array<String>)
+  @Transform(({ value }) =>
+    typeof value == "string" &&
+    value
+      .trim()
+      .split(',')
+      .map((val) => String(val)),
+  )
   order?: string[];
 }
 
@@ -45,9 +57,17 @@ export function ResourceReadDto<T extends Constructor>(resource: T) {
     @IsEnum(RESOURCE_READ_TYPE)
     read_type: RESOURCE_READ_TYPE;
 
-    @ApiPropertyOptional()
+    @ApiPropertyOptional({ isArray: true })
     @IsOptional()
     @IsArray()
+    @Transform(
+      ({ value }) =>
+        typeof value == 'string' &&
+        value
+          .trim()
+          .split(',')
+          .map((val) => String(val)),
+    )
     ids?: string[];
 
     @IsOptional()

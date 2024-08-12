@@ -12,6 +12,8 @@ import {
 import { RESOURCE_READ_TYPE } from '../constant/common';
 import { AbstractResourceReadDto } from '../dto/read.dto';
 import { AbstractResourceService } from './service.interface';
+import { PaginateResult } from 'mongoose';
+import { PaginateResponseDto } from '@/lib/dto/out/paginate.dto';
 
 type OutDtoClass = new (data: any) => any;
 
@@ -26,12 +28,12 @@ export abstract class AbstractResourceController<T> {
   async list(payload: AbstractResourceReadDto) {
     console.log('🚀 ~ AbstractResourceController<T> ~ list ~ payload:', payload);
     let query: GetListDtoAdapterResProps | string[];
-    let res: T[];
+    let res: PaginateResult<T>;
 
     switch (payload.read_type) {
       case RESOURCE_READ_TYPE.LIST:
         query = GetListDtoAdapter.parse(payload) as GetListDtoAdapterResProps;
-        res = await this.service.listByFilter(query);
+        res = await this.service.listByFilter(query) as PaginateResult<T>;
         break;
 
       case RESOURCE_READ_TYPE.MANY:
@@ -46,7 +48,7 @@ export abstract class AbstractResourceController<T> {
         });
     }
 
-    return res.map((record) => new this.outDtoClass(record));
+    return new PaginateResponseDto(res, this.outDtoClass);
   }
 
   @Get(':id')

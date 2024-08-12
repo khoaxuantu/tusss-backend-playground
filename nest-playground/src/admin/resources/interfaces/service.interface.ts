@@ -1,7 +1,7 @@
 import { AbstractModelFactory } from '@/lib/factory/interfaces/factory.interface';
 import { AbstractModelRepository } from '@/lib/repository/interfaces/repository.interface';
-import { GetListDtoAdapterResProps } from '../adapters/dto.adapters';
 import { HydratedDocument, Types } from 'mongoose';
+import { GetListDtoAdapterResProps } from '../adapters/dto.adapters';
 
 export abstract class AbstractResourceService<T extends HydratedDocument<any>> {
   constructor(
@@ -17,13 +17,13 @@ export abstract class AbstractResourceService<T extends HydratedDocument<any>> {
     return this.repository.list({
       match: query.filterParams,
       limit: query.paginateParams.limit,
-      skip: query.paginateParams.skip,
+      page: query.paginateParams.page,
       sort: query.paginateParams.sort,
     });
   }
 
   listByManyIds(ids: string[]) {
-    return this.repository.list({ match: ids });
+    return this.repository.list({ match: { _id: ids }, paginateOptions: { pagination: false } });
   }
 
   createOne(payload: any) {

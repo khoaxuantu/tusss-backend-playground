@@ -1,5 +1,6 @@
 import { CONFIG } from "@lib/constants/config";
 import { RESOURCE_IDENTIFIER } from "@lib/constants/resource";
+import { ResourcePaginate } from "@lib/types/api.type";
 import { DataProvider, MetaQuery } from "@refinedev/core";
 import { ApiError } from "next/dist/server/api-utils";
 import { MongoFilterAdapter } from "./adapter/mongo-filter.adapter";
@@ -35,11 +36,11 @@ export class DataProviderServer {
 
     if (!res.ok) throw new ApiError(res.status, `${res.statusText}\n${await res.text()}`);
 
-    const data = await res.json();
+    const data = await res.json() as ResourcePaginate;
 
     return {
-      data,
-      total: data.total ?? data.data?.length ?? data.length ?? 0,
+      data: data.docs,
+      total: data.totalDocs,
     };
   };
 
@@ -70,9 +71,9 @@ export class DataProviderServer {
 
     if (!res.ok) throw new ApiError(res.status, `${res.statusText}\n${await res.text()}`);
 
-    const data = await res.json();
+    const data = await res.json() as ResourcePaginate;
 
-    return { data };
+    return { data: data.docs };
   };
 
   static create: DataProvider["create"] = async ({ resource, variables, meta }) => {
