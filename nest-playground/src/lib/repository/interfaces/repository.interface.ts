@@ -45,7 +45,7 @@ export abstract class AbstractModelRepository<T extends any> {
   }
 
   list(props: FilterProps<T>): Promise<PaginateResult<T>> {
-    return this.model.paginate(props.match, {
+    return this.model.paginate(JSON.parse(JSON.stringify(props.match || {})) || {}, {
       limit: props.limit,
       page: props.page,
       sort: props.sort,

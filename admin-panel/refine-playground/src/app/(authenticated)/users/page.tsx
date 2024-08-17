@@ -1,24 +1,75 @@
 "use client";
 
 import { HStack, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { ColumnFilter } from "@components/DataDisplay/ColumnFilter";
 import { Pagination } from "@components/Pagination";
-import { RESOURCE_IDENTIFIER } from "@lib/constants/resource";
 import { capitalize } from "@lib/helpers/string.helper";
 import { DateField, EditButton, List, ShowButton, TagField, TextField } from "@refinedev/chakra-ui";
-import { useTable } from "@refinedev/core";
+import { useTable } from "@refinedev/react-table";
+import { ColumnDef, flexRender } from "@tanstack/react-table";
+import { useMemo } from "react";
 import { LIST_PROPS_AS_TEXT, UserProps } from "./schema/user.schema";
 
 export default function UsersPage() {
-  const { tableQuery, pageCount, current, setCurrent } = useTable<UserProps>({
-    resource: RESOURCE_IDENTIFIER.USER,
-    pagination: {
-      current: 1,
-      pageSize: 10,
-      mode: "server",
-    },
-  });
+  const columns = useMemo<ColumnDef<UserProps>[]>(
+    () => [
+      {
+        id: "_id",
+        header: "ID",
+        accessorKey: "_id",
+        meta: {
+          filterOperator: "eq",
+        },
+      },
+      ...LIST_PROPS_AS_TEXT.map((field) => ({
+        id: field,
+        header: capitalize(field),
+        accessorKey: field,
+      })),
+      {
+        id: "roles",
+        header: "Roles",
+        accessorKey: "roles",
+        cell: (props) => {
+          return (
+            <HStack>
+              {(props.getValue() as string[]).map((role: string, index) => (
+                <TagField key={index} value={role} />
+              ))}
+            </HStack>
+          );
+        },
+      },
+      {
+        id: "createdAt",
+        header: "Created At",
+        accessorKey: "createdAt",
+        cell: (props) => <DateField value={props.getValue() as string} format="HH:mm DD/MM/YYYY" />,
+      },
+      {
+        id: "actions",
+        header: "Actions",
+        accessorKey: "_id",
+        cell: (props) => {
+          return (
+            <HStack>
+              <EditButton recordItemId={props.getValue() as string} />
+              <ShowButton recordItemId={props.getValue() as string} />
+            </HStack>
+          );
+        },
+      },
+    ],
+    [],
+  );
 
-  const data = tableQuery?.data?.data ?? [];
+  const {
+    getHeaderGroups,
+    getRowModel,
+    refineCore: { tableQuery, pageCount, current, setCurrent },
+  } = useTable<UserProps>({ columns });
+
+  console.log("🚀 ~ UsersPage ~ Render", tableQuery);
   const total = tableQuery?.data?.total ?? 0;
 
   return (
@@ -27,57 +78,48 @@ export default function UsersPage() {
       <TableContainer marginTop={12}>
         <Table variant="simple">
           <Thead>
-            <Tr>
-              <Th>ID</Th>
-              {LIST_PROPS_AS_TEXT.map((prop) => (
-                <Th key={prop}>{capitalize(prop)}</Th>
-              ))}
-              <Th>Roles</Th>
-              <Th>Created At</Th>
-              <Th>Actions</Th>
-            </Tr>
+            {getHeaderGroups().map((headerGroup) => {
+              return (
+                <Tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <Th key={header.id}>
+                        {!header.isPlaceholder && (
+                          <HStack spacing={2}>
+                            <TextField
+                              value={flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+                            />
+                            <ColumnFilter<UserProps> column={header.column} />
+                          </HStack>
+                        )}
+                      </Th>
+                    );
+                  })}
+                </Tr>
+              );
+            })}
           </Thead>
           <Tbody>
-            {data.map((user) => (
-              <UserRow key={user._id} user={user} />
-            ))}
+            {getRowModel().rows.map((row) => {
+              return (
+                <Tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => {
+                    return (
+                      <Td key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </Td>
+                    );
+                  })}
+                </Tr>
+              );
+            })}
           </Tbody>
         </Table>
       </TableContainer>
       <Pagination current={current} pageCount={pageCount} setCurrent={setCurrent} />
     </List>
-  );
-}
-
-function UserRow({ user }: { user: UserProps }) {
-  return (
-    <Tr>
-      <Td>
-        <TextField value={user._id} />
-      </Td>
-      {LIST_PROPS_AS_TEXT.map((prop) => {
-        return (
-          <Td key={prop} isNumeric={typeof user[prop] == "number"}>
-            {user[prop]}
-          </Td>
-        );
-      })}
-      <Td>
-        <HStack>
-          {user.roles.map((role: string, index) => (
-            <TagField key={index} value={role} />
-          ))}
-        </HStack>
-      </Td>
-      <Td>
-        <DateField value={user.createdAt} format="HH:mm DD/MM/YYYY" />
-      </Td>
-      <Td>
-        <HStack>
-          <EditButton recordItemId={user._id} />
-          <ShowButton recordItemId={user._id} />
-        </HStack>
-      </Td>
-    </Tr>
   );
 }

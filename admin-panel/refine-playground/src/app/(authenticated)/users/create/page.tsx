@@ -1,8 +1,6 @@
 "use client";
 
-import {
-  Checkbox
-} from "@chakra-ui/react";
+import { Checkbox } from "@chakra-ui/react";
 import { FormControlCheckBox } from "@components/Forms/Checkbox";
 import { FormControlInput, FormControlInputProps } from "@components/Forms/Input";
 import { FormControlNumber } from "@components/Forms/NumberInput";
@@ -11,6 +9,7 @@ import { capitalize } from "@lib/helpers/string.helper";
 import { Create } from "@refinedev/chakra-ui";
 import { HttpError } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 import { Roles, UserProps, UserPropsForTextInput, UserSchema } from "../schema/user.schema";
 
 export default function UsersCreate() {
@@ -30,7 +29,11 @@ export default function UsersCreate() {
     },
   ) => {
     return (
-      <FormControlInput<UserProps> register={register} error={errors[props.field]} {...props} />
+      <FormControlInput<UserProps>
+        register={register as UseFormRegister<UserProps>}
+        error={errors[props.field]}
+        {...props}
+      />
     );
   };
 
@@ -60,7 +63,7 @@ export default function UsersCreate() {
       <FormControlNumber<UserProps>
         field="age"
         label="Age"
-        register={register}
+        register={register as UseFormRegister<UserProps>}
         error={errors.age}
         numberInputProps={{ defaultValue: 18, min: 1, max: 200 }}
       />

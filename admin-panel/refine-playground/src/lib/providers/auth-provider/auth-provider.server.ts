@@ -10,7 +10,6 @@ export class AuthProviderServer {
   static async check(): ReturnType<AuthProvider["check"]> {
     const cookieStore = cookies();
     const auth = cookieStore.get("auth");
-    console.log("🚀 ~ check: ~ auth:", auth);
 
     try {
       if (auth) {

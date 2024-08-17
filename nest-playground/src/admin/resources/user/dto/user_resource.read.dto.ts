@@ -1,10 +1,10 @@
+import { Role } from '@/auth/constant/role.constant';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { ResourceReadDto } from '../../dto/read.dto';
+import { Type } from 'class-transformer';
+import { IsDate, IsEnum, IsOptional, ValidateNested } from 'class-validator';
 import { Types } from 'mongoose';
 import { CreateMongoFilterDtoWith } from '../../dto/mongo.dto';
-import { IsDate, IsEmail, IsEnum, IsOptional, IsPhoneNumber, ValidateNested } from 'class-validator';
-import { Role } from '@/auth/constant/role.constant';
-import { Type } from 'class-transformer';
+import { ResourceReadDto } from '../../dto/read.dto';
 
 class MongoFilterAge extends CreateMongoFilterDtoWith(Number) {}
 class MongoFilterString extends CreateMongoFilterDtoWith(String) {}
@@ -22,6 +22,12 @@ export class UserResourceDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => MongoFilterString)
+  name?: MongoFilterString;
+
+  @ApiPropertyOptional({ type: MongoFilterString })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => MongoFilterString)
   firstname?: MongoFilterString;
 
   @ApiPropertyOptional({ type: MongoFilterString })
@@ -31,14 +37,12 @@ export class UserResourceDto {
   lastname?: MongoFilterString;
 
   @ApiPropertyOptional()
-  @IsEmail()
   @IsOptional()
   @ValidateNested()
   @Type(() => MongoFilterString)
   email?: MongoFilterString;
 
   @ApiPropertyOptional()
-  @IsPhoneNumber()
   @IsOptional()
   @ValidateNested()
   @Type(() => MongoFilterString)

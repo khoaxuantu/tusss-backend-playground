@@ -16,6 +16,7 @@ import { capitalize } from "@lib/helpers/string.helper";
 import { Edit } from "@refinedev/chakra-ui";
 import { HttpError } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 
 export default function UserEditPage() {
   const {
@@ -39,7 +40,7 @@ export default function UserEditPage() {
   ) => {
     return (
       <FormControlInput<Partial<UserProps>>
-        register={register}
+        register={register as UseFormRegister<Partial<UserProps>>}
         error={errors[props.field]}
         {...props}
       />
@@ -63,7 +64,7 @@ export default function UserEditPage() {
       <FormControlNumber<Partial<UserProps>>
         field="age"
         label="Age"
-        register={register}
+        register={register as UseFormRegister<Partial<UserProps>>}
         error={errors.age}
         numberInputProps={{ min: 1, max: 200 }}
       />

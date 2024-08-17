@@ -24,7 +24,7 @@ export class ApiQueryListBuilder extends ApiQueryBuilder {
    * => '?name=Tusss&age[$in]=1&age[$in]=2'
    */
   withFilter(filter: Record<string, any>) {
-    this.url.search += qs.stringify({ [QUERY_PARAM.FILTER]: filter });
+    this.url.search += "&" + qs.stringify({ [QUERY_PARAM.FILTER]: filter });
     return this;
   }
 
@@ -34,7 +34,7 @@ export class ApiQueryListBuilder extends ApiQueryBuilder {
    * => '?$or[age][$in]=1&$or[age][$in]=2&$or[name]=Tusss'
    */
   withOrFilter(filter: Record<string, any>) {
-    this.url.search += qs.stringify({ [QUERY_PARAM.OR]: filter });
+    this.url.search += "&" + qs.stringify({ [QUERY_PARAM.OR]: filter });
     return this;
   }
 
