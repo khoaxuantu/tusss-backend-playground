@@ -2,14 +2,20 @@
 
 import { CONFIG } from "@lib/constants/config";
 import { AuthProviderServer } from "@lib/providers/auth-provider";
-import { AuthService } from "@lib/services/auth.service";
 import { SigninInDto } from "@lib/services/dto/signin.in.dto";
 import { sign } from "jsonwebtoken";
 
-export async function login(payload: SigninInDto) {
-  const data = await AuthService.login(payload);
+const mockUsers = [{ email: "john@mail.com" }, { email: "jane@mail.com" }];
 
-  return sign(data, process.env.JWT_SECRET || "", { expiresIn: `${CONFIG.JWT_LIFE_TIME}h` });
+export async function login(payload: SigninInDto) {
+  // const data = await AuthService.login(payload);
+
+  const data = mockUsers.find((item) => item.email === payload.email);
+  console.log("🚀 ~ login: ~ user:", data);
+
+  return sign(data || mockUsers[0], process.env.JWT_SECRET || "fjdia239204euhdfiosfsd", {
+    expiresIn: `${CONFIG.JWT_LIFE_TIME}h`,
+  });
 }
 
 export async function checkLogin() {

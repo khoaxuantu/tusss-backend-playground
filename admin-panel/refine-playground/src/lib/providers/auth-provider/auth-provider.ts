@@ -4,6 +4,7 @@ import { checkLogin, getIdentity, getPermissions, login } from "@lib/actions/aut
 import type { AuthProvider } from "@refinedev/core";
 import Cookies from "js-cookie";
 
+
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
     const user = await login({ email, password });

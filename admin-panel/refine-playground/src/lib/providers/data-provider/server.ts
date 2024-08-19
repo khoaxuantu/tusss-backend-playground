@@ -7,6 +7,7 @@ import { MongoFilterAdapter } from "./adapter/mongo-filter.adapter";
 import { ApiQueryListBuilder } from "./builder/api-query-list.builder";
 import { ApiQueryManyBuilder } from "./builder/api-query-many.builder";
 import { ApiQueryParamBuilder } from "./builder/api-query-param.builder";
+import { mockUsersData } from "./data.mock";
 
 export class DataProviderServer {
   private static url: string = CONFIG.BACKEND_URL;
@@ -18,25 +19,29 @@ export class DataProviderServer {
     sorters,
     meta,
   }) => {
-    const { headers } = meta as MetaQuery;
-    const query = new ApiQueryListBuilder(this.url).withResource(resource as RESOURCE_IDENTIFIER);
+    // const { headers } = meta as MetaQuery;
+    // const query = new ApiQueryListBuilder(this.url).withResource(resource as RESOURCE_IDENTIFIER);
 
-    if (pagination) query.withPagination(pagination);
-    if (sorters) sorters.forEach((sorter) => query.withSort(sorter));
-    if (filters?.length) {
-      const adaptedFilter = MongoFilterAdapter.parse(filters);
-      query.withOrFilter(adaptedFilter.or);
-      query.withFilter(adaptedFilter.filter);
-    }
+    // if (pagination) query.withPagination(pagination);
+    // if (sorters) sorters.forEach((sorter) => query.withSort(sorter));
+    // if (filters?.length) {
+    //   const adaptedFilter = MongoFilterAdapter.parse(filters);
+    //   query.withOrFilter(adaptedFilter.or);
+    //   query.withFilter(adaptedFilter.filter);
+    // }
 
-    const endpoint = query.endpoint;
-    console.log("🚀 ~ DataProviderServer ~ endpoint:", endpoint);
+    // const endpoint = query.endpoint;
 
-    const res = await fetch(endpoint, { headers });
+    // const res = await fetch(endpoint, { headers });
 
-    if (!res.ok) throw new ApiError(res.status, `${res.statusText}\n${await res.text()}`);
+    // if (!res.ok) throw new ApiError(res.status, `${res.statusText}\n${await res.text()}`);
 
-    const data = await res.json() as ResourcePaginate;
+    // const data = await res.json() as ResourcePaginate;
+
+    const data = {
+      docs: mockUsersData as any,
+      totalDocs: mockUsersData.length,
+    };
 
     return {
       data: data.docs,
@@ -71,7 +76,7 @@ export class DataProviderServer {
 
     if (!res.ok) throw new ApiError(res.status, `${res.statusText}\n${await res.text()}`);
 
-    const data = await res.json() as ResourcePaginate;
+    const data = (await res.json()) as ResourcePaginate;
 
     return { data: data.docs };
   };
@@ -93,7 +98,7 @@ export class DataProviderServer {
   };
 
   static update: DataProvider["update"] = async ({ resource, id, variables, meta }) => {
-    console.log("🚀 ~ DataProviderServer ~ update:DataProvider['update']= ~ variables:", variables)
+    console.log("🚀 ~ DataProviderServer ~ update:DataProvider['update']= ~ variables:", variables);
     const { headers } = meta as MetaQuery;
     const query = new ApiQueryParamBuilder(this.url)
       .withResource(resource as RESOURCE_IDENTIFIER)

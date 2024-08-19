@@ -1,7 +1,0 @@
-region: ap-northeast-1
-s3:
-  bucket_a: bucket_a
-  bucket_b: bucket_b
-sqs:
-  queue_a: queue_a
-  queue_b: queue_b
