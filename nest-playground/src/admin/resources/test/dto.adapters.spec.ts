@@ -1,5 +1,6 @@
-import { GetListDtoAdapter } from '../adapters/dto.adapters';
-import { resourceListDtoStub } from './stub/read.dto.stub';
+import { GetListDtoAdapter, GetManyDtoAdapter } from '../adapters/dto.adapters';
+import { RESOURCE_READ_TYPE } from '../constant/common';
+import { resourceListDtoStub } from './stub/read.in.dto.stub';
 
 describe('GetListDtoAdapter', () => {
   describe('When there are sort fields', () => {
@@ -56,5 +57,13 @@ describe('GetListDtoAdapter', () => {
       const subject = GetListDtoAdapter.parse(resourceListDtoStub({ filter: dtoParams }));
       expect(subject.filterParams).toEqual(expectResult);
     });
+  });
+});
+
+describe("GetManyDtoAdapter", () => {
+  test("parse", () => {
+    const testIds = ["1", "2", "3"];
+    const res = GetManyDtoAdapter.parse({ read_type: RESOURCE_READ_TYPE.MANY, ids: testIds });
+    expect(res).toBe(testIds);
   });
 });

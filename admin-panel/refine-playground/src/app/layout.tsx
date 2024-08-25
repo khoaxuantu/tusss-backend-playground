@@ -45,7 +45,6 @@ export default function RootLayout({
                     },
                   ]}
                   options={{
-                    syncWithLocation: true,
                     warnWhenUnsavedChanges: true,
                     useNewQueryKeys: true,
                     projectId: "AE7LBq-tW8rrA-xr0QMl",

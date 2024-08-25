@@ -1,21 +1,20 @@
 import { Role } from '@/auth/constant/role.constant';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { IsDate, IsEnum, IsOptional, ValidateNested } from 'class-validator';
-import { Types } from 'mongoose';
-import { CreateMongoFilterDtoWith } from '../../dto/mongo.dto';
+import {
+  MongoFilterDate,
+  MongoFilterNumber,
+  MongoFilterObjectId,
+  MongoFilterString,
+} from '../../dto/mongo.dto';
 import { ResourceReadDto } from '../../dto/read.dto';
-
-class MongoFilterAge extends CreateMongoFilterDtoWith(Number) {}
-class MongoFilterString extends CreateMongoFilterDtoWith(String) {}
-class MongoFilterDate extends CreateMongoFilterDtoWith(Date) {}
-class MongoFilterObjectId extends CreateMongoFilterDtoWith(Types.ObjectId) {}
 
 export class UserResourceDto {
   @ApiPropertyOptional({ type: MongoFilterObjectId })
   @IsOptional()
   @ValidateNested()
-  @Type(() => MongoFilterObjectId)
+  @Transform(({ value }) => new MongoFilterObjectId(value))
   _id?: MongoFilterObjectId;
 
   @ApiPropertyOptional({ type: MongoFilterString })
@@ -60,11 +59,11 @@ export class UserResourceDto {
   @Type(() => MongoFilterString)
   city?: MongoFilterString;
 
-  @ApiPropertyOptional({ type: MongoFilterAge })
+  @ApiPropertyOptional({ type: MongoFilterNumber })
   @IsOptional()
   @ValidateNested()
-  @Type(() => MongoFilterAge)
-  age?: MongoFilterAge;
+  @Type(() => MongoFilterNumber)
+  age?: MongoFilterNumber;
 
   @ApiPropertyOptional({ enum: Role, isArray: true })
   @IsEnum(Role)

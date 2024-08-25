@@ -21,6 +21,8 @@ export class UserOutDto extends PickType(IntersectionType(User, Document), [
   constructor(data: UserDocument) {
     super()
 
+    if (!data || !Object.keys(data).length) return;
+
     this._id = MongoHelper.getObjectIdAsString(data);
     this.name = data.name;
     this.firstname = data.firstname;
