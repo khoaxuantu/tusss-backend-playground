@@ -1,3 +1,4 @@
+import { ClassTransformerHelper } from '@/lib/helper/transform.helper';
 import { Constructor } from '@/lib/types/common';
 import { mixin } from '@nestjs/common';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
@@ -29,25 +30,13 @@ export class ResourcePaginateDto {
   @ApiPropertyOptional({ isArray: true })
   @IsArray()
   @IsOptional()
-  @Transform(({ value }) =>
-    typeof value == "string" &&
-    value
-      .trim()
-      .split(',')
-      .map((val) => String(val)),
-  )
+  @Transform(({ value }) => ClassTransformerHelper.transformArrParams({ cls: String, value }))
   sort?: string[];
 
   @ApiPropertyOptional({ isArray: true })
   @IsArray()
   @IsOptional()
-  @Transform(({ value }) =>
-    typeof value == "string" &&
-    value
-      .trim()
-      .split(',')
-      .map((val) => String(val)),
-  )
+  @Transform(({ value }) => ClassTransformerHelper.transformArrParams({ cls: String, value }))
   order?: string[];
 }
 
@@ -60,14 +49,7 @@ export function ResourceReadDto<T extends Constructor>(resource: T) {
     @ApiPropertyOptional({ isArray: true })
     @IsOptional()
     @IsArray()
-    @Transform(
-      ({ value }) =>
-        typeof value == 'string' &&
-        value
-          .trim()
-          .split(',')
-          .map((val) => String(val)),
-    )
+    @Transform(({ value }) => ClassTransformerHelper.transformArrParams({ cls: String, value }))
     ids?: string[];
 
     @IsOptional()

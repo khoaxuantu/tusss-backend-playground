@@ -1,6 +1,7 @@
 import { testMongoFilterDto } from '@/admin/resources/test/shared/shared-examples/mongo.dto';
-import { UserResourceDto } from '../../dto/user_resource.read.dto';
+import { ListUserResourceDto, UserResourceDto } from '../../dto/user_resource.read.dto';
 import { Types } from 'mongoose';
+import { testResourceReadDto } from '@/admin/resources/test/shared/shared-examples/read.dto';
 
 describe('UserResourceDto', () => {
   const testDate = new Date();
@@ -61,4 +62,8 @@ describe('UserResourceDto', () => {
       });
     });
   });
+});
+
+describe("ListUserResourceDto", () => {
+  testResourceReadDto({ dtoClass: ListUserResourceDto })
 });

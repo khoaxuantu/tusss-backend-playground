@@ -60,17 +60,15 @@ export class MongoFilterObjectId extends CreateMongoFilterDtoWith(Types.ObjectId
     if (typeof obj.$ne == 'string') this.$ne = new Types.ObjectId(obj.$ne as string);
     if (typeof obj.$lt == 'string') this.$lt = new Types.ObjectId(obj.$lt as string);
     if (typeof obj.$lte == 'string') this.$lte = new Types.ObjectId(obj.$lte as string);
-    if (obj.$in instanceof Array && Object.keys(obj.$in).length) {
+    if (Array.isArray(obj.$in) && Object.keys(obj.$in).length) {
       this.$in = (obj.$in as string[])
         .filter((val) => typeof val == 'string')
         .map((val) => new Types.ObjectId(val));
     }
-    if (obj.$nin instanceof Array && Object.keys(obj.$nin).length) {
+    if (Array.isArray(obj.$nin) && Object.keys(obj.$nin).length) {
       this.$nin = (obj.$nin as string[])
       .filter((val) => typeof val == 'string')
       .map((val) => new Types.ObjectId(val));
     }
-
-    console.log(this);
   }
 }

@@ -1,7 +1,8 @@
+import { Constructor } from '@/lib/types/common';
 import { plainToInstance } from 'class-transformer';
 
 interface TestMongoFilterDtoProps<T> {
-  dtoClass: new (...args: any[]) => T;
+  dtoClass: Constructor<T>;
   testValue: any;
   testField: keyof T;
   expectValue: any;
