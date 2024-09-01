@@ -53,9 +53,9 @@ export function ResourceReadDto<T extends Constructor>(resource: T) {
     ids?: string[];
 
     @IsOptional()
-    @ValidateNested()
+    @ValidateNested({ each: true })
     @Type(() => resource)
-    $or?: InstanceType<T>;
+    $or?: InstanceType<T>[];
 
     @IsOptional()
     @ValidateNested()
