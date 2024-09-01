@@ -19,7 +19,11 @@ export interface FilterProps<T> {
 }
 
 export abstract class AbstractModelRepository<T extends any> {
-  constructor(protected model: PaginateModel<any>) {}
+  constructor(protected model: PaginateModel<T>) {}
+
+  create(payload: Partial<T>): Promise<T> {
+    return this.model.create(payload);
+  }
 
   findOneAndUpdate(
     filter: FilterQuery<T> = {},
@@ -41,7 +45,7 @@ export abstract class AbstractModelRepository<T extends any> {
     filter: FilterQuery<T>,
     options: QueryOptions<T> = { returnDocument: 'after' },
   ): Promise<T> {
-    return this.model.findOneAndDelete(filter, options);
+    return this.model.findOneAndDelete(filter, options).exec();
   }
 
   list(props: FilterProps<T>): Promise<PaginateResult<T>> {

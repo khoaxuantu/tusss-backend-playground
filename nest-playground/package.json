@@ -79,6 +79,7 @@
       "@/(.*)": "<rootDir>/src/$1",
       "@test/(.*)": "<rootDir>/test/$1"
     },
+    "modulePathIgnorePatterns": ["<rootDir>/dist"],
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"

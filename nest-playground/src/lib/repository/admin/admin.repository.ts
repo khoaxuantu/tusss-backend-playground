@@ -6,7 +6,7 @@ import { AbstractModelRepository } from "../interfaces/repository.interface";
 
 @Injectable()
 export class AdminRepository extends AbstractModelRepository<AdminDocument> {
-  constructor(@InjectModel(Admin.name) model: PaginateModel<Admin>) {
+  constructor(@InjectModel(Admin.name) model: PaginateModel<AdminDocument>) {
     super(model);
   }
 }

@@ -1,16 +1,14 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { UserService } from '../user.service';
-import { CommonUserFactory } from '@/lib/factory/user/common_user';
-import { userDocumentStub, userStub, userToClientStub } from '@test/stubs/users.stub';
-import { UserDocument } from '@/user/schema/user.schema';
-import { UserRepository } from '@/lib/repository/user/user.repository';
 import { FindUserOpt } from '@/lib/repository/user/interfaces/find_user.interface';
+import { UserRepository } from '@/lib/repository/user/user.repository';
+import { UserDocument } from '@/user/schema/user.schema';
+import { Test, TestingModule } from '@nestjs/testing';
+import { userStub, userToClientStub } from '@test/stubs/users.stub';
+import { UserService } from '../user.service';
 import { UpdateUserDtoStub } from './stubs/update_user.dto.stub';
 
 describe('UserService', () => {
   let service: UserService;
   let repository: UserRepository;
-  let factory: CommonUserFactory;
   const { name, email } = userStub();
   const dataToClient = userToClientStub();
 
@@ -19,16 +17,11 @@ describe('UserService', () => {
       providers: [
         UserService,
         {
-          provide: CommonUserFactory,
-          useValue: {
-            create: jest.fn().mockResolvedValue(userDocumentStub()),
-          },
-        },
-        {
           provide: UserRepository,
           useValue: {
             findOne: jest.fn().mockResolvedValue(dataToClient),
             findOneAndUpdate: jest.fn(),
+            create: jest.fn(),
           },
         },
       ],
@@ -36,7 +29,6 @@ describe('UserService', () => {
 
     service = module.get<UserService>(UserService);
     repository = module.get<UserRepository>(UserRepository);
-    factory = module.get<CommonUserFactory>(CommonUserFactory);
   });
 
   it('should be defined', () => {
@@ -44,7 +36,7 @@ describe('UserService', () => {
   });
 
   test('saveOne()', async () => {
-    let spyMethod = jest.spyOn(factory, 'create');
+    let spyMethod = jest.spyOn(repository, 'create');
     service.saveOne(userStub());
     expect(spyMethod).toHaveBeenCalledTimes(1);
   });

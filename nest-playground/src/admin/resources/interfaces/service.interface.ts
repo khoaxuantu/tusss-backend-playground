@@ -1,13 +1,9 @@
-import { AbstractModelFactory } from '@/lib/factory/interfaces/factory.interface';
 import { AbstractModelRepository } from '@/lib/repository/interfaces/repository.interface';
 import { HydratedDocument, Types } from 'mongoose';
 import { GetListDtoAdapterResProps } from '../adapters/dto.adapters';
 
 export abstract class AbstractResourceService<T extends HydratedDocument<any>> {
-  constructor(
-    protected repository: AbstractModelRepository<T>,
-    protected factory: AbstractModelFactory<T>,
-  ) {}
+  constructor(protected repository: AbstractModelRepository<T>) {}
 
   findById(id: string) {
     return this.repository.findById(id);
@@ -27,7 +23,7 @@ export abstract class AbstractResourceService<T extends HydratedDocument<any>> {
   }
 
   createOne(payload: any) {
-    return this.factory.create(payload);
+    return this.repository.create(payload);
   }
 
   updateOne(id: Types.ObjectId, payload: any) {

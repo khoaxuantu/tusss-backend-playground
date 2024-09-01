@@ -1,22 +1,18 @@
 import { CreateUserDto } from '@/auth/dto/create_user.dto';
-import { CommonUserFactory } from '@/lib/factory/user/common_user';
 import { FindUserOpt } from '@/lib/repository/user/interfaces/find_user.interface';
 import { UserRepository } from '@/lib/repository/user/user.repository';
 import { User, UserDocument } from '@/user/schema/user.schema';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UpdateUserDto } from './dto/update_user.dto';
 import { Types } from 'mongoose';
+import { UpdateUserDto } from './dto/update_user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(
-    private userFactory: CommonUserFactory,
-    private userRepository: UserRepository,
-  ) {}
+  constructor(private userRepository: UserRepository) {}
 
   async saveOne(user: CreateUserDto) {
     try {
-      await this.userFactory.create(user);
+      await this.userRepository.create(user);
     } catch (error) {
       throw new BadRequestException();
     }
