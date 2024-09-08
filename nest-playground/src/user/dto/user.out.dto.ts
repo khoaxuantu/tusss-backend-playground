@@ -18,7 +18,7 @@ export class UserOutDto extends PickType(IntersectionType(User, Document), [
   'createdAt',
   'email'
 ]) {
-  constructor(data: UserDocument) {
+  constructor(data?: UserDocument) {
     super()
 
     if (!data || !Object.keys(data).length) return;

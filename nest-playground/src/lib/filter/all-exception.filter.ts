@@ -47,11 +47,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
       this.logger.error(`exception: ${exception}`);
-    } else if (status === HttpStatus.UNAUTHORIZED) {
-      this.logger.error(JSON.stringify(resData))
     } else {
       this.logger.error(
-        `exception, with status: ${status}, response: ${JSON.stringify(resData)}`,
+        `with status: ${status}, response: ${JSON.stringify(resData)}`,
       );
     }
 

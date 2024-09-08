@@ -1,4 +1,4 @@
-import { ClassTransformerHelper } from '../helper/transform.helper';
+import { ClassTransformerHelper } from '../../helper/transform.helper';
 
 class MockClass {
   a: string;
