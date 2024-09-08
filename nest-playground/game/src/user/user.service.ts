@@ -3,7 +3,7 @@ import { FindUserOpt } from '@/lib/repository/user/interfaces/find_user.interfac
 import { UserRepository } from '@/lib/repository/user/user.repository';
 import { User, UserDocument } from '@/user/schema/user.schema';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Types } from 'mongoose';
+import { FilterQuery, Types } from 'mongoose';
 import { UpdateUserDto } from './dto/update_user.dto';
 
 @Injectable()
@@ -26,13 +26,14 @@ export class UserService {
     return this.userRepository.findOne({ email }, { __v: 0 });
   }
 
+
   sendUserInfoToClient(user: UserDocument | FindUserOpt): UserDocument | Promise<UserDocument> {
     if (this.isUserDocument(user)) {
       const { password, ...retUser } = user;
       return retUser as UserDocument;
     }
 
-    return this.userRepository.findOne(user, { _id: 0, _v: 0, password: 0 });
+    return this.userRepository.findOne(user as FilterQuery<UserDocument>, { _id: 0, _v: 0, password: 0 });
   }
 
   async updateOne(user: UpdateUserDto): Promise<void> {
