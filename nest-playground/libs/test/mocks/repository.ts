@@ -1,4 +1,4 @@
-import { AbstractModelRepository } from "@/lib/repository/interfaces/repository.interface";
+import { AbstractModelRepository } from "../../interfaces/repository.interface";
 
 export function mockRepository() {
   return jest.fn().mockReturnValue({

@@ -1,4 +1,4 @@
-import { FilterProps } from '@/lib/repository/interfaces/repository.interface';
+import { FilterProps } from '@libs/interfaces/repository.interface';
 import { FilterQuery } from 'mongoose';
 import { AbstractResourceReadDto, ResourcePaginateDto } from '../dto/read.dto';
 

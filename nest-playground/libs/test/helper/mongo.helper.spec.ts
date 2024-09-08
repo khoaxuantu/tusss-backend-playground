@@ -1,4 +1,4 @@
-import { MongoHelper } from "@/lib/helper/mongo.helper";
+import { MongoHelper } from "../../helper/mongo.helper";
 import { Types } from "mongoose";
 
 describe('MongoHelper', () => {

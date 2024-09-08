@@ -1,4 +1,4 @@
-import { InvalidParamsException } from '@/lib/exception/invalid-param.exception';
+import { InvalidParamsException } from '@libs/exception/invalid-param.exception';
 import { Types } from 'mongoose';
 import { RESOURCE_READ_TYPE } from '../../../constant/common';
 import { AbstractResourceController } from '../../../interfaces/controller.interface';

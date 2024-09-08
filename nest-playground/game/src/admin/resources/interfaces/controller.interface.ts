@@ -1,9 +1,11 @@
 import { Role } from '@/auth/constant/role.constant';
 import { Roles } from '@/auth/decorator/role.decorator';
-import { InvalidParamsException } from '@/lib/exception/invalid-param.exception';
+import { PaginateResponseDto } from '@libs/dto/out/paginate.dto';
+import { InvalidParamsException } from '@libs/exception/invalid-param.exception';
 import { Body, Delete, Get, Param } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { ObjectId } from 'mongodb';
+import { PaginateResult } from 'mongoose';
 import {
   GetListDtoAdapter,
   GetListDtoAdapterResProps,
@@ -12,8 +14,6 @@ import {
 import { RESOURCE_READ_TYPE } from '../constant/common';
 import { AbstractResourceReadDto } from '../dto/read.dto';
 import { AbstractResourceService } from './service.interface';
-import { PaginateResult } from 'mongoose';
-import { PaginateResponseDto } from '@/lib/dto/out/paginate.dto';
 
 type OutDtoClass = new (data: any) => any;
 

@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { PaginateResult } from 'mongoose';
+import { } from "mongoose-paginate-v2";
 
 export class PaginateResponseDto<T, TDocDto extends T>
   implements

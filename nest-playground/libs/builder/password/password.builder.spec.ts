@@ -1,4 +1,4 @@
-import { PASSWORD_MAXLENGTH, PASSWORD_MINLENGTH } from '@/lib/constant/constants';
+import { PASSWORD_MAXLENGTH, PASSWORD_MINLENGTH } from '@libs/constant/constants';
 import PasswordBuilder from './password.builder';
 
 describe('PasswordBuilder', () => {

@@ -1,5 +1,5 @@
 import { AbstractResourceService } from '@/admin/resources/interfaces/service.interface';
-import { AbstractModelRepository } from '@/lib/repository/interfaces/repository.interface';
+import { AbstractModelRepository } from '@libs/interfaces/repository.interface';
 import { Types } from 'mongoose';
 
 export interface ResourceServiceInheritanceProps {

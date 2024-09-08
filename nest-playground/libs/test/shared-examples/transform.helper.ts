@@ -1,4 +1,4 @@
-import { Constructor } from "@/lib/types/common";
+import { Constructor } from "../../types/common";
 import { plainToInstance } from "class-transformer";
 
 interface testArrParamsTransformProps<T> {

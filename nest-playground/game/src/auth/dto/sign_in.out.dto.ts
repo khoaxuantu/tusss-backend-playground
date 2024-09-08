@@ -1,5 +1,5 @@
-import { MongoHelper } from "@/lib/helper/mongo.helper";
 import { User, UserDocument } from "@/user/schema/user.schema";
+import { MongoHelper } from "@libs/helper/mongo.helper";
 import { ApiProperty, IntersectionType, OmitType } from "@nestjs/swagger";
 import { Document } from "mongoose";
 

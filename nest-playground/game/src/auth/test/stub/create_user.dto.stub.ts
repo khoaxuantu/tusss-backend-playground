@@ -1,7 +1,7 @@
 import { CreateUserDto } from '@/auth/dto/create_user.dto';
-import PasswordBuilder from '@/lib/builder/password/password.builder';
 import { User } from '@/user/schema/user.schema';
 import { userStub } from '@test/stubs/users.stub';
+import PasswordBuilder from '@libs/builder/password/password.builder';
 
 export class UserDtoStub extends CreateUserDto {
   static info: User = userStub();

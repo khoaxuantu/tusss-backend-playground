@@ -1,4 +1,4 @@
-import { Constructor } from '@/lib/types/common';
+import { Constructor } from '@libs/types/common';
 import { mixin } from '@nestjs/common';
 import { Type } from 'class-transformer';
 import { IsArray, IsOptional } from 'class-validator';

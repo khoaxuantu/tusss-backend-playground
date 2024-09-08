@@ -1,6 +1,6 @@
 import { AdminService } from '@/admin/admin.service';
-import PasswordBuilder from '@/lib/builder/password/password.builder';
 import { UserService } from '@/user/user.service';
+import PasswordBuilder from '@libs/builder/password/password.builder';
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
