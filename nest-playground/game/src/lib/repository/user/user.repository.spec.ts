@@ -1,12 +1,12 @@
-import { UserRepository } from './user.repository';
-import { Test } from '@nestjs/testing';
-import { User } from '@/user/schema/user.schema';
-import { userDocumentNoIdStub, userDocumentStub } from '@test/stubs/users.stub';
-import { getModelToken } from '@nestjs/mongoose';
-import { FindUserOpt } from './interfaces/find_user.interface';
-import { UserModelMock } from '@test/mock/model/mongodb/user.mock';
+import { User, UserDocument } from '@/user/schema/user.schema';
 import { UpdateUserDtoStub } from '@/user/test/stubs/update_user.dto.stub';
-import { Types } from 'mongoose';
+import { getModelToken } from '@nestjs/mongoose';
+import { Test } from '@nestjs/testing';
+import { UserModelMock } from '@test/mock/model/mongodb/user.mock';
+import { userDocumentNoIdStub, userDocumentStub } from '@test/stubs/users.stub';
+import { FilterQuery, Types } from 'mongoose';
+import { FindUserOpt } from './interfaces/find_user.interface';
+import { UserRepository } from './user.repository';
 
 const CORRECT_DOCUMENT = 'should return correct document';
 
@@ -36,7 +36,9 @@ describe('UserRepository', () => {
       let projectNoId = { _id: 0 };
 
       it(statement, async () => {
-        expect(await repository.findOne(opts)).toEqual(userDocumentStub());
+        expect(await repository.findOne(opts as FilterQuery<UserDocument>)).toEqual(
+          userDocumentStub(),
+        );
       });
 
       describe('(no _id)', () => {
@@ -49,7 +51,7 @@ describe('UserRepository', () => {
         });
 
         it(statement, async () => {
-          const result = await repository.findOne(opts, projectNoId);
+          const result = await repository.findOne(opts as FilterQuery<UserDocument>, projectNoId);
           expect(result._id).toBeUndefined();
           expect(result).toEqual(userDocumentNoIdStub());
         });
