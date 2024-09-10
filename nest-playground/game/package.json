@@ -2,7 +2,7 @@
   "name": "nest-playground",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Xuan Khoa Tu Nguyen",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -77,7 +77,8 @@
     "rootDir": ".",
     "moduleNameMapper": {
       "@/(.*)": "<rootDir>/src/$1",
-      "@test/(.*)": "<rootDir>/test/$1"
+      "@test/(.*)": "<rootDir>/test/$1",
+      "@libs/(.*)": "<rootDir>/../libs/$1"
     },
     "modulePathIgnorePatterns": ["<rootDir>/dist"],
     "testRegex": ".*\\.spec\\.ts$",

@@ -1,6 +1,6 @@
 import { UserOutDto } from '@/user/dto/user.out.dto';
 import { UserDocument } from '@/user/schema/user.schema';
-import { ApiFilterQuery } from '@libs/decorator/api-filter-query.decorator';
+import { ApiFilterQuery } from '@libs/decorator/swagger/api-filter-query.decorator';
 import { Body, Controller, Get, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AbstractResourceController } from '../interfaces/controller.interface';

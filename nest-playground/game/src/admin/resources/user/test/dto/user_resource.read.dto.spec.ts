@@ -1,6 +1,6 @@
 import { testMongoFilterDto } from '@/admin/resources/test/shared/shared-examples/mongo.dto';
 import { testResourceReadDto } from '@/admin/resources/test/shared/shared-examples/read.dto';
-import { testArrParamsTransform } from '@/lib/test/shared-examples/transform.helper';
+import { testArrParamsTransform } from '@libs/test/shared-examples/transform.helper';
 import { Types } from 'mongoose';
 import { ListUserResourceDto, UserResourceDto } from '../../dto/user_resource.read.dto';
 
