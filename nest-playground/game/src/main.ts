@@ -1,14 +1,14 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import { AllExceptionsFilter } from "@libs/filter/all-exception.filter";
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
-import { StartupLogger } from './config/initialize/start_up_logger';
-import mongoose from 'mongoose';
-import { NODE_ENV } from './config/environment';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AllExceptionsFilter } from "./lib/filter/all-exception.filter";
+import mongoose from 'mongoose';
+import { AppModule } from './app.module';
+import { NODE_ENV } from './config/environment';
+import { StartupLogger } from './config/initialize/start_up_logger';
 
 bootstrap();
 

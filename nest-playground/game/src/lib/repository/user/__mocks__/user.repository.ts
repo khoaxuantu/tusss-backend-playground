@@ -1,3 +1,3 @@
-import { mockRepository } from "@/lib/test/mocks/repository";
+import { mockRepository } from "@libs/test/mocks/repository";
 
 export const UserRepository = mockRepository();

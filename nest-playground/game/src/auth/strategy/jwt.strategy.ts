@@ -1,4 +1,4 @@
-import { JWT } from "@/lib/constant/constants";
+import { JWT } from "@libs/constant/constants";
 import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";

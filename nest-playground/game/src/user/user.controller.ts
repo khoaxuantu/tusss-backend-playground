@@ -1,9 +1,9 @@
+import { SuccessApiResponseMessage } from '@libs/dto/out/response.dto';
 import { Body, Controller, Get, Param, Patch, Request } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { UserService } from './user.service';
 import { ApiBearerAuth, ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UpdateUserDto } from './dto/update_user.dto';
-import { SuccessApiResponseMessage } from '@/lib/dto/out/response.dto';
+import { UserService } from './user.service';
 
 @Controller('user')
 @ApiTags('User')

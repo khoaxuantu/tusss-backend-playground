@@ -1,5 +1,5 @@
-import { ClassTransformerHelper } from '@/lib/helper/transform.helper';
-import { Constructor } from '@/lib/types/common';
+import { ClassTransformerHelper } from '@libs/helper/transform.helper';
+import { Constructor } from '@libs/types/common';
 import { mixin } from '@nestjs/common';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';

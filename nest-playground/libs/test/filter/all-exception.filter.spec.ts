@@ -1,4 +1,4 @@
-import { AllExceptionsFilter } from '@/lib/filter/all-exception.filter';
+import { AllExceptionsFilter } from '../../filter/all-exception.filter';
 import {
   BadRequestException,
   HttpException,

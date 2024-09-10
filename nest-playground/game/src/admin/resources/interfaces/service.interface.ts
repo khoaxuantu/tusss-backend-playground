@@ -1,4 +1,4 @@
-import { AbstractModelRepository } from '@/lib/repository/interfaces/repository.interface';
+import { AbstractModelRepository } from '@libs/interfaces/repository.interface';
 import { HydratedDocument, Types } from 'mongoose';
 import { GetListDtoAdapterResProps } from '../adapters/dto.adapters';
 

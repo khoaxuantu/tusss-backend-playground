@@ -1,4 +1,4 @@
-import { printDeepObject } from "@/lib/helper/print.helper";
+import { printDeepObject } from "../../helper/print.helper";
 
 describe("PrintHelper", () => {
   describe('printDeepObject', () => {

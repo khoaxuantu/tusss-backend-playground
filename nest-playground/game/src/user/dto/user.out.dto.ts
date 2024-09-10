@@ -1,7 +1,7 @@
+import { MongoHelper } from '@libs/helper/mongo.helper';
 import { IntersectionType, PickType } from '@nestjs/swagger';
-import { User, UserDocument } from '../schema/user.schema';
 import { Document } from 'mongoose';
-import { MongoHelper } from '@/lib/helper/mongo.helper';
+import { User, UserDocument } from '../schema/user.schema';
 
 export class UserOutDto extends PickType(IntersectionType(User, Document), [
   '_id',

@@ -3,13 +3,13 @@ import { SignInDto } from '@/auth/dto/sign_in.in.dto';
 import { UserDtoStub } from '@/auth/test/stub/create_user.dto.stub';
 import { InvalidPasswordCase, InvalidPasswordStub } from '@/auth/test/stub/password.stub';
 import { connectMongo } from '@/config/initialize/connect_mongo';
-import PasswordBuilder from '@/lib/builder/password/password.builder';
 import { User } from '@/user/schema/user.schema';
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { Model } from 'mongoose';
 import * as request from 'supertest';
+import PasswordBuilder from '../../../lib/builder/password/password.builder';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;

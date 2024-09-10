@@ -1,0 +1,48 @@
+{
+  "name": "@tusss-nest-playground/libs",
+  "private": "true",
+  "license": "UNLICENSED",
+  "author": "Xuan Khoa Tu Nguyen",
+  "scripts": {
+    "test": "node --expose-gc ../../node_modules/.bin/jest --runInBand --logHeapUsage",
+    "test:cov": "node --expose-gc ../../node_modules/.bin/jest --runInBand --logHeapUsage --coverage"
+  },
+  "dependencies": {
+    "@golevelup/ts-jest": "^0.5.0",
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/swagger": "^7.3.1",
+    "mongoose-paginate-v2": "^1.8.3",
+    "mongoose": "^8.3.2",
+    "class-transformer": "^0.5.1"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": ".",
+    "modulePathIgnorePatterns": ["<rootDir>/dist"],
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "./**/*.ts"
+    ],
+    "coveragePathIgnorePatterns": [
+      ".module.ts",
+      "test",
+      "swagger",
+      "interface"
+    ],
+    "coverageDirectory": "./test/coverage",
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "html"
+    ],
+    "testEnvironment": "node"
+  }
+}

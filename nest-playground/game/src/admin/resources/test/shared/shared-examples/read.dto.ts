@@ -1,5 +1,5 @@
-import { testArrParamsTransform } from '@/lib/test/shared-examples/transform.helper';
-import { Constructor } from '@/lib/types/common';
+import { testArrParamsTransform } from '@libs/test/shared-examples/transform.helper';
+import { Constructor } from '@libs/types/common';
 import { plainToInstance } from 'class-transformer';
 
 interface TestResourceReadDtoProps<TClassMain, TClassFilter> {

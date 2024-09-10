@@ -1,4 +1,4 @@
-import { PASSWORD_MAXLENGTH, PASSWORD_MINLENGTH } from '@/lib/constant/constants';
+import { PASSWORD_MAXLENGTH, PASSWORD_MINLENGTH } from '../../constant/constants';
 
 export default class PasswordBuilder {
   static SPECIAL_CHAR = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
