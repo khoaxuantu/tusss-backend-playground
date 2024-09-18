@@ -34,7 +34,8 @@
       ".module.ts",
       "test",
       "swagger",
-      "interface"
+      "interface",
+      "abstract"
     ],
     "coverageDirectory": "./test/coverage",
     "coverageReporters": [
