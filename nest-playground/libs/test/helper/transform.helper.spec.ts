@@ -10,6 +10,10 @@ class MockClass {
 
 describe('ClassTransformerHelper', () => {
   describe('transformArrParams', () => {
+    test('not typeof string', () => {
+      expect(ClassTransformerHelper.transformArrParams({ cls: String, value: 123 })).toEqual(123);
+    })
+
     test('String', () => {
       expect(ClassTransformerHelper.transformArrParams({ cls: String, value: 'abc,bcd' })).toEqual([
         'abc',

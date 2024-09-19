@@ -1,6 +1,6 @@
 import { MongoHelper } from '@libs/helper/mongo.helper';
 import { IntersectionType, PickType } from '@nestjs/swagger';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { User, UserDocument } from '../schema/user.schema';
 
 export class UserOutDto extends PickType(IntersectionType(User, Document), [
@@ -18,12 +18,15 @@ export class UserOutDto extends PickType(IntersectionType(User, Document), [
   'createdAt',
   'email'
 ]) {
-  constructor(data?: UserDocument) {
+  constructor(data?: Types.ObjectId | UserDocument) {
     super()
 
     if (!data || !Object.keys(data).length) return;
 
     this._id = MongoHelper.getObjectIdAsString(data);
+
+    if (data instanceof Types.ObjectId) return;
+
     this.name = data.name;
     this.firstname = data.firstname;
     this.lastname = data.lastname;

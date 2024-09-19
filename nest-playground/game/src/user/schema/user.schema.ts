@@ -1,4 +1,5 @@
 import { Role } from '@/auth/constant/role.constant';
+import { SCHEMA_NAME } from '@/lib/repository/constant/schema.constant';
 import { BaseSchema } from "@libs/abstract/schema.abstract";
 import { PASSWORD_MAXLENGTH, PASSWORD_MINLENGTH } from '@libs/constant/constants';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
@@ -18,7 +19,7 @@ import {
 } from 'class-validator';
 import { HydratedDocument, SchemaTypes, Types } from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
-import { Profile, ProfileDocument } from '../profile/schema/profile.schema';
+import { PlayerDocument } from '../../player/schema/player.schema';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -93,11 +94,11 @@ export class User extends BaseSchema {
 
   @Prop({
     type: [SchemaTypes.ObjectId],
-    ref: Profile.name,
+    ref: SCHEMA_NAME.PLAYER,
   })
   @ApiProperty({ type: String, isArray: true })
   @IsArray()
-  profiles: Types.ObjectId[] | ProfileDocument[];
+  players: Types.ObjectId[] | PlayerDocument[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

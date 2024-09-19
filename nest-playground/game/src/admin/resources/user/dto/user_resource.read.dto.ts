@@ -35,25 +35,25 @@ export class UserResourceDto {
   @Type(() => MongoFilterString)
   lastname?: MongoFilterString;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: MongoFilterString })
   @IsOptional()
   @ValidateNested()
   @Type(() => MongoFilterString)
   email?: MongoFilterString;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: MongoFilterString })
   @IsOptional()
   @ValidateNested()
   @Type(() => MongoFilterString)
   phone_number?: MongoFilterString;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: MongoFilterString })
   @IsOptional()
   @ValidateNested()
   @Type(() => MongoFilterString)
   address?: MongoFilterString;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: MongoFilterString })
   @IsOptional()
   @ValidateNested()
   @Type(() => MongoFilterString)

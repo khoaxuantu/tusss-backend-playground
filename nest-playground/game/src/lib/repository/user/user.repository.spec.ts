@@ -1,10 +1,11 @@
-import { User, UserDocument } from '@/user/schema/user.schema';
+import { UserDocument } from '@/user/schema/user.schema';
 import { UpdateUserDtoStub } from '@/user/test/stubs/update_user.dto.stub';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { UserModelMock } from '@test/mock/model/mongodb/user.mock';
 import { userDocumentNoIdStub, userDocumentStub } from '@test/stubs/users.stub';
 import { FilterQuery, Types } from 'mongoose';
+import { SCHEMA_NAME } from '../constant/schema.constant';
 import { FindUserOpt } from './interfaces/find_user.interface';
 import { UserRepository } from './user.repository';
 
@@ -18,7 +19,7 @@ describe('UserRepository', () => {
       providers: [
         UserRepository,
         {
-          provide: getModelToken(User.name),
+          provide: getModelToken(SCHEMA_NAME.USER),
           useClass: UserModelMock,
         },
       ],

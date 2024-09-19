@@ -1,4 +1,4 @@
-import { UserDocument } from '@/user/schema/user.schema';
+import { PlayerDocument } from '@/player/schema/player.schema';
 import { AbstractModelRepository } from '@libs/interfaces/repository.interface';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -6,8 +6,8 @@ import { PaginateModel } from 'mongoose';
 import { SCHEMA_NAME } from '../constant/schema.constant';
 
 @Injectable()
-export class UserRepository extends AbstractModelRepository<UserDocument> {
-  constructor(@InjectModel(SCHEMA_NAME.USER) userModel: PaginateModel<UserDocument>) {
-    super(userModel);
+export class PlayerRepository extends AbstractModelRepository<PlayerDocument> {
+  constructor(@InjectModel(SCHEMA_NAME.PLAYER) model: PaginateModel<PlayerDocument>) {
+    super(model);
   }
 }
