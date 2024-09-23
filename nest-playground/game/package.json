@@ -93,7 +93,9 @@
       "test",
       "swagger",
       "interface",
-      "abstract"
+      "abstract",
+      "main.ts",
+      "repl"
     ],
     "coverageDirectory": "./test/coverage",
     "coverageReporters": [

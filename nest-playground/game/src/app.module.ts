@@ -10,6 +10,7 @@ import { JwtAuthGuard } from './auth/guard/jwt_auth.guard';
 import { RolesGuard } from './auth/guard/roles.guard';
 import { CommonConfiguration } from './config/configuration';
 import { connectMongo } from './config/initialize/connect_mongo';
+import { RepositoryModule } from './lib/repository/repository.module';
 import { PlayerModule } from './player/player.module';
 import { UserModule } from './user/user.module';
 
@@ -21,6 +22,7 @@ import { UserModule } from './user/user.module';
     AuthModule,
     AdminModule,
     PlayerModule,
+    RepositoryModule,
   ],
   controllers: [AppController],
   providers: [

@@ -29,7 +29,6 @@ export class AdminUserResourceController extends AbstractResourceController<User
 
   @Patch(':id')
   override async update(id: string, payload: UpdateUserResourceDto) {
-    console.log("🚀 ~ AdminUserResourceController ~ overrideupdate ~ payload:", payload)
     return super.update(id, payload);
   }
 }

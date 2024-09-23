@@ -1,8 +1,8 @@
 export const MockAbstractResourceService = jest.fn().mockReturnValue({
-  findById: () => null,
-  listByFilter: () => null,
-  listByManyIds: () => null,
-  createOne: () => null,
-  updateOne: () => null,
-  deleteOne: () => null,
+  findById: jest.fn(),
+  listByFilter: jest.fn(),
+  listByManyIds: jest.fn(),
+  createOne: jest.fn(),
+  updateOne: jest.fn(),
+  deleteOne: jest.fn(),
 });

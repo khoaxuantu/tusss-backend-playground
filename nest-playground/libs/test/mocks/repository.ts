@@ -1,12 +1,13 @@
 import { AbstractModelRepository } from "../../interfaces/repository.interface";
 
-export function mockRepository() {
-  return jest.fn().mockReturnValue({
-    create: () => null,
-    deleteOne: () => null,
-    findById: () => null,
-    findOne: () => null,
-    findOneAndUpdate: () => null,
-    list: () => null,
-  } as Record<keyof AbstractModelRepository<any>, () => null>);
+export function mockRepository(override?: Record<keyof AbstractModelRepository<any>, any>) {
+  return {
+    create: jest.fn(),
+    deleteOne: jest.fn(),
+    findById: jest.fn(),
+    findOne: jest.fn(),
+    findOneAndUpdate: jest.fn(),
+    list: jest.fn(),
+    ...override,
+  } as Record<keyof AbstractModelRepository<any>, jest.Mock>;
 }
