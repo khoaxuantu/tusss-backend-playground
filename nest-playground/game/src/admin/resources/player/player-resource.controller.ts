@@ -6,8 +6,10 @@ import { AbstractResourceController } from '../interfaces/controller.interface';
 import { ListPlayerResourceDto, PlayerResourceReadDto } from './dto/player-resource.read.dto';
 import { CreatePlayerResourceDto, UpdatePlayerResourceDto } from './dto/player-resource.write.dto';
 import { PlayerResourceService } from './player-resource.service';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('admin/players')
+@ApiTags('Admin Resource - Player')
 export class PlayerResourceController extends AbstractResourceController<PlayerDocument> {
   constructor(service: PlayerResourceService) {
     super(service, PlayerOutDto);
@@ -16,7 +18,7 @@ export class PlayerResourceController extends AbstractResourceController<PlayerD
   @Get()
   @ApiFilterQuery(PlayerResourceReadDto)
   @ApiFilterQuery(PlayerResourceReadDto, { name: "$or" })
-  override async list(@Query() query: ListPlayerResourceDto) {
+  override async list(query: ListPlayerResourceDto) {
     return super.list(query);
   }
 

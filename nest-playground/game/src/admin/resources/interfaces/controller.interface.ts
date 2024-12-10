@@ -2,7 +2,7 @@ import { Role } from '@/auth/constant/role.constant';
 import { Roles } from '@/auth/decorator/role.decorator';
 import { PaginateResponseDto } from '@libs/dto/out/paginate.dto';
 import { InvalidParamsException } from '@libs/exception/invalid-param.exception';
-import { Body, Delete, Get, Param } from '@nestjs/common';
+import { Body, Delete, Get, Param, Query } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { ObjectId } from 'mongodb';
 import { PaginateResult } from 'mongoose';
@@ -25,7 +25,7 @@ export abstract class AbstractResourceController<T> {
     protected outDtoClass: OutDtoClass,
   ) {}
 
-  async list(payload: AbstractResourceReadDto) {
+  async list(@Query() payload: AbstractResourceReadDto) {
     console.log('🚀 ~ AbstractResourceController<T> ~ list ~ payload:', payload);
     let query: GetListDtoAdapterResProps | string[];
     let res: PaginateResult<T>;

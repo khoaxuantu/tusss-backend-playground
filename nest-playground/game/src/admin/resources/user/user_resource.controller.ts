@@ -18,7 +18,7 @@ export class AdminUserResourceController extends AbstractResourceController<User
   @Get()
   @ApiFilterQuery(UserResourceDto)
   @ApiFilterQuery(UserResourceDto, { name: "$or" })
-  override async list(@Query() query: ListUserResourceDto) {
+  override async list(query: ListUserResourceDto) {
     return super.list(query);
   }
 

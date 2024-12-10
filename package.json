@@ -1,5 +1,8 @@
 {
-    "name": "tusss-backend-playground",
-    "private": true,
-    "workspaces": ["nest-playground/game", "admin-panel/refine-playground", "nest-playground/libs"]
+  "name": "tusss-backend-playground",
+  "private": true,
+  "workspaces": [
+    "nest-playground/*",
+    "admin-panel/*"
+  ]
 }

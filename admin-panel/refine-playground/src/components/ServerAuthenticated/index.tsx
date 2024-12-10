@@ -1,3 +1,5 @@
+"use server";
+
 import { AuthProviderServer } from "@lib/providers/auth-provider";
 import { redirect } from "next/navigation";
 import React from "react";

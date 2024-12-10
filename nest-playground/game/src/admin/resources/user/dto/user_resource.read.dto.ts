@@ -1,7 +1,8 @@
 import { Role } from '@/auth/constant/role.constant';
+import { ClassTransformerHelper } from '@libs/helper/transform.helper';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
-import { IsDate, IsEnum, IsOptional, ValidateNested } from 'class-validator';
+import { IsArray, IsDate, IsOptional, ValidateNested } from 'class-validator';
 import {
   MongoFilterDate,
   MongoFilterNumber,
@@ -65,9 +66,10 @@ export class UserResourceDto {
   @Type(() => MongoFilterNumber)
   age?: MongoFilterNumber;
 
-  @ApiPropertyOptional({ enum: Role, isArray: true })
-  @IsEnum(Role)
+  @ApiPropertyOptional({ enum: Role, isArray: true, example: `${Role.User},${Role.Photographer}` })
+  @IsArray()
   @IsOptional()
+  @Transform(({ value }) => ClassTransformerHelper.transformArrParams({ cls: String, value }))
   roles?: Role[];
 
   @ApiPropertyOptional({ type: MongoFilterDate })
