@@ -8,12 +8,12 @@ import { AuthJwtProps } from "./types";
 
 export class AuthProviderServer {
   static async check(): ReturnType<AuthProvider["check"]> {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const auth = cookieStore.get("auth");
 
     try {
       if (auth) {
-        verify(JSON.parse(auth.value), CONFIG.JWT_SECRET);
+        verify(auth.value, CONFIG.JWT_SECRET);
 
         return {
           authenticated: true,
@@ -31,12 +31,12 @@ export class AuthProviderServer {
   }
 
   static async getPermissions() {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const auth = cookieStore.get("auth");
 
     try {
       if (auth) {
-        const user = verify(JSON.parse(auth.value), CONFIG.JWT_SECRET) as AuthJwtProps;
+        const user = verify(auth.value, CONFIG.JWT_SECRET) as AuthJwtProps;
         return user.roles;
       }
     } catch (error) {
@@ -47,12 +47,12 @@ export class AuthProviderServer {
   }
 
   static async getIdentity() {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const auth = cookieStore.get("auth");
 
     try {
       if (auth) {
-        const user = verify(JSON.parse(auth.value), CONFIG.JWT_SECRET) as AuthJwtProps;
+        const user = verify(auth.value, CONFIG.JWT_SECRET) as AuthJwtProps;
         return user;
       }
     } catch (error) {

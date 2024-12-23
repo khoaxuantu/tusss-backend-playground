@@ -1,5 +1,4 @@
 import { CONFIG } from "@lib/constants/config";
-import { ApiError } from "next/dist/server/api-utils";
 import { SigninInDto } from "./dto/signin.in.dto";
 
 export class AuthService {
@@ -18,8 +17,6 @@ export class AuthService {
       headers,
     });
 
-    if (!res.ok) throw new ApiError(res.status, await res.text());
-
-    return res.json();
+    return res;
   }
 }

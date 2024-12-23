@@ -6,11 +6,11 @@ import Cookies from "js-cookie";
 
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
-    const user = await login({ email, password });
-    console.log("🚀 ~ login: ~ res:", user);
+    const token = await login({ email, password });
+    console.log("🚀 ~ login: ~ res:", token);
 
-    if (user) {
-      Cookies.set("auth", JSON.stringify(user), {
+    if (token) {
+      Cookies.set("auth", token, {
         expires: 30, // 30 days
         path: "/",
       });

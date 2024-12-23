@@ -54,6 +54,14 @@ export const themeOptions: ThemeOptions = {
         },
       },
     },
+    MuiSnackbarContent: {
+      styleOverrides: {
+        root: {
+          boxShadow: "none",
+          borderRadius: 8,
+        }
+      }
+    },
   },
   shape: {
     borderRadius: 8,

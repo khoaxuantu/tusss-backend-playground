@@ -7,7 +7,10 @@ import { SigninInDto } from "@lib/services/dto/signin.in.dto";
 import { sign } from "jsonwebtoken";
 
 export async function login(payload: SigninInDto) {
-  const data = await AuthService.login(payload);
+  const res = await AuthService.login(payload);
+  if (!res.ok) return "";
+
+  const data = await res.json();
 
   return sign(data, process.env.JWT_SECRET || "", { expiresIn: `${CONFIG.JWT_LIFE_TIME}h` });
 }
