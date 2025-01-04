@@ -1,8 +1,14 @@
 import { CONFIG } from "@lib/constants/config";
 import { RESOURCE_IDENTIFIER } from "@lib/constants/resource";
-import { ResourcePaginate } from "@lib/types/api.type";
-import { DataProvider, MetaQuery } from "@refinedev/core";
-import { ApiError } from "next/dist/server/api-utils";
+import {
+  CreateParams,
+  DeleteOneParams,
+  GetListParams,
+  GetManyParams,
+  GetOneParams,
+  MetaQuery,
+  UpdateParams,
+} from "@refinedev/core";
 import { MongoFilterAdapter } from "./adapter/mongo-filter.adapter";
 import { ApiQueryListBuilder } from "./builder/api-query-list.builder";
 import { ApiQueryManyBuilder } from "./builder/api-query-many.builder";
@@ -11,13 +17,7 @@ import { ApiQueryParamBuilder } from "./builder/api-query-param.builder";
 export class DataProviderServer {
   private static url: string = CONFIG.BACKEND_URL;
 
-  static getList: DataProvider["getList"] = async ({
-    resource,
-    filters,
-    pagination,
-    sorters,
-    meta,
-  }) => {
+  static async getList({ resource, filters, pagination, sorters, meta }: GetListParams) {
     const { headers } = meta as MetaQuery;
     const query = new ApiQueryListBuilder(this.url).withResource(resource as RESOURCE_IDENTIFIER);
 
@@ -32,101 +32,66 @@ export class DataProviderServer {
     const endpoint = query.endpoint;
     console.log("🚀 ~ DataProviderServer ~ endpoint:", endpoint);
 
-    const res = await fetch(endpoint, { headers });
+    return fetch(endpoint, { headers });
+  }
 
-    if (!res.ok) throw new ApiError(res.status, `${res.statusText}\n${await res.text()}`);
-
-    const data = await res.json() as ResourcePaginate;
-
-    return {
-      data: data.docs,
-      total: data.totalDocs,
-    };
-  };
-
-  static getOne: DataProvider["getOne"] = async ({ resource, id, meta }) => {
+  static async getOne({ resource, id, meta }: GetOneParams) {
     const { headers } = meta as MetaQuery;
     const query = new ApiQueryParamBuilder(this.url)
       .withResource(resource as RESOURCE_IDENTIFIER)
       .withParam(id.toString());
     const endpoint = query.endpoint;
 
-    const res = await fetch(endpoint, { headers });
+    return fetch(endpoint, { headers });
+  }
 
-    if (!res.ok) throw new ApiError(res.status, `${res.statusText}\n${await res.text()}`);
-
-    const data = await res.json();
-
-    return { data };
-  };
-
-  static getMany: DataProvider["getMany"] = async ({ resource, ids, meta }) => {
+  static async getMany({ resource, ids, meta }: GetManyParams) {
     const { headers } = meta as MetaQuery;
     const query = new ApiQueryManyBuilder(this.url)
       .withResource(resource as RESOURCE_IDENTIFIER)
       .withIds(ids.map((id) => id.toString()));
     const endpoint = query.endpoint;
 
-    const res = await fetch(endpoint, { headers });
+    return fetch(endpoint, { headers });
+  }
 
-    if (!res.ok) throw new ApiError(res.status, `${res.statusText}\n${await res.text()}`);
-
-    const data = await res.json() as ResourcePaginate;
-
-    return { data: data.docs };
-  };
-
-  static create: DataProvider["create"] = async ({ resource, variables, meta }) => {
+  static async create({ resource, variables, meta }: CreateParams) {
     const { headers } = meta as MetaQuery;
     const query = new ApiQueryParamBuilder(this.url).withResource(resource as RESOURCE_IDENTIFIER);
     const endpoint = query.endpoint;
 
-    const res = await fetch(endpoint, {
+    return fetch(endpoint, {
       headers,
       method: "POST",
       body: JSON.stringify(variables),
     });
+  }
 
-    if (!res.ok) throw new ApiError(res.status, `${res.statusText}: ${await res.text()}`);
-
-    return { data: await res.json() };
-  };
-
-  static update: DataProvider["update"] = async ({ resource, id, variables, meta }) => {
-    console.log("🚀 ~ DataProviderServer ~ update:DataProvider['update']= ~ variables:", variables)
+  static async update({ resource, id, variables, meta }: UpdateParams) {
+    console.log("🚀 ~ DataProviderServer ~ update:DataProvider['update']= ~ variables:", variables);
     const { headers } = meta as MetaQuery;
     const query = new ApiQueryParamBuilder(this.url)
       .withResource(resource as RESOURCE_IDENTIFIER)
       .withParam(id.toString());
     const endpoint = query.endpoint;
 
-    const res = await fetch(endpoint, {
+    return fetch(endpoint, {
       headers,
       method: "PATCH",
       body: JSON.stringify(variables),
     });
+  }
 
-    if (!res.ok) throw new ApiError(res.status, `${res.statusText}\n${await res.text()}`);
-
-    return { data: await res.json() };
-  };
-
-  static deleteOne: DataProvider["deleteOne"] = async ({ id, resource, meta }) => {
+  static async deleteOne({ id, resource, meta }: DeleteOneParams) {
     const { headers } = meta as MetaQuery;
     const query = new ApiQueryParamBuilder(this.url)
       .withResource(resource as RESOURCE_IDENTIFIER)
       .withParam(id.toString());
     const endpoint = query.endpoint;
 
-    const res = await fetch(endpoint, {
+    return fetch(endpoint, {
       headers,
       method: "DELETE",
     });
-
-    if (!res.ok) throw new ApiError(res.status, `${res.statusText}\n${await res.text()}`);
-
-    return res.json();
-  };
-
-  static getApiUrl = () => this.url;
+  }
 }

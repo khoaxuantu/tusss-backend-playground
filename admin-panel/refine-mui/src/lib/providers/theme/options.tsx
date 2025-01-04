@@ -4,10 +4,14 @@ export const themeOptions: ThemeOptions = {
   palette: {
     mode: "light",
     primary: {
-      main: "#8c4a5d",
+      main: "#F48FB1", // Strawberry Milkshake Pink
+      light: "#F8BBD0", // Lighter shade for contrast
+      dark: "#F06292", // Deeper shade for hover/active
     },
     secondary: {
-      main: "#75565d",
+      main: "#CE93D8", // Light Lavender
+      light: "#E1BEE7", // Lighter shade
+      dark: "#BA68C8", // Deeper shade
     },
     text: {
       primary: "#191c20",
@@ -59,8 +63,15 @@ export const themeOptions: ThemeOptions = {
         root: {
           boxShadow: "none",
           borderRadius: 8,
-        }
-      }
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          border: "none",
+        },
+      },
     },
   },
   shape: {

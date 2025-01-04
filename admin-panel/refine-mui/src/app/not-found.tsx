@@ -1,9 +1,13 @@
-import { Authenticated, ErrorComponent } from "@refinedev/core";
+import Container from "@mui/material/Container";
+import { ErrorComponent } from "@refinedev/core";
+import { Suspense } from "react";
 
 export default function NotFound() {
   return (
-    <Authenticated key="not-found">
-      <ErrorComponent />
-    </Authenticated>
+    <Suspense>
+      <Container style={{ textAlign: "center" }}>
+        <ErrorComponent />
+      </Container>
+    </Suspense>
   );
 }

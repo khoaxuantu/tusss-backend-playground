@@ -1,4 +1,4 @@
-export function sanitizeParams(params: any) {
+export function sanitizeObject(params: any) {
   return JSON.parse(JSON.stringify(params));
 }
 

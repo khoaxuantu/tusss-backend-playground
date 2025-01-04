@@ -1,66 +1,124 @@
 "use server";
 
+import { ManyDataException, OneDataException } from "@lib/errors/data-provider.exception";
 import { AuthProviderServer } from "@lib/providers/auth-provider";
 import { HeadersAdapter } from "@lib/providers/data-provider/adapter/headers.adapter";
 import { DataProviderServer } from "@lib/providers/data-provider/server";
-import { DataProvider } from "@refinedev/core";
+import { DataProviderServerResponse, ResourcePaginate } from "@lib/types/api.type";
+import {
+  BaseRecord,
+  CreateParams,
+  DeleteOneParams,
+  GetListParams,
+  GetManyParams,
+  GetOneParams,
+  UpdateParams,
+} from "@refinedev/core";
 
-export const getList: DataProvider["getList"] = async ({
-  resource,
-  filters,
-  pagination,
-  sorters,
-  meta,
-}) => {
-  return AuthProviderServer.withAuthHandler(async () => {
-    if (!meta) meta = { headers: await new HeadersAdapter().transform() };
-    else meta.headers = await new HeadersAdapter(meta).transform();
+export async function getList<T extends BaseRecord = BaseRecord>(
+  params: GetListParams,
+): Promise<DataProviderServerResponse<T>["getList"]> {
+  return AuthProviderServer.withAuthHandler<DataProviderServerResponse<T>["getList"]>(async () => {
+    if (!params.meta) params.meta = { headers: await new HeadersAdapter().transform() };
+    else params.meta.headers = await new HeadersAdapter(params.meta).transform();
 
-    return DataProviderServer.getList({ resource, filters, pagination, sorters, meta });
+    const res = await DataProviderServer.getList(params);
+
+    if (!res.ok) return (await ManyDataException.create(res)).toPlainObject();
+
+    const data = (await res.json()) as ResourcePaginate;
+
+    return {
+      ok: true,
+      data: data.docs,
+      total: data.totalDocs,
+    };
   });
-};
+}
 
-export const getOne: DataProvider["getOne"] = async ({ resource, id, meta }) => {
-  return AuthProviderServer.withAuthHandler(async () => {
-    if (!meta) meta = { headers: await new HeadersAdapter().transform() };
-    else meta.headers = await new HeadersAdapter(meta).transform();
+export async function getOne<T extends BaseRecord = BaseRecord>(
+  params: GetOneParams,
+): Promise<DataProviderServerResponse<T>["getOne"]> {
+  return AuthProviderServer.withAuthHandler<DataProviderServerResponse<T>["getOne"]>(async () => {
+    if (!params.meta) params.meta = { headers: await new HeadersAdapter().transform() };
+    else params.meta.headers = await new HeadersAdapter(params.meta).transform();
 
-    return DataProviderServer.getOne({ resource, id, meta });
+    const res = await DataProviderServer.getOne(params);
+
+    if (!res.ok) return (await OneDataException.create(res)).toPlainObject();
+
+    const data = await res.json();
+
+    return { ok: true, data };
   });
-};
+}
 
-export const getMany: DataProvider["getMany"] = async ({ resource, ids, meta }) => {
-  return AuthProviderServer.withAuthHandler(async () => {
-    if (!meta) meta = { headers: new HeadersAdapter().transform() };
-    else meta.headers = await new HeadersAdapter(meta).transform();
+export async function getMany<T extends BaseRecord = BaseRecord>(
+  params: GetManyParams,
+): Promise<DataProviderServerResponse<T>["getMany"]> {
+  return AuthProviderServer.withAuthHandler<DataProviderServerResponse<T>["getMany"]>(async () => {
+    if (!params.meta) params.meta = { headers: new HeadersAdapter().transform() };
+    else params.meta.headers = await new HeadersAdapter(params.meta).transform();
 
-    return DataProviderServer.getMany!({ resource, ids, meta });
+    const res = await DataProviderServer.getMany(params);
+
+    if (!res.ok) return (await ManyDataException.create(res)).toPlainObject();
+
+    const data = (await res.json()) as ResourcePaginate;
+
+    return { ok: true, data: data.docs };
   });
-};
+}
 
-export const create: DataProvider["create"] = async ({ resource, variables, meta }) => {
-  return AuthProviderServer.withAuthHandler(async () => {
-    if (!meta) meta = { headers: new HeadersAdapter().transform() };
-    else meta.headers = await new HeadersAdapter(meta).transform();
+export async function create<T extends BaseRecord = BaseRecord>(
+  params: CreateParams,
+): Promise<DataProviderServerResponse<T>["create"]> {
+  return AuthProviderServer.withAuthHandler<DataProviderServerResponse<T>["create"]>(async () => {
+    if (!params.meta) params.meta = { headers: new HeadersAdapter().transform() };
+    else params.meta.headers = await new HeadersAdapter(params.meta).transform();
 
-    return DataProviderServer.create({ resource, variables, meta });
+    const res = await DataProviderServer.create(params);
+
+    if (!res.ok) return (await OneDataException.create(res)).toPlainObject();
+
+    const data = await res.json();
+
+    return { ok: true, data };
   });
-};
+}
 
-export const update: DataProvider["update"] = async ({ resource, id, variables, meta }) => {
-  return AuthProviderServer.withAuthHandler(async () => {
-    if (!meta) meta = { headers: new HeadersAdapter().transform() };
-    else meta.headers = await new HeadersAdapter(meta).transform();
+export async function update<T extends BaseRecord = BaseRecord>(
+  params: UpdateParams,
+): Promise<DataProviderServerResponse<T>["update"]> {
+  return AuthProviderServer.withAuthHandler<DataProviderServerResponse<T>["update"]>(async () => {
+    if (!params.meta) params.meta = { headers: new HeadersAdapter().transform() };
+    else params.meta.headers = await new HeadersAdapter(params.meta).transform();
 
-    return DataProviderServer.update({ resource, id, variables, meta });
+    const res = await DataProviderServer.update(params);
+
+    if (!res.ok) return (await OneDataException.create(res)).toPlainObject();
+
+    const data = await res.json();
+
+    return { ok: true, data };
   });
-};
+}
 
-export const deleteOne: DataProvider["deleteOne"] = async ({ id, resource, meta }) => {
-  return AuthProviderServer.withAuthHandler(async () => {
-    if (!meta) meta = { headers: new HeadersAdapter().transform() };
-    else meta.headers = await new HeadersAdapter(meta).transform();
+export async function deleteOne<T extends BaseRecord = BaseRecord>(
+  params: DeleteOneParams,
+): Promise<DataProviderServerResponse<T>["deleteOne"]> {
+  return AuthProviderServer.withAuthHandler<DataProviderServerResponse<T>["deleteOne"]>(
+    async () => {
+      if (!params.meta) params.meta = { headers: new HeadersAdapter().transform() };
+      else params.meta.headers = await new HeadersAdapter(params.meta).transform();
 
-    return DataProviderServer.deleteOne({ id, resource, meta });
-  });
-};
+      const res = await DataProviderServer.deleteOne(params);
+
+      if (!res.ok) return (await OneDataException.create(res)).toPlainObject();
+
+      const data = await res.json();
+
+      return { ok: true, data };
+    },
+  );
+}
