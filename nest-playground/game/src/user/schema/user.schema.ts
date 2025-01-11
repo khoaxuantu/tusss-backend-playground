@@ -17,11 +17,13 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { HydratedDocument, SchemaTypes, Types } from 'mongoose';
+import { SchemaTypes, Types } from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
 import { PlayerDocument } from '../../player/schema/player.schema';
 
-export type UserDocument = HydratedDocument<User>;
+export interface UserDocument extends User {
+  _id: Types.ObjectId;
+}
 
 @Schema({ timestamps: true })
 export class User extends BaseSchema {

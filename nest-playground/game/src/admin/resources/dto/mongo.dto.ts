@@ -1,40 +1,49 @@
 import { Constructor } from '@libs/types/common';
 import { mixin } from '@nestjs/common';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsArray, IsOptional } from 'class-validator';
 import { Types } from 'mongoose';
 
 export function CreateMongoFilterDtoWith<T extends Constructor>(type: T) {
   class MongoFilterDto {
+    @ApiPropertyOptional({ type, description: "Equal" })
     @IsOptional()
     @Type(() => type)
     $eq?: InstanceType<T>;
 
+    @ApiPropertyOptional({ type, description: "Not equal" })
     @IsOptional()
     @Type(() => type)
     $ne?: InstanceType<T>;
 
+    @ApiPropertyOptional({ type, description: "Greater than" })
     @IsOptional()
     @Type(() => type)
     $gt?: InstanceType<T>;
 
+    @ApiPropertyOptional({ type, description: "Greater than or equal" })
     @IsOptional()
     @Type(() => type)
     $gte?: InstanceType<T>;
 
+    @ApiPropertyOptional({ type, description: "Less than" })
     @IsOptional()
     @Type(() => type)
     $lt?: InstanceType<T>;
 
+    @ApiPropertyOptional({ type, description: "Less than or equal" })
     @IsOptional()
     @Type(() => type)
     $lte?: InstanceType<T>;
 
+    @ApiPropertyOptional({ type, description: "In" })
     @IsOptional()
     @IsArray()
     @Type(() => type)
     $in?: InstanceType<T>[];
 
+    @ApiPropertyOptional({ type, description: "Not in" })
     @IsOptional()
     @IsArray()
     @Type(() => type)

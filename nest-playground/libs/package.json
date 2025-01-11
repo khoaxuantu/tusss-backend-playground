@@ -8,12 +8,12 @@
     "test:cov": "node --expose-gc ../../node_modules/.bin/jest --runInBand --logHeapUsage --coverage"
   },
   "dependencies": {
-    "@golevelup/ts-jest": "^0.5.0",
-    "@nestjs/common": "^10.0.0",
-    "@nestjs/swagger": "^7.3.1",
-    "mongoose-paginate-v2": "^1.8.3",
-    "mongoose": "^8.3.2",
-    "class-transformer": "^0.5.1"
+    "@golevelup/ts-jest": "^0.5.6",
+    "@nestjs/common": "^10.4.15",
+    "@nestjs/swagger": "^8.1.1",
+    "class-transformer": "^0.5.1",
+    "mongoose": "^8.9.4",
+    "mongoose-paginate-v2": "^1.9.0"
   },
   "jest": {
     "moduleFileExtensions": [

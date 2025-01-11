@@ -42,14 +42,18 @@ describe('GetListDtoAdapter', () => {
 
   describe('When there are input query params', () => {
     const dtoParams = {
-      car: { $gt: 100 },
-      car1: { $lt: 10.2 },
-      car2: { $gte: 10000 },
-      car3: { $lte: 100000 },
-      student: { $in: ['1', '2', '3', '4', '5'] },
-      student1: { $nin: [6, 7, 8, 9, 10] },
-      age: { $ne: 18 },
-      or: {},
+      $and: [
+        {
+          car: { $gt: 100 },
+          car1: { $lt: 10.2 },
+          car2: { $gte: 10000 },
+          car3: { $lte: 100000 },
+          student: { $in: ['1', '2', '3', '4', '5'] },
+          student1: { $nin: [6, 7, 8, 9, 10] },
+          age: { $ne: 18 },
+          or: {},
+        }
+      ],
     };
     const expectResult = dtoParams;
 
@@ -60,9 +64,9 @@ describe('GetListDtoAdapter', () => {
   });
 });
 
-describe("GetManyDtoAdapter", () => {
-  test("parse", () => {
-    const testIds = ["1", "2", "3"];
+describe('GetManyDtoAdapter', () => {
+  test('parse', () => {
+    const testIds = ['1', '2', '3'];
     const res = GetManyDtoAdapter.parse({ read_type: RESOURCE_READ_TYPE.MANY, ids: testIds });
     expect(res).toBe(testIds);
   });

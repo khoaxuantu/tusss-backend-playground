@@ -33,7 +33,7 @@ export abstract class AbstractResourceController<T> {
     switch (payload.read_type) {
       case RESOURCE_READ_TYPE.LIST:
         query = GetListDtoAdapter.parse(payload) as GetListDtoAdapterResProps;
-        res = await this.service.listByFilter(query) as PaginateResult<T>;
+        res = await this.service.listByFilter(query);
         break;
 
       case RESOURCE_READ_TYPE.MANY:

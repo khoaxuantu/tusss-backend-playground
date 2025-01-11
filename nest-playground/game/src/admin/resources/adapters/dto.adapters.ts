@@ -15,7 +15,7 @@ export class GetListDtoAdapter {
     const { read_type, page, limit, sort, order, ...filterParams } = query;
     return {
       paginateParams: this.parsePaginate({ page, limit, sort, order }),
-      filterParams: filterParams["filter"],
+      filterParams: filterParams["filter"] as FilterQuery<any>,
     };
   }
 

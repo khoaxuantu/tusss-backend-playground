@@ -41,6 +41,18 @@ export class ResourcePaginateDto {
 }
 
 export function ResourceReadDto<T extends Constructor>(resource: T) {
+  class FilterResourceDto {
+    @IsOptional()
+    @ValidateNested({ each: true })
+    @Type(() => resource)
+    $or?: InstanceType<T>[];
+
+    @IsOptional()
+    @ValidateNested({ each: true })
+    @Type(() => resource)
+    $and?: InstanceType<T>[];
+  }
+
   class ResourceReadDto extends ResourcePaginateDto {
     @ApiProperty({ enum: RESOURCE_READ_TYPE })
     @IsEnum(RESOURCE_READ_TYPE)
@@ -53,14 +65,9 @@ export function ResourceReadDto<T extends Constructor>(resource: T) {
     ids?: string[];
 
     @IsOptional()
-    @ValidateNested({ each: true })
-    @Type(() => resource)
-    $or?: InstanceType<T>[];
-
-    @IsOptional()
     @ValidateNested()
-    @Type(() => resource)
-    filter?: InstanceType<T>;
+    @Type(() => FilterResourceDto)
+    filter?: FilterResourceDto;
   }
 
   return mixin(ResourceReadDto);

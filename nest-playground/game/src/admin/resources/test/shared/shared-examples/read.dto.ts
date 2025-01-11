@@ -5,13 +5,11 @@ import { plainToInstance } from 'class-transformer';
 interface TestResourceReadDtoProps<TClassMain, TClassFilter> {
   dtoClass: Constructor<TClassMain>;
   filterDtoClass: Constructor<TClassFilter>;
-  testOr: () => any;
 }
 
 export function testResourceReadDto<T, V>({
   dtoClass,
   filterDtoClass,
-  testOr,
 }: TestResourceReadDtoProps<T, V>) {
   describe(dtoClass.name, () => {
     describe('ResourcePaginateDto attributes', () => {
@@ -47,14 +45,13 @@ export function testResourceReadDto<T, V>({
         });
       });
 
-      describe('$or', () => {
-        testOr();
-      });
-
       describe('filter', () => {
         it('should transfom to correct instance', () => {
-          const obj = plainToInstance(dtoClass, { filter: {} });
-          expect(obj["filter"] instanceof filterDtoClass).toBeTruthy();
+          const obj = plainToInstance(dtoClass, {
+            filter: { $and: [{ a: { $eq: 0 } }], $or: [{ a: { $eq: 0 } }] },
+          });
+          expect(obj['filter']['$and'][0] instanceof filterDtoClass).toBeTruthy();
+          expect(obj['filter']['$or'][0] instanceof filterDtoClass).toBeTruthy();
         });
       });
     });
