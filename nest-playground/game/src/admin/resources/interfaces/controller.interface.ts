@@ -14,6 +14,7 @@ import {
 import { RESOURCE_READ_TYPE } from '../constant/common';
 import { AbstractResourceReadDto } from '../dto/read.dto';
 import { AbstractResourceService } from './service.interface';
+import { printDeepObject } from '@libs/helper/print.helper';
 
 type OutDtoClass = new (data: any) => any;
 
@@ -26,7 +27,7 @@ export abstract class AbstractResourceController<T> {
   ) {}
 
   async list(@Query() payload: AbstractResourceReadDto) {
-    console.log('🚀 ~ AbstractResourceController<T> ~ list ~ payload:', payload);
+    printDeepObject(payload, { prefix: ['🚀 ~ AbstractResourceController<T> ~ list ~ payload:'] });
     let query: GetListDtoAdapterResProps | string[];
     let res: PaginateResult<T>;
 

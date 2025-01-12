@@ -1,8 +1,10 @@
 import { ConditionalFilter, CrudFilter, CrudOperators, LogicalFilter } from "@refinedev/core";
 
 interface MongoFilterProps {
-  or: Record<string, any>;
-  filter: Record<string, any>;
+  filter: {
+    $or?: Record<string, any>[];
+    $and?: Record<string, any>[];
+  };
 }
 
 const MONGO_OPERATOR_MAPPING: Record<string, string> = {
@@ -21,13 +23,16 @@ const MONGO_OPERATOR_MAPPING: Record<string, string> = {
 
 export class MongoFilterAdapter {
   static parse(filters?: CrudFilter[]): MongoFilterProps {
-    const output = { or: [], filter: {} } as MongoFilterProps;
+    const output = { filter: {} } as MongoFilterProps;
 
     if (!filters) return output;
 
+    output.filter.$and = [];
+    console.log(filters);
+
     filters.forEach((filter) => {
       if (filter.operator == "or") {
-        output["or"] = ((filter as ConditionalFilter).value as LogicalFilter[]).map(
+        output.filter.$or = ((filter as ConditionalFilter).value as LogicalFilter[]).map(
           (expression) => {
             const val =
               typeof expression.value == "string" ? expression.value.trim() : expression.value;
@@ -40,10 +45,12 @@ export class MongoFilterAdapter {
         );
       } else {
         if (typeof filter.value == "string") filter.value = filter.value.trim();
+        output.filter.$and?.push({
+          [(filter as LogicalFilter).field]: {
+            [this.mapMongoOperator(filter.operator)]: filter.value,
+          },
+        });
         console.log(output["filter"]);
-        output["filter"][(filter as LogicalFilter).field] = {
-          [this.mapMongoOperator(filter.operator)]: filter.value,
-        };
       }
     });
 
@@ -51,8 +58,7 @@ export class MongoFilterAdapter {
   }
 
   static mapMongoOperator(operator: CrudOperators) {
-    if (!MONGO_OPERATOR_MAPPING[operator])
-      throw new Error("Crud operator is not support for Mongo");
+    if (!MONGO_OPERATOR_MAPPING[operator]) throw new Error("Crud operator is not supported.");
     return MONGO_OPERATOR_MAPPING[operator];
   }
 }
