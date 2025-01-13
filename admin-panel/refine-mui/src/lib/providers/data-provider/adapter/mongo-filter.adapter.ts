@@ -7,7 +7,7 @@ interface MongoFilterProps {
   };
 }
 
-const MONGO_OPERATOR_MAPPING: Record<string, string> = {
+const MONGO_OPERATOR_MAPPER: Record<string, string> = {
   eq: "$eq",
   and: "$and",
   contains: "$regex",
@@ -58,7 +58,8 @@ export class MongoFilterAdapter {
   }
 
   static mapMongoOperator(operator: CrudOperators) {
-    if (!MONGO_OPERATOR_MAPPING[operator]) throw new Error("Crud operator is not supported.");
-    return MONGO_OPERATOR_MAPPING[operator];
+    if (!MONGO_OPERATOR_MAPPER[operator])
+      throw new Error(`Crud operator "${operator}" is not supported.`);
+    return MONGO_OPERATOR_MAPPER[operator];
   }
 }

@@ -1,5 +1,22 @@
 const DELIMITER = ": ";
-const STATUS_TEXT: Record<number, string> = {
+
+export enum ERROR_RESPONSE_STATUS {
+  INTERNAL_SERVER = 500,
+  BAD_REQUEST = 400,
+  NOT_FOUND = 404,
+  UNAUTHORIZED = 401,
+  FORBIDDEN = 403,
+  METHOD_NOT_ALLOWED = 405,
+  CONFLICT = 409,
+  UNPROCESSABLE_ENTITY = 422,
+  TOO_MANY_REQUESTS = 429,
+  SERVICE_UNAVAILABLE = 503,
+  GATEWAY_TIMEOUT = 504,
+  INSUFFICIENT_STORAGE = 507,
+  NETWORK_AUTHENTICATION_REQUIRED = 511,
+}
+
+const STATUS_TEXT: Record<ERROR_RESPONSE_STATUS, string> = {
   500: "Internal Server Error",
   400: "Bad Request",
   404: "Not Found",
@@ -15,12 +32,16 @@ const STATUS_TEXT: Record<number, string> = {
   511: "Network Authentication Required",
 };
 
-function statusText(status: number, message: string) {
+function statusText(status: ERROR_RESPONSE_STATUS, message: string) {
   return STATUS_TEXT[status] + `${DELIMITER}${message}`;
 }
 
 export class ErrorResponse {
   static internalServer(message: string) {
-    return Response.json({}, { status: 500, statusText: statusText(500, message) });
+    return ErrorResponse.create(ERROR_RESPONSE_STATUS.INTERNAL_SERVER, message);
+  }
+
+  static create(status: ERROR_RESPONSE_STATUS, message: string) {
+    return Response.json({}, { status, statusText: statusText(status, message) });
   }
 }

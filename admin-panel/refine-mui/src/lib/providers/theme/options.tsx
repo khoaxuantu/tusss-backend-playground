@@ -51,13 +51,6 @@ export const themeOptions: ThemeOptions = {
         },
       },
     },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          boxShadow: "none",
-        },
-      },
-    },
     MuiSnackbarContent: {
       styleOverrides: {
         root: {

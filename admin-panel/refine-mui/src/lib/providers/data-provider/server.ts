@@ -35,7 +35,7 @@ export class DataProviderServer {
         const adaptedFilter = MongoFilterAdapter.parse(filters);
         query.withFilter(adaptedFilter.filter);
       } catch (error) {
-        return ErrorResponse.internalServer((error as Error).message);
+        return ErrorResponse.internalServer((error as Error)?.message);
       }
     }
 
