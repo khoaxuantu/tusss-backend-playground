@@ -2,6 +2,7 @@ import { plainToInstance } from "class-transformer";
 import { MESSAGE } from "../constant/constants";
 import { InvalidParamsException } from "../exception/invalid-param.exception";
 import { Constructor } from "../types/common";
+import { printDeepObject } from "./print.helper";
 
 interface TransformArrParamsProps<T> {
   cls: Constructor<T> | StringConstructor | NumberConstructor | ArrayConstructor;

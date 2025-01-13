@@ -20,9 +20,6 @@ async function bootstrap() {
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
-    transformOptions: {
-      enableImplicitConversion: true,
-    },
     whitelist: true,
   }));
   app.useGlobalFilters(new AllExceptionsFilter());

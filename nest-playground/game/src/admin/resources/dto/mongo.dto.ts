@@ -1,49 +1,50 @@
 import { Constructor } from '@libs/types/common';
 import { mixin } from '@nestjs/common';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { IsArray, IsOptional } from 'class-validator';
+import escapeStringRegexp from 'escape-string-regexp';
 import { Types } from 'mongoose';
 
 export function CreateMongoFilterDtoWith<T extends Constructor>(type: T) {
   class MongoFilterDto {
-    @ApiPropertyOptional({ type, description: "Equal" })
+    @ApiPropertyOptional({ type, description: 'Equal' })
     @IsOptional()
     @Type(() => type)
     $eq?: InstanceType<T>;
 
-    @ApiPropertyOptional({ type, description: "Not equal" })
+    @ApiPropertyOptional({ type, description: 'Not equal' })
     @IsOptional()
     @Type(() => type)
     $ne?: InstanceType<T>;
 
-    @ApiPropertyOptional({ type, description: "Greater than" })
+    @ApiPropertyOptional({ type, description: 'Greater than' })
     @IsOptional()
     @Type(() => type)
     $gt?: InstanceType<T>;
 
-    @ApiPropertyOptional({ type, description: "Greater than or equal" })
+    @ApiPropertyOptional({ type, description: 'Greater than or equal' })
     @IsOptional()
     @Type(() => type)
     $gte?: InstanceType<T>;
 
-    @ApiPropertyOptional({ type, description: "Less than" })
+    @ApiPropertyOptional({ type, description: 'Less than' })
     @IsOptional()
     @Type(() => type)
     $lt?: InstanceType<T>;
 
-    @ApiPropertyOptional({ type, description: "Less than or equal" })
+    @ApiPropertyOptional({ type, description: 'Less than or equal' })
     @IsOptional()
     @Type(() => type)
     $lte?: InstanceType<T>;
 
-    @ApiPropertyOptional({ type, description: "In" })
+    @ApiPropertyOptional({ type, description: 'In' })
     @IsOptional()
     @IsArray()
     @Type(() => type)
     $in?: InstanceType<T>[];
 
-    @ApiPropertyOptional({ type, description: "Not in" })
+    @ApiPropertyOptional({ type, description: 'Not in' })
     @IsOptional()
     @IsArray()
     @Type(() => type)
@@ -54,7 +55,15 @@ export function CreateMongoFilterDtoWith<T extends Constructor>(type: T) {
 }
 
 export class MongoFilterNumber extends CreateMongoFilterDtoWith(Number) {}
-export class MongoFilterString extends CreateMongoFilterDtoWith(String) {}
+export class MongoFilterString extends CreateMongoFilterDtoWith(String) {
+  @ApiPropertyOptional({ type: String, description: 'Contains' })
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (!value) return undefined;
+    return new RegExp(escapeStringRegexp(value), 'i');
+  })
+  $regex?: RegExp;
+}
 export class MongoFilterDate extends CreateMongoFilterDtoWith(Date) {}
 
 export class MongoFilterObjectId extends CreateMongoFilterDtoWith(Types.ObjectId) {
@@ -76,8 +85,8 @@ export class MongoFilterObjectId extends CreateMongoFilterDtoWith(Types.ObjectId
     }
     if (Array.isArray(obj.$nin) && Object.keys(obj.$nin).length) {
       this.$nin = (obj.$nin as string[])
-      .filter((val) => typeof val == 'string')
-      .map((val) => new Types.ObjectId(val));
+        .filter((val) => typeof val == 'string')
+        .map((val) => new Types.ObjectId(val));
     }
   }
 }

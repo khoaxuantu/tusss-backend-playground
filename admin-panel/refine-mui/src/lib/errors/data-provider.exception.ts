@@ -6,19 +6,17 @@ export class DataProviderException implements HttpError, NextActionResponse {
   statusCode: number;
   ok: boolean = false;
 
-  constructor(res: Response, message?: string) {
-    this.message = message || res.statusText;
-    this.statusCode = res.status;
+  constructor(statusCode: number, message: string) {
+    this.message = message;
+    this.statusCode = statusCode;
   }
 
   toPlainObject(): DataProviderException {
     return { ...this };
   }
 
-  static async create(res: Response): Promise<DataProviderException> {
-    const body = await res.json();
-    const msg = typeof body == "string" ? body : body?.message;
-    return new DataProviderException(res, msg);
+  static create(res: Response): DataProviderException {
+    return new DataProviderException(res.status, res.statusText);
   }
 }
 
@@ -30,9 +28,8 @@ export class ManyDataException extends DataProviderException implements GetListR
     return { ...this };
   }
 
-  static async create(res: Response): Promise<ManyDataException> {
-    const exception = await DataProviderException.create(res);
-    return new ManyDataException(res, exception.message);
+  static create(res: Response): ManyDataException {
+    return new ManyDataException(res.status, res.statusText);
   }
 }
 
@@ -43,8 +40,7 @@ export class OneDataException extends DataProviderException implements GetOneRes
     return { ...this };
   }
 
-  static async create(res: Response): Promise<OneDataException> {
-    const exception = await DataProviderException.create(res);
-    return new OneDataException(res, exception.message);
+  static create(res: Response): OneDataException {
+    return new OneDataException(res.status, res.statusText);
   }
 }

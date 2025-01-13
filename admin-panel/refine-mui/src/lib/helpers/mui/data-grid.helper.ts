@@ -12,7 +12,7 @@ export class ColumnDefHelper {
     }
   }
 
-  static id(props?: GridColDef): GridColDef {
+  static id(props?: Partial<GridColDef>): GridColDef {
     return ColumnDefHelper.common({
       ...props,
       field: "_id",
@@ -20,7 +20,7 @@ export class ColumnDefHelper {
     });
   }
 
-  static createdAt(props?: GridColDef): GridColDef {
+  static createdAt(props?: Partial<GridColDef>): GridColDef {
     return ColumnDefHelper.common({
       ...props,
       field: "createdAt",

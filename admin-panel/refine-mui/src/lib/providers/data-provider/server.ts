@@ -1,5 +1,6 @@
 import { CONFIG } from "@lib/constants/config";
 import { RESOURCE_IDENTIFIER } from "@lib/constants/resource";
+import { ErrorResponse } from "@lib/errors/response";
 import {
   CreateParams,
   DeleteOneParams,
@@ -17,16 +18,25 @@ import { ApiQueryParamBuilder } from "./builder/api-query-param.builder";
 export class DataProviderServer {
   private static url: string = CONFIG.BACKEND_URL;
 
-  static async getList({ resource, filters, pagination, sorters, meta }: GetListParams) {
+  static async getList({
+    resource,
+    filters,
+    pagination,
+    sorters,
+    meta,
+  }: GetListParams): Promise<Response> {
     const { headers } = meta as MetaQuery;
     const query = new ApiQueryListBuilder(this.url).withResource(resource as RESOURCE_IDENTIFIER);
 
     if (pagination) query.withPagination(pagination);
     if (sorters) sorters.forEach((sorter) => query.withSort(sorter));
     if (filters?.length) {
-      const adaptedFilter = MongoFilterAdapter.parse(filters);
-      query.withOrFilter(adaptedFilter.or);
-      query.withFilter(adaptedFilter.filter);
+      try {
+        const adaptedFilter = MongoFilterAdapter.parse(filters);
+        query.withFilter(adaptedFilter.filter);
+      } catch (error) {
+        return ErrorResponse.internalServer((error as Error).message);
+      }
     }
 
     const endpoint = query.endpoint;

@@ -27,6 +27,7 @@ export class AuthProviderServer {
       authenticated: false,
       logout: true,
       redirectTo: "/login",
+      error: { message: "Logging Out...", name: "Invalid Credentials." },
     };
   }
 
@@ -56,7 +57,7 @@ export class AuthProviderServer {
         return user;
       }
     } catch (error) {
-      console.warn("[AuthProviderServer.getPermissions]", JSON.stringify(error));
+      console.warn("[AuthProviderServer.getIdentity]", JSON.stringify(error));
     }
 
     return null;

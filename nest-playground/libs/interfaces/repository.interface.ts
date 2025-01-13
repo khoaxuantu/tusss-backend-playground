@@ -7,6 +7,8 @@ import {
   QueryOptions,
   UpdateQuery
 } from 'mongoose';
+import { printDeepObject } from '../helper/print.helper';
+import { ObjectHelper } from "../helper/object.helper";
 
 export type SortProps = Record<string, 1 | -1>;
 
@@ -49,7 +51,8 @@ export abstract class AbstractModelRepository<T extends any> {
   }
 
   list(props: FilterProps<T>): Promise<PaginateResult<T>> {
-    return this.model.paginate(JSON.parse(JSON.stringify(props.match || {})) || {}, {
+    const match = ObjectHelper.sanitize(props.match);
+    return this.model.paginate(match, {
       limit: props.limit,
       page: props.page,
       sort: props.sort,

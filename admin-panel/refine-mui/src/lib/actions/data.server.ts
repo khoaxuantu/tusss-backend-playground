@@ -24,7 +24,10 @@ export async function getList<T extends BaseRecord = BaseRecord>(
 
     const res = await DataProviderServer.getList(params);
 
-    if (!res.ok) return (await ManyDataException.create(res)).toPlainObject();
+    if (!res.ok) {
+      const obj = ManyDataException.create(res).toPlainObject();
+      return obj;
+    }
 
     const data = (await res.json()) as ResourcePaginate;
 
@@ -45,7 +48,7 @@ export async function getOne<T extends BaseRecord = BaseRecord>(
 
     const res = await DataProviderServer.getOne(params);
 
-    if (!res.ok) return (await OneDataException.create(res)).toPlainObject();
+    if (!res.ok) return OneDataException.create(res).toPlainObject();
 
     const data = await res.json();
 
@@ -62,7 +65,7 @@ export async function getMany<T extends BaseRecord = BaseRecord>(
 
     const res = await DataProviderServer.getMany(params);
 
-    if (!res.ok) return (await ManyDataException.create(res)).toPlainObject();
+    if (!res.ok) return ManyDataException.create(res).toPlainObject();
 
     const data = (await res.json()) as ResourcePaginate;
 
@@ -79,7 +82,7 @@ export async function create<T extends BaseRecord = BaseRecord>(
 
     const res = await DataProviderServer.create(params);
 
-    if (!res.ok) return (await OneDataException.create(res)).toPlainObject();
+    if (!res.ok) return OneDataException.create(res).toPlainObject();
 
     const data = await res.json();
 
@@ -96,7 +99,7 @@ export async function update<T extends BaseRecord = BaseRecord>(
 
     const res = await DataProviderServer.update(params);
 
-    if (!res.ok) return (await OneDataException.create(res)).toPlainObject();
+    if (!res.ok) return OneDataException.create(res).toPlainObject();
 
     const data = await res.json();
 
@@ -114,7 +117,7 @@ export async function deleteOne<T extends BaseRecord = BaseRecord>(
 
       const res = await DataProviderServer.deleteOne(params);
 
-      if (!res.ok) return (await OneDataException.create(res)).toPlainObject();
+      if (!res.ok) return OneDataException.create(res).toPlainObject();
 
       const data = await res.json();
 
