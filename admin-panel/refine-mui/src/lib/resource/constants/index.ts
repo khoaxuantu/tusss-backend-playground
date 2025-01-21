@@ -1,4 +1,4 @@
-import { capitalize } from "@lib/helpers/string.helper";
+import { capitalize } from "@lib/shared/helpers/string.helper";
 
 export enum RESOURCE_IDENTIFIER {
   USER = "users",

@@ -1,10 +1,10 @@
 "use client";
 
-import { RESOURCE_IDENTIFIER } from "@lib/constants/resource";
-import { ColumnDefHelper, FilterOperatorMapper } from "@lib/helpers/mui/data-grid.helper";
-import { useDataGrid } from "@lib/hooks/mui/use-data-grid";
-import { UserShowProps } from "@lib/schemas/user.schema";
-import { DataGrid, getGridDateOperators, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import { ColumnDefHelper, FilterOperatorMapper } from "@lib/mui/helpers/data-grid.helper";
+import { useDataGrid } from "@lib/mui/hooks/use-data-grid";
+import { RESOURCE_IDENTIFIER } from "@lib/resource/constants";
+import { UserShowProps } from "@lib/user/schemas";
+import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { List } from "@refinedev/mui";
 
 const columns: GridColDef[] = [

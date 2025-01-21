@@ -1,6 +1,6 @@
 "use client";
 
-import { checkLogin, getIdentity, getPermissions, login } from "@lib/actions/auth.server";
+import { checkLogin, getIdentity, getPermissions, login } from "@lib/auth/actions";
 import type { AuthProvider } from "@refinedev/core";
 import Cookies from "js-cookie";
 

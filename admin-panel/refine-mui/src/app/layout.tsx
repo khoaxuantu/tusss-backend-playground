@@ -1,8 +1,8 @@
-import { RESOURCE_IDENTIFIER } from "@lib/constants/resource";
-import { authProvider } from "@lib/providers/auth-provider";
-import { DataProviderClient } from "@lib/providers/data-provider/client";
-import { DevtoolsProvider } from "@lib/providers/devtools";
-import { ThemeProvider } from "@lib/providers/theme";
+import { authProvider } from "@lib/auth/providers";
+import { ThemeProvider } from "@lib/mui/theme";
+import { RESOURCE_IDENTIFIER } from "@lib/resource/constants";
+import { DataProviderClient } from "@lib/resource/providers/client";
+import { DevtoolsProvider } from "@lib/shared/components/Devtools";
 import { Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 import { RefineSnackbarProvider, useNotificationProvider } from "@refinedev/mui";

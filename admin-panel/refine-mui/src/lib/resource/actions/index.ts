@@ -1,10 +1,10 @@
 "use server";
 
+import { AuthProviderServer } from "@lib/auth/providers";
 import { ManyDataException, OneDataException } from "@lib/errors/data-provider.exception";
-import { AuthProviderServer } from "@lib/providers/auth-provider";
-import { HeadersAdapter } from "@lib/providers/data-provider/adapter/headers.adapter";
-import { DataProviderServer } from "@lib/providers/data-provider/server";
-import { DataProviderServerResponse, ResourcePaginate } from "@lib/types/api.type";
+import { HeadersAdapter } from "@lib/resource/providers/adapter/headers.adapter";
+import { DataProviderServer } from "@lib/resource/providers/server";
+import { DataProviderServerResponse, ResourcePaginate } from "@lib/resource/types/api.type";
 import {
   BaseRecord,
   CreateParams,

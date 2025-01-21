@@ -1,6 +1,6 @@
-import { CONFIG } from "@lib/constants/config";
-import { RESOURCE_IDENTIFIER } from "@lib/constants/resource";
+import { CONFIG } from "@lib/config";
 import { ErrorResponse } from "@lib/errors/response";
+import { RESOURCE_IDENTIFIER } from "@lib/resource/constants";
 import {
   CreateParams,
   DeleteOneParams,

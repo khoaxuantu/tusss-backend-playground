@@ -1,8 +1,8 @@
 "use client";
 
-import { create, deleteOne, getList, getMany, getOne, update } from "@lib/actions/data.server";
-import { CONFIG } from "@lib/constants/config";
-import { sanitizeObject } from "@lib/helpers/params.helper";
+import { CONFIG } from "@lib/config";
+import { create, deleteOne, getList, getMany, getOne, update } from "@lib/resource/actions";
+import { sanitizeObject } from "@lib/shared/helpers/params.helper";
 import { DataProvider } from "@refinedev/core";
 
 async function extractOk(cb: () => Promise<any>) {

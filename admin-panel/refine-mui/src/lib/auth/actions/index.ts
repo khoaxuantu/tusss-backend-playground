@@ -1,9 +1,9 @@
 "use server";
 
-import { CONFIG } from "@lib/constants/config";
-import { AuthProviderServer } from "@lib/providers/auth-provider";
-import { AuthService } from "@lib/services/auth.service";
-import { SigninInDto } from "@lib/services/dto/signin.in.dto";
+import { AuthProviderServer } from "@lib/auth/providers";
+import { AuthService } from "@lib/auth/services/auth.service";
+import { SigninInDto } from "@lib/auth/services/dto/signin.in.dto";
+import { CONFIG } from "@lib/config";
 import { sign } from "jsonwebtoken";
 
 export async function login(payload: SigninInDto) {

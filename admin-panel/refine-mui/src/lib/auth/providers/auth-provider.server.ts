@@ -1,5 +1,5 @@
-import { CONFIG } from "@lib/constants/config";
-import { sanitizeObject } from "@lib/helpers/params.helper";
+import { CONFIG } from "@lib/config";
+import { sanitizeObject } from "@lib/shared/helpers/params.helper";
 import type { AuthProvider } from "@refinedev/core";
 import { verify } from "jsonwebtoken";
 import { cookies } from "next/headers";

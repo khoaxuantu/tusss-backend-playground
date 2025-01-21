@@ -1,4 +1,4 @@
-import { NextActionResponse } from "@lib/types/api.type";
+import { NextActionResponse } from "@lib/resource/types/api.type";
 import { BaseRecord, GetListResponse, GetOneResponse, HttpError } from "@refinedev/core";
 
 export class DataProviderException implements HttpError, NextActionResponse {

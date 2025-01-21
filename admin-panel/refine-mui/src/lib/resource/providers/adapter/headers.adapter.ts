@@ -1,4 +1,4 @@
-import { AuthProviderServer } from "@lib/providers/auth-provider";
+import { AuthProviderServer } from "@lib/auth/providers";
 import { ApiError } from "next/dist/server/api-utils";
 
 export class HeadersAdapter {

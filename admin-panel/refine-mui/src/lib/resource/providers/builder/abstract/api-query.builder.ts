@@ -1,4 +1,4 @@
-import { RESOURCE_IDENTIFIER } from "@lib/constants/resource";
+import { RESOURCE_IDENTIFIER } from "@lib/resource/constants";
 
 export enum READ_TYPE {
   LIST = "list",

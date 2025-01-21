@@ -1,4 +1,4 @@
-import { CONFIG } from "@lib/constants/config";
+import { CONFIG } from "@lib/config";
 import { SigninInDto } from "./dto/signin.in.dto";
 
 export class AuthService {

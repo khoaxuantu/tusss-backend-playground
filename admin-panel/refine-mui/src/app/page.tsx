@@ -1,4 +1,4 @@
-import { ServerAuthenticated } from "@components/ServerAuthenticated";
+import { ServerAuthenticated } from "@lib/shared/components/ServerAuthenticated";
 import { ThemedLayoutV2 } from "@refinedev/mui";
 import { Suspense } from "react";
 

@@ -1,6 +1,6 @@
 // import { FieldUseTextInput } from "@components/Forms/Input/types";
-import { RESOURCE_MESSAGE } from "@lib/constants/resource";
-import { enumToArray } from "@lib/helpers/enum.helper";
+import { RESOURCE_MESSAGE } from "@lib/resource/constants";
+import { enumToArray } from "@lib/shared/helpers/enum.helper";
 import yup from "@lib/yup/extended";
 
 export interface UserShowProps {
