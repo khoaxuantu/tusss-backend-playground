@@ -5,11 +5,13 @@ import yup from "@lib/yup/extended";
 
 export interface UserShowProps {
   _id: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
+  email: string;
   age: number;
   address: string;
   city: string;
+  name: string;
   firstname: string;
   lastname: string;
   nationality: string;

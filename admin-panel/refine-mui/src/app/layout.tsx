@@ -41,8 +41,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         name: RESOURCE_IDENTIFIER.USER,
                         list: "users",
                         create: "users/create",
-                        edit: "users/:id/edit",
-                        show: "users/:id",
+                        edit: "users/edit/:id",
+                        show: "users/show/:id",
                       },
                     ]}
                   >

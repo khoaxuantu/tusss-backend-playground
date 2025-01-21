@@ -5,7 +5,7 @@ import { useDataGrid } from "@lib/mui/hooks/use-data-grid";
 import { RESOURCE_IDENTIFIER } from "@lib/resource/constants";
 import { UserShowProps } from "@lib/user/schemas";
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
-import { List } from "@refinedev/mui";
+import { List, ShowButton } from "@refinedev/mui";
 
 const columns: GridColDef[] = [
   ColumnDefHelper.id({ filterable: false }),
@@ -26,13 +26,20 @@ const columns: GridColDef[] = [
     filterOperators: FilterOperatorMapper.getGridNumericOperators(),
   }),
   ColumnDefHelper.createdAt(),
+  ColumnDefHelper.common({
+    field: "actions",
+    headerName: "Actions",
+    renderCell: function render({ row }) {
+      return <ShowButton size="small" recordItemId={row._id} />
+    },
+  }),
 ];
 
 export default function Page() {
   const { dataGridProps } = useDataGrid<UserShowProps>();
 
   return (
-    <List resource={RESOURCE_IDENTIFIER.USER}>
+    <List resource={RESOURCE_IDENTIFIER.USER} wrapperProps={{ elevation: 0 }}>
       <DataGrid
         {...dataGridProps}
         columns={columns}
