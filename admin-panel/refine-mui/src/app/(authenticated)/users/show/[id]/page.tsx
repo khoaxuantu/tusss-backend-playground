@@ -5,10 +5,14 @@ import { DataBox } from "@lib/shared/components/Data/Box";
 import { UserShowProps } from "@lib/user/schemas";
 import { Chip, Stack, Typography } from "@mui/material";
 import { Show } from "@refinedev/mui";
+import { notFound } from "next/navigation";
 
 export default async function Page({ params }: ResourceParams) {
   const id = (await params).id;
   const res = await getOne<UserShowProps>({ id, resource: RESOURCE_IDENTIFIER.USER });
+
+  if (!res.ok) return notFound();
+
   const data = res.data as UserShowProps;
 
   return (
@@ -30,8 +34,8 @@ export default async function Page({ params }: ResourceParams) {
         </Stack>
         <DataBox label="Roles">
           <Stack direction="row" gap={2} flexWrap="wrap" mt={1}>
-            {data.roles.map((role) => (
-              <Chip label={role} />
+            {data.roles.map((role, index) => (
+              <Chip key={index} label={role} />
             ))}
           </Stack>
         </DataBox>

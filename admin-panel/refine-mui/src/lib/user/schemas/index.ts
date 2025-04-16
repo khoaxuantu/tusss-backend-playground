@@ -1,4 +1,3 @@
-// import { FieldUseTextInput } from "@components/Forms/Input/types";
 import { RESOURCE_MESSAGE } from "@lib/resource/constants";
 import { enumToArray } from "@lib/shared/helpers/enum.helper";
 import yup from "@lib/yup/extended";
@@ -20,19 +19,6 @@ export interface UserShowProps {
 }
 
 export interface UserCreateProps extends yup.InferType<typeof UserCreateSchema> {}
-
-// export type UserPropsForTextInput = FieldUseTextInput<
-//   UserProps,
-//   | "address"
-//   | "city"
-//   | "firstname"
-//   | "lastname"
-//   | "email"
-//   | "name"
-//   | "nationality"
-//   | "password"
-//   | "phone_number"
-// >;
 
 export enum Role {
   User = "user",

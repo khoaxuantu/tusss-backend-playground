@@ -22,12 +22,16 @@ export function DataBox({
   children,
 }: DataBoxProps) {
   return (
-    <Box {...boxProps}>
-      <Typography variant="h6" {...labelProps}>
-        {label}
-      </Typography>
-      {children || <Field value={value} variant={variant} valueProps={valueProps} />}
-    </Box>
+    <>
+      {value && (
+        <Box {...boxProps}>
+          <Typography variant="h6" {...labelProps}>
+            {label}
+          </Typography>
+          {children || <Field value={value} variant={variant} valueProps={valueProps} />}
+        </Box>
+      )}
+    </>
   );
 }
 
@@ -47,6 +51,6 @@ function Field({
       return <NumberField value={value} {...valueProps} />;
 
     case "date":
-      return <DateField value={value} format="HH:mm:ss DD/MM/YYYY Z" {...valueProps} />
+      return <DateField value={value} format="HH:mm:ss DD/MM/YYYY Z" {...valueProps} />;
   }
 }
