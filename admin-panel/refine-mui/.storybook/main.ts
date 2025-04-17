@@ -21,5 +21,8 @@ const config: StorybookConfig = {
     name: getAbsolutePath("@storybook/nextjs"),
     options: {},
   },
+  docs: {
+    defaultName: "Components",
+  },
 };
 export default config;

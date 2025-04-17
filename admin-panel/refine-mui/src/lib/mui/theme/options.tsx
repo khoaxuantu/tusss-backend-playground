@@ -34,6 +34,18 @@ export const themeOptions: ThemeOptions = {
       styleOverrides: {
         root: {
           boxShadow: "none",
+          borderRadius: 6,
+          fontWeight: "bold",
+        },
+        sizeMedium: {
+          padding: "8px 16px",
+        },
+        sizeSmall: {
+          padding: "6px 12px",
+          borderRadius: 9999,
+        },
+        sizeLarge: {
+          padding: "16px 32px",
         },
       },
     },
@@ -41,6 +53,17 @@ export const themeOptions: ThemeOptions = {
       styleOverrides: {
         root: {
           borderRadius: 6,
+        },
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        variant: "outlined",
+        size: "small",
+        slotProps: {
+          inputLabel: {
+            shrink: true,
+          },
         },
       },
     },
@@ -63,6 +86,17 @@ export const themeOptions: ThemeOptions = {
       styleOverrides: {
         paper: {
           border: "none",
+        },
+      },
+    },
+    MuiMenu: {
+      defaultProps: {
+        elevation: 0,
+      },
+      styleOverrides: {
+        paper: {
+          marginTop: 8,
+          minWidth: 250,
         },
       },
     },

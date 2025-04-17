@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { DataBox } from "./index";
+import DataBox from "./index";
 
 const meta = {
+  title: "Shared/Data/Box",
   component: DataBox,
+  tags: ["autodocs"],
 } satisfies Meta<typeof DataBox>;
 
 export default meta;
@@ -40,6 +42,30 @@ export const DateField: Story = {
     variant: "date",
     value: new Date().toString(),
   },
+};
+
+export const Tag: Story = {
+  args: {
+    label: "Tag Label",
+    variant: "tag",
+    value: "A category",
+  },
+};
+
+export const Boolean: Story = {
+  args: {
+    label: "Boolean Label",
+    variant: "boolean",
+    value: true,
+  },
+}
+
+export const Url: Story = {
+  args: {
+    label: "Url Label",
+    variant: "url",
+    value: "https://google.com",
+  }
 };
 
 export const CustomChildren: Story = {

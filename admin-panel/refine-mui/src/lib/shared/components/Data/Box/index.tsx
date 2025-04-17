@@ -1,5 +1,13 @@
 import { Box, BoxProps, Typography, TypographyProps } from "@mui/material";
-import { DateField, EmailField, NumberField, TextFieldComponent } from "@refinedev/mui";
+import {
+  BooleanField,
+  DateField,
+  EmailField,
+  NumberField,
+  TagField,
+  TextFieldComponent,
+  UrlField,
+} from "@refinedev/mui";
 import React from "react";
 
 interface DataBoxProps {
@@ -7,12 +15,12 @@ interface DataBoxProps {
   labelProps?: TypographyProps;
   valueProps?: TypographyProps;
   label: string;
-  value?: string | number;
-  variant?: "text" | "email" | "number" | "date";
+  value?: string | number | boolean;
+  variant?: "text" | "email" | "number" | "date" | "tag" | "boolean" | "url";
   children?: React.ReactNode;
 }
 
-export function DataBox({
+export default function DataBox({
   boxProps,
   labelProps,
   label,
@@ -23,7 +31,7 @@ export function DataBox({
 }: DataBoxProps) {
   return (
     <>
-      {value && (
+      {(value || variant == "boolean") && (
         <Box {...boxProps}>
           <Typography variant="h6" {...labelProps}>
             {label}
@@ -51,6 +59,17 @@ function Field({
       return <NumberField value={value} {...valueProps} />;
 
     case "date":
+      if (typeof value == "boolean") return <TextFieldComponent value="Invalid Date" />;
       return <DateField value={value} format="HH:mm:ss DD/MM/YYYY Z" {...valueProps} />;
+
+    case "tag":
+      return <TagField value={value} size="small" />;
+
+    case "boolean":
+      return <BooleanField value={!!value} valueLabelTrue="True" valueLabelFalse="False" />;
+
+    case "url":
+      if (typeof value == "string")
+        return <UrlField value={value} target="_blank" rel="noopener noreferrer">Link</UrlField>;
   }
 }
