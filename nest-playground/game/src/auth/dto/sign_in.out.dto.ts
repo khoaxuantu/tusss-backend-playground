@@ -7,7 +7,10 @@ export class SignInOutDto extends OmitType(IntersectionType(User, Document), ["p
   @ApiProperty()
   access_token: string;
 
-  constructor(user: UserDocument, accessToken: string) {
+  @ApiProperty()
+  refresh_token: string;
+
+  constructor(user: UserDocument, accessToken: string, refreshToken: string) {
     super();
 
     this._id = MongoHelper.getObjectIdAsString(user);
@@ -22,5 +25,6 @@ export class SignInOutDto extends OmitType(IntersectionType(User, Document), ["p
     this.nationality = user.nationality;
     this.roles = user.roles;
     this.access_token = accessToken;
+    this.refresh_token = refreshToken;
   }
 }

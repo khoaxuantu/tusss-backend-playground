@@ -31,6 +31,6 @@ export class AuthService {
     };
     const accessToken = await this.jwtService.signAsync(payload);
 
-    return new SignInOutDto(user, accessToken);
+    return new SignInOutDto(user, accessToken, accessToken);
   }
 }
